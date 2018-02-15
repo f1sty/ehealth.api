@@ -66,10 +66,10 @@ defmodule EHealth.Web.RegisterControllerTest do
       Plug.Router.get "/persons_internal" do
         {code, data} =
           case conn.query_params do
-            x when x in [%{"passport" => "passport_primary"}, %{"tax_id" => "tax_id_primary"}] ->
+            %{"number" => "primary"} ->
               {200, [%{id: Ecto.UUID.generate()}]}
 
-            %{"temporary_certificate" => "processing"} ->
+            %{"number" => "processing"} ->
               {500, %{error: "system unavailable"}}
 
             _ ->
@@ -100,10 +100,13 @@ defmodule EHealth.Web.RegisterControllerTest do
     end
 
     test "success with status PROCESSED", %{conn: conn} do
+      insert(:il, :dictionary_document_type)
+
       attrs = %{
         file: get_csv_file("valid"),
         file_name: "persons",
-        type: "death"
+        type: "death",
+        person_type: "patient"
       }
 
       data =
@@ -120,13 +123,131 @@ defmodule EHealth.Web.RegisterControllerTest do
              } == data["qty"]
 
       assert "PROCESSED" = data["status"]
+
+      # check register_entry
+      register_entries =
+        conn
+        |> get(register_entry_path(conn, :index), register_id: data["id"])
+        |> json_response(200)
+        |> Map.get("data")
+
+      assert 3 = length(register_entries)
+      entry = hd(register_entries)
+
+      assert data["id"] == entry["register_id"]
+      assert data["inserted_by"] == entry["updated_by"]
+      assert data["updated_by"] == entry["inserted_by"]
     end
 
     test "success with status PROCESSING", %{conn: conn} do
+      %{values: values} = insert(:il, :dictionary_document_type)
+      dict_values = Map.keys(values) |> Enum.join(", ")
+
       attrs = %{
         file: get_csv_file("diverse"),
         file_name: "persons",
+        type: "death",
+        person_type: "patient"
+      }
+
+      data =
+        conn
+        |> post(register_path(conn, :create), attrs)
+        |> json_response(201)
+        |> Map.get("data")
+
+      assert %{
+               "errors" => 5,
+               "not_found" => 1,
+               "processing" => 1,
+               "total" => 9
+             } == data["qty"]
+
+      assert "PROCESSING" = data["status"]
+
+      assert [
+               "Row has length 4 - expected length 2 on line 4",
+               "Invalid type - expected one of #{dict_values} on line 6",
+               "Row has length 1 - expected length 2 on line 7",
+               "Invalid number - expected non empty string on line 8",
+               "Row has length 1 - expected length 2 on line 10"
+             ] == data["errors"]
+    end
+
+    test "person_type not passed", %{conn: conn} do
+      attrs = %{
+        file: get_csv_file("valid"),
+        file_name: "death",
         type: "death"
+      }
+
+      assert [invalid] =
+               conn
+               |> post(register_path(conn, :create), attrs)
+               |> json_response(422)
+               |> get_in(~w(error invalid))
+
+      assert "$.person_type" == invalid["entry"]
+    end
+
+    test "invalid person_type", %{conn: conn} do
+      attrs = %{
+        file: get_csv_file("valid"),
+        file_name: "death",
+        type: "death",
+        person_type: "invalid"
+      }
+
+      assert [invalid] =
+               conn
+               |> post(register_path(conn, :create), attrs)
+               |> json_response(422)
+               |> get_in(~w(error invalid))
+
+      assert "$.person_type" == invalid["entry"]
+    end
+
+    test "invalid CSV file format", %{conn: conn} do
+      attrs = %{
+        file: "invalid base64 string",
+        file_name: "death",
+        type: "death",
+        person_type: "patient"
+      }
+
+      assert [invalid] =
+               conn
+               |> post(register_path(conn, :create), attrs)
+               |> json_response(422)
+               |> get_in(~w(error invalid))
+
+      assert "$.file" == invalid["entry"]
+    end
+
+    test "invalid CSV headers", %{conn: conn} do
+      attrs = %{
+        file: get_csv_file("invalid_headers"),
+        file_name: "death",
+        type: "death",
+        person_type: "patient"
+      }
+
+      assert "Invalid CSV headers" =
+               conn
+               |> post(register_path(conn, :create), attrs)
+               |> json_response(422)
+               |> get_in(~w(error message))
+    end
+
+    test "invalid CSV body", %{conn: conn} do
+      %{values: values} = insert(:il, :dictionary_document_type)
+      dict_values = Map.keys(values) |> Enum.join(", ")
+
+      attrs = %{
+        file: get_csv_file("invalid_body"),
+        file_name: "death",
+        type: "death",
+        person_type: "patient"
       }
 
       data =
@@ -137,24 +258,32 @@ defmodule EHealth.Web.RegisterControllerTest do
 
       assert %{
                "errors" => 2,
-               "not_found" => 1,
-               "processing" => 1,
-               "total" => 6
+               "not_found" => 0,
+               "processing" => 0,
+               "total" => 2
              } == data["qty"]
 
-      assert "PROCESSING" = data["status"]
+      assert "PROCESSED" = data["status"]
+
+      assert [
+               "Invalid number - expected non empty string on line 2",
+               "Invalid type - expected one of #{dict_values} on line 3"
+             ] == data["errors"]
     end
 
-    test "invalid CSV file", %{conn: conn} do
+    test "invalid CSV type field because of empty dictionary values by DOCUMENT_TYPE", %{conn: conn} do
       attrs = %{
-        file: get_csv_file("invalid"),
-        file_name: "persons",
-        type: "death"
+        file: get_csv_file("valid"),
+        file_name: "death",
+        type: "death",
+        person_type: "patient"
       }
 
-      conn
-      |> post(register_path(conn, :create), attrs)
-      |> json_response(422)
+      assert "Type not allowed" =
+               conn
+               |> post(register_path(conn, :create), attrs)
+               |> json_response(422)
+               |> get_in(~w(error message))
     end
   end
 
@@ -163,7 +292,10 @@ defmodule EHealth.Web.RegisterControllerTest do
       use MicroservicesHelper
 
       Plug.Router.get "/persons_internal" do
-        send_resp(conn, 200, Jason.encode!(%{meta: %{code: 200}, data: [%{id: Ecto.UUID.generate()}]}))
+        case is_binary(conn.query_params["type"]) do
+          true -> send_resp(conn, 200, Jason.encode!(%{meta: %{code: 200}, data: [%{id: Ecto.UUID.generate()}]}))
+          _ -> send_resp(conn, 404, Jason.encode!(%{meta: %{code: 422}, data: %{}}))
+        end
       end
 
       Plug.Router.patch "/persons/:id/declarations/actions/terminate" do
@@ -186,6 +318,7 @@ defmodule EHealth.Web.RegisterControllerTest do
         stop_microservices(ref)
       end)
 
+      insert(:il, :dictionary_document_type)
       %{conn: conn}
     end
 
@@ -194,6 +327,7 @@ defmodule EHealth.Web.RegisterControllerTest do
         file: get_csv_file("valid"),
         file_name: "persons",
         type: "death",
+        person_type: "patient",
         reason_description: "Згідно реєстру померлих"
       }
 
@@ -217,7 +351,8 @@ defmodule EHealth.Web.RegisterControllerTest do
       attrs = %{
         file: get_csv_file("valid"),
         file_name: "persons",
-        type: "death"
+        type: "death",
+        person_type: "patient"
       }
 
       data =
@@ -243,6 +378,7 @@ defmodule EHealth.Web.RegisterControllerTest do
         file: get_csv_file("valid"),
         file_name: "persons",
         type: "death",
+        person_type: "patient",
         reason_description: "Згідно реєстру померлих"
       }
 
