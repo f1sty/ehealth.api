@@ -416,6 +416,9 @@
           "type": "string",
           "minLength": 1
         },
+        "overlimit":{
+          "type": "boolean"
+        },
         "seed": {
           "type": "string"
         }

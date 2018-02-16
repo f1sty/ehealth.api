@@ -214,6 +214,24 @@
       ],
       "additionalProperties": false
     },
+    "properties": {
+      "type": "object",
+      "properties": {
+        "declaration_amount": {
+          "type": "number",
+          "minLength": 1
+        },
+        "declaration_limit": {
+          "type": "number",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "declaration_amount",
+        "declaration_limit"
+      ],
+      "additionalProperties": false
+    },
     "party": {
       "type": "object",
       "properties": {
@@ -259,6 +277,9 @@
             "$ref": "#/definitions/phone"
           },
           "minItems": 1
+        },
+        "properties": {
+            "$ref": "#/definitions/properties"
         }
       },
       "required": [
