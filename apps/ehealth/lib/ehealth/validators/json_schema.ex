@@ -35,7 +35,7 @@ defmodule EHealth.Validators.JsonSchema do
   use_schema(:program_medication, "specs/json_schemas/program_medication/program_medication_create_request.json")
   use_schema(:program_medication_update, "specs/json_schemas/program_medication/program_medication_update_request.json")
   use_schema(:registers, "specs/json_schemas/registers/registers_create_request.json")
- 
+
   use_schema(
     :medication_request_qualify,
     "specs/json_schemas/medication_request/medication_request_qualify_request.json"
