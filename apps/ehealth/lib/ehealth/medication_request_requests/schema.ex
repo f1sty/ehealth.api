@@ -36,6 +36,8 @@ defmodule EHealth.MedicationRequestRequest.EmbeddedData do
   @moduledoc false
   use Ecto.Schema
 
+  @derive {Jason.Encoder, except: [:__meta__]}
+
   @primary_key false
   embedded_schema do
     field(:created_at, :date, null: false)

@@ -447,7 +447,7 @@ request. tax_id = #{conn.body_params["person"]["tax_id"]}</body></html>"
       declaration_request_params =
         "test/data/declaration_request.json"
         |> File.read!()
-        |> Poison.decode!()
+        |> Jason.decode!()
 
       person =
         declaration_request_params
@@ -471,8 +471,8 @@ request. tax_id = #{conn.body_params["person"]["tax_id"]}</body></html>"
       resp =
         conn
         |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
-        |> put_req_header("x-consumer-metadata", Poison.encode!(%{client_id: "8799e3b6-34e7-4798-ba70-d897235d2b6d"}))
-        |> post(declaration_request_path(conn, :create), Poison.encode!(declaration_request_params))
+        |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: "8799e3b6-34e7-4798-ba70-d897235d2b6d"}))
+        |> post(declaration_request_path(conn, :create), Jason.encode!(declaration_request_params))
         |> json_response(200)
 
       assert_show_response_schema(resp, "declaration_request")

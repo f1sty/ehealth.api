@@ -3,6 +3,8 @@ defmodule EHealth.Parties.Party do
 
   use Ecto.Schema
 
+  @derive {Jason.Encoder, except: [:__meta__]}
+
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "parties" do

@@ -18,6 +18,7 @@ defmodule EHealth.Web.MedicationRequestRequestView do
 
   def render("medication_request_request_detail.json", %{data: values}) do
     values.medication_request_request.data
+    |> Map.from_struct()
     |> Map.put(:id, values.medication_request_request.id)
     |> Map.put(:person, render_person(values.person, values.medication_request_request.data.created_at))
     |> Map.put(:employee, render(EmployeeView, "employee_private.json", %{employee: values.employee}))
