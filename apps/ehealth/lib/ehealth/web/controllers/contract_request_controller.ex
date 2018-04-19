@@ -2,7 +2,6 @@ defmodule EHealth.Web.ContractRequestController do
   @moduledoc false
 
   use EHealth.Web, :controller
-
   alias EHealth.ContractRequests
   alias EHealth.ContractRequests.ContractRequest
 
