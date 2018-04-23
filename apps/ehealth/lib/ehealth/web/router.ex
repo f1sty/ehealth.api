@@ -215,6 +215,11 @@ defmodule EHealthWeb.Router do
       patch("/:id/actions/sign_nhs", ContractRequestController, :sign_nhs)
     end
 
+    scope "/contract_requests" do
+      pipe_through([:client_context_list])
+      get("/:id", ContractRequestController, :show)
+    end
+
     resources(
       "/medication_request_requests",
       MedicationRequestRequestController,
