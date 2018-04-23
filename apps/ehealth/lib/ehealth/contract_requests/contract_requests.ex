@@ -241,6 +241,38 @@ defmodule EHealth.ContractRequests do
     end
   end
 
+  def approve(headers, params) do
+    user_id = get_consumer_id(headers)
+
+    with {:ok, %{"data" => data}} <- @mithril_api.get_user_roles(user_id, %{}, headers),
+         :ok <- user_has_role(data, "NHS ADMIN SIGNER"),
+         %ContractRequest{} = contract_request <- Repo.get(ContractRequest, params["id"]),
+         :ok <- validate_status(contract_request, ContractRequest.status(:new)),
+         :ok <- validate_contractor_legal_entity(contract_request),
+         :ok <- validate_contractor_owner_id(contract_request),
+         :ok <- validate_employee_divisions(contract_request),
+         :ok <- validate_start_date(contract_request),
+         update_params <-
+           params
+           |> Map.delete("id")
+           |> Map.put("updated_by", user_id)
+           |> Map.put("contract_number", get_contract_number(params))
+           |> Map.put("status", ContractRequest.status(:approved)),
+         %Ecto.Changeset{valid?: true} = changes <- approve_changeset(contract_request, update_params) do
+      Repo.update(changes)
+    end
+  end
+
+  defp get_contract_number(%{"contract_number" => contract_number}) when not is_nil(contract_number) do
+    contract_number
+  end
+
+  defp get_contract_number(_) do
+    with {:ok, sequence} <- get_contract_request_sequence() do
+      NumberGenerator.generate_from_sequence(1, sequence)
+    end
+  end
+
   def changeset(%ContractRequest{} = contract_request, params) do
     contract_request
     |> cast(params, @fields_required ++ @fields_optional)
