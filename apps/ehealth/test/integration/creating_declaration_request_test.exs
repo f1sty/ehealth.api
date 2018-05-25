@@ -11,69 +11,6 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
   setup :verify_on_exit!
 
   describe "Happy paths" do
-    # defmodule TwoHappyPaths do
-    #   use MicroservicesHelper
-
-    #   # OTP Verifications
-    #   Plug.Router.post "/verifications" do
-    #     "+380508887700" = conn.body_params["phone_number"]
-
-    #     send_resp(conn, 200, Jason.encode!(%{data: ["response_we_don't_care_about"]}))
-    #   end
-
-    #   # Mithril API
-    #   Plug.Router.get "/admin/roles" do
-    #     roles = [
-    #       %{
-    #         "id" => "f9bd4210-7c4b-40b6-957f-300829ad37dc"
-    #       }
-    #     ]
-
-    #     Plug.Conn.send_resp(conn, 200, Jason.encode!(%{data: roles}))
-    #   end
-
-    #   Plug.Router.get "/admin/users/:id/roles" do
-    #     roles = [
-    #       %{
-    #         "user_id" => id,
-    #         "role_id" => "f9bd4210-7c4b-40b6-957f-300829ad37dc"
-    #       }
-    #     ]
-
-    #     Plug.Conn.send_resp(conn, 200, Jason.encode!(%{data: roles}))
-    #   end
-
-    #   Plug.Router.get "/admin/users/:id" do
-    #     user = %{
-    #       "email" => "user@email.com"
-    #     }
-
-    #     Plug.Conn.send_resp(conn, 200, Jason.encode!(%{data: user}))
-    #   end
-
-    #   # OPS API
-    #   Plug.Router.get "/latest_block" do
-    #     block = %{
-    #       "block_start" => "some_time",
-    #       "block_end" => "some_time",
-    #       "hash" => "99bc78ba577a95a11f1a344d4d2ae55f2f857b98",
-    #       "inserted_at" => "some_time"
-    #     }
-
-    #     Plug.Conn.send_resp(conn, 200, Jason.encode!(%{data: block}))
-    #   end
-
-    #   match _ do
-    #     request_info = Enum.join([conn.request_path, conn.query_string], ",")
-    #     message = "Requested #{request_info}, but there was no such route."
-
-    #     require Logger
-    #     Logger.error(message)
-
-    #     send_resp(conn, 404, Jason.encode!(%{}))
-    #   end
-    # end
-
     setup %{conn: conn} do
       insert(:prm, :global_parameter, %{parameter: "adult_age", value: "18"})
       insert(:prm, :global_parameter, %{parameter: "declaration_term", value: "40"})
@@ -98,25 +35,6 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
         additional_info: doctor
       )
 
-      # {:ok, port, ref} = start_microservices(TwoHappyPaths)
-
-      # System.put_env("OTP_VERIFICATION_ENDPOINT", "http://localhost:#{port}")
-      # System.put_env("OAUTH_ENDPOINT", "http://localhost:#{port}")
-      # System.put_env("OPS_ENDPOINT", "http://localhost:#{port}")
-
-      # on_exit(fn ->
-      #   System.put_env("OTP_VERIFICATION_ENDPOINT", "http://localhost:4040")
-      #   System.put_env("OAUTH_ENDPOINT", "http://localhost:4040")
-      #   System.put_env("OPS_ENDPOINT", "http://localhost:4040")
-      #   stop_microservices(ref)
-      # end)
-
-      # expect(ManMock, :render_template, fn _id, data ->
-      #   tax_id = get_in(data, ~w(person tax_id)a)
-      #   {:ok, "<html><body>Printout form for declaration request. tax_id = #{tax_id}</body></html>"}
-      # end)
-
-      # {:ok, %{port: port, conn: conn}}
       {:ok, %{conn: conn}}
     end
 
@@ -382,7 +300,7 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
 
       assert to_string(Date.utc_today()) == resp["data"]["start_date"]
       assert {:ok, _} = Date.from_iso8601(resp["data"]["end_date"])
-      assert "99bc78ba577a95a11f1a344d4d2ae55f2f857b98" == resp["data"]["seed"]
+      assert "some_current_hash" == resp["data"]["seed"]
 
       declaration_request = DeclarationRequests.get_by_id!(id)
       assert declaration_request.data["legal_entity"]["id"]
@@ -405,6 +323,11 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
     end
 
     test "declaration request is created with 'Offline' verification", %{conn: conn} do
+      expect(ManMock, :render_template, fn _id, data ->
+        tax_id = get_in(data, ~w(person tax_id)a)
+        {:ok, "<html><body>Printout form for declaration request. tax_id = #{tax_id}</body></html>"}
+      end)
+
       expect(MPIMock, :search, fn params, _ ->
         {:ok,
          %{
@@ -416,6 +339,10 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
              ])
            ]
          }}
+      end)
+
+      expect(OTPVerificationMock, :initialize, fn _number, _headers ->
+        {:ok, %{}}
       end)
 
       declaration_request_params =
@@ -452,6 +379,11 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
     end
 
     test "declaration request is created for person without tax_id", %{conn: conn} do
+      expect(ManMock, :render_template, fn _id, data ->
+        tax_id = get_in(data, ~w(person tax_id)a)
+        {:ok, "<html><body>Printout form for declaration request. tax_id = #{tax_id}</body></html>"}
+      end)
+
       expect(MPIMock, :search, fn params, _ ->
         {:ok,
          %{
@@ -463,6 +395,10 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
              ])
            ]
          }}
+      end)
+
+      expect(OTPVerificationMock, :initialize, fn _number, _headers ->
+        {:ok, %{}}
       end)
 
       declaration_request_params =
@@ -505,6 +441,11 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
     end
 
     test "declaration request is created without verification", %{conn: conn} do
+      expect(ManMock, :render_template, fn _id, data ->
+        tax_id = get_in(data, ~w(person tax_id)a)
+        {:ok, "<html><body>Printout form for declaration request. tax_id = #{tax_id}</body></html>"}
+      end)
+
       expect(MPIMock, :search, fn _, _ ->
         {:ok, %{"data" => []}}
       end)
@@ -603,44 +544,12 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
   end
 
   describe "Global parameters return 404" do
-    # defmodule NoParams do
-    #   use MicroservicesHelper
-
-    #   Plug.Router.get "/settlements/adaa4abf-f530-461c-bcbf-a0ac210d955b" do
-    #     settlement = %{
-    #       id: "adaa4abf-f530-461c-bcbf-a0ac210d955b",
-    #       region_id: "555dfcd7-2be5-4417-aaaf-ca95564f7977",
-    #       name: "Київ"
-    #     }
-
-    #     Plug.Conn.send_resp(conn, 200, Jason.encode!(%{meta: "", data: settlement}))
-    #   end
-
-    #   Plug.Router.get "/regions/555dfcd7-2be5-4417-aaaf-ca95564f7977" do
-    #     region = %{
-    #       name: "М.КИЇВ"
-    #     }
-
-    #     Plug.Conn.send_resp(conn, 200, Jason.encode!(%{meta: "", data: region}))
-    #   end
-    # end
-
     setup %{conn: conn} do
-      # {:ok, port, ref} = start_microservices(NoParams)
-
-      # System.put_env("UADDRESS_ENDPOINT", "http://localhost:#{port}")
-
-      # on_exit(fn ->
-      #   System.put_env("UADDRESS_ENDPOINT", "http://localhost:4040")
-      #   stop_microservices(ref)
-      # end)
-
       insert_dictionaries()
 
-      # {:ok, %{port: port, conn: conn}}
+      {:ok, %{conn: conn}}
     end
 
-    # test "returns error if global parameters do not exist", %{port: _port, conn: conn} do
     test "returns error if global parameters do not exist", %{conn: conn} do
       declaration_request_params = File.read!("test/data/declaration_request.json")
       uaddresses_mock_expect()
@@ -656,28 +565,6 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
   end
 
   describe "Employee does not exist" do
-    # defmodule InvalidEmployeeID do
-    #   use MicroservicesHelper
-
-    #   Plug.Router.get "/settlements/adaa4abf-f530-461c-bcbf-a0ac210d955b" do
-    #     settlement = %{
-    #       id: "adaa4abf-f530-461c-bcbf-a0ac210d955b",
-    #       region_id: "555dfcd7-2be5-4417-aaaf-ca95564f7977",
-    #       name: "Київ"
-    #     }
-
-    #     Plug.Conn.send_resp(conn, 200, Jason.encode!(%{meta: "", data: settlement}))
-    #   end
-
-    #   Plug.Router.get "/regions/555dfcd7-2be5-4417-aaaf-ca95564f7977" do
-    #     region = %{
-    #       name: "М.КИЇВ"
-    #     }
-
-    #     Plug.Conn.send_resp(conn, 200, Jason.encode!(%{meta: "", data: region}))
-    #   end
-    # end
-
     setup %{conn: conn} do
       insert(:prm, :global_parameter, %{parameter: "adult_age", value: "18"})
       insert(:prm, :global_parameter, %{parameter: "declaration_term", value: "40"})
@@ -685,16 +572,7 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
 
       insert_dictionaries()
 
-      # {:ok, port, ref} = start_microservices(InvalidEmployeeID)
-
-      # System.put_env("UADDRESS_ENDPOINT", "http://localhost:#{port}")
-
-      # on_exit(fn ->
-      #   System.put_env("UADDRESS_ENDPOINT", "http://localhost:4040")
-      #   stop_microservices(ref)
-      # end)
-
-      # {:ok, %{port: port, conn: conn}}
+      {:ok, %{conn: conn}}
     end
 
     test "returns error if employee doesn't exist", %{conn: conn} do
@@ -728,27 +606,10 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
   end
 
   describe "Settlement does not exist" do
-    # defmodule NoSettlement do
-    #   use MicroservicesHelper
-
-    #   Plug.Router.get "/settlements/adaa4abf-f530-461c-bcbf-a0ac210d955b" do
-    #     Plug.Conn.send_resp(conn, 404, Jason.encode!(%{meta: "", data: %{}}))
-    #   end
-    # end
-
     setup %{conn: conn} do
-      # {:ok, port, ref} = start_microservices(NoSettlement)
-
       insert_dictionaries()
 
-      # System.put_env("UADDRESS_ENDPOINT", "http://localhost:#{port}")
-
-      # on_exit(fn ->
-      #   System.put_env("UADDRESS_ENDPOINT", "http://localhost:4040")
-      #   stop_microservices(ref)
-      # end)
-
-      # {:ok, %{conn: conn}}
+      {:ok, %{conn: conn}}
     end
 
     test "validation error is returned", %{conn: conn} do
