@@ -12,6 +12,8 @@ defmodule EHealth.Web.DeclarationRequestControllerTest do
   alias EHealth.MockServer
   alias HTTPoison.Response
 
+  setup :verify_on_exit!
+
   describe "list declaration requests" do
     test "no legal_entity_id match", %{conn: conn} do
       legal_entity_id = UUID.generate()
@@ -186,6 +188,10 @@ defmodule EHealth.Web.DeclarationRequestControllerTest do
       end)
 
       expect(MediaStorageMock, :verify_uploaded_file, fn _, _ -> {:ok, %HTTPoison.Response{status_code: 200}} end)
+
+      expect(OPSMock, :get_declarations_count, fn _, _ ->
+        {:ok, %{"data" => %{"count" => 1}}}
+      end)
 
       party = insert(:prm, :party)
       %{id: employee_id} = insert(:prm, :employee, party: party)
