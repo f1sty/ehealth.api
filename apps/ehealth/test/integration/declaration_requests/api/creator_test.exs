@@ -11,6 +11,8 @@ defmodule EHealth.Integraiton.DeclarationRequest.API.CreateTest do
   alias EHealth.Utils.NumberGenerator
   alias Ecto.UUID
 
+  setup :verify_on_exit!
+
   describe "generate_printout_form/1" do
     setup %{conn: _conn} do
       expect(ManMock, :render_template, fn id, data ->
@@ -617,35 +619,6 @@ defmodule EHealth.Integraiton.DeclarationRequest.API.CreateTest do
         |> Creator.determine_auth_method_for_mpi(DeclarationRequest.channel(:mis))
 
       assert %{"type" => "OTP", "number" => "+380508887701"} == get_change(changeset, :authentication_method_current)
-    end
-  end
-
-  describe "send_verification_code/1" do
-    defmodule SendingVerificationCode do
-      use MicroservicesHelper
-
-      Plug.Router.post "/verifications" do
-        code =
-          case conn.body_params["phone_number"] do
-            "+380991234567" -> 200
-            "+380508887700" -> 404
-          end
-
-        send_resp(conn, code, Jason.encode!(%{data: ["response_we_don't_care_about"]}))
-      end
-    end
-
-    setup do
-      {:ok, port, ref} = start_microservices(SendingVerificationCode)
-
-      System.put_env("OTP_VERIFICATION_ENDPOINT", "http://localhost:#{port}")
-
-      on_exit(fn ->
-        System.put_env("OTP_VERIFICATION_ENDPOINT", "http://localhost:4040")
-        stop_microservices(ref)
-      end)
-
-      :ok
     end
   end
 
