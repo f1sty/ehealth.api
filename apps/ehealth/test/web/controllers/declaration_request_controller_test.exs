@@ -446,6 +446,10 @@ defmodule EHealth.Web.DeclarationRequestControllerTest do
     end
 
     test "when declaration id is valid", %{conn: conn} do
+      expect(MediaStorageMock, :create_signed_url, 3, fn _action, _bucket, resource_name, resource_id, _headers ->
+        {:ok, %{"data" => %{"secret_url" => "http://a.link.for/#{resource_id}/#{resource_name}"}}}
+      end)
+
       params =
         fixture_params()
         |> Map.put(:documents, [

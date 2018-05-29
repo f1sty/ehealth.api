@@ -2,7 +2,9 @@ defmodule EHealth.DeclarationRequests.API.Documents do
   @moduledoc false
 
   alias EHealth.DeclarationRequests.DeclarationRequest
-  alias EHealth.API.MediaStorage
+  # alias EHealth.API.MediaStorage
+
+  @media_storage_api Application.get_env(:ehealth, :api_resolvers)[:media_storage]
 
   def generate_links(%DeclarationRequest{id: id, documents: nil}) do
     render_links(id, ["GET"], [])
@@ -28,11 +30,12 @@ defmodule EHealth.DeclarationRequests.API.Documents do
     documents =
       Enum.reduce_while(link_versions, [], fn {verb, document_type}, acc ->
         result =
-          MediaStorage.create_signed_url(
+          @media_storage_api.create_signed_url(
             verb,
             bucket,
             "declaration_request_#{document_type}.jpeg",
-            declaration_request_id
+            declaration_request_id,
+            []
           )
 
         case result do

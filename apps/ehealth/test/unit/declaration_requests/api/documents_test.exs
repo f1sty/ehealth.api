@@ -4,51 +4,57 @@ defmodule EHealth.Unit.DeclarationRequests.API.DocumentsTest do
   use EHealth.Web.ConnCase
   import EHealth.DeclarationRequests.API.Documents
 
+  import Mox
+
+  setup :verify_on_exit!
+
   describe "render_links/3" do
-    defmodule UploadingFiles do
-      @moduledoc false
+    # defmodule UploadingFiles do
+    #   @moduledoc false
 
-      use MicroservicesHelper
+    #   use MicroservicesHelper
 
-      Plug.Router.post "/media_content_storage_secrets" do
-        %{
-          "secret" => %{
-            "action" => _,
-            "bucket" => _,
-            "resource_id" => resource_id,
-            "resource_name" => resource_name,
-            "content_type" => "image/jpeg"
-          }
-        } = conn.body_params
+    #   Plug.Router.post "/media_content_storage_secrets" do
+    #     %{
+    #       "secret" => %{
+    #         "action" => _,
+    #         "bucket" => _,
+    #         "resource_id" => resource_id,
+    #         "resource_name" => resource_name,
+    #         "content_type" => "image/jpeg"
+    #       }
+    #     } = conn.body_params
 
-        case resource_id do
-          "98e0a42f-20fe-472c-a614-0ea99426a3fb" ->
-            upload = %{
-              secret_url: "http://a.link.for/#{resource_id}/#{resource_name}"
-            }
+    #     case resource_id do
+    #       "98e0a42f-20fe-472c-a614-0ea99426a3fb" ->
+    #         upload = %{
+    #           secret_url: "http://a.link.for/#{resource_id}/#{resource_name}"
+    #         }
 
-            Plug.Conn.send_resp(conn, 200, Jason.encode!(%{data: upload}))
+    #         Plug.Conn.send_resp(conn, 200, Jason.encode!(%{data: upload}))
 
-          "98e0a42f-0000-9999-5555-0ea99426a3fb" ->
-            Plug.Conn.send_resp(conn, 500, Jason.encode!(%{something: "went wrong with #{resource_name}"}))
-        end
-      end
-    end
+    #       "98e0a42f-0000-9999-5555-0ea99426a3fb" ->
+    #         Plug.Conn.send_resp(conn, 500, Jason.encode!(%{something: "went wrong with #{resource_name}"}))
+    #     end
+    #   end
+    # end
 
-    setup %{conn: _conn} do
-      {:ok, port, ref} = start_microservices(UploadingFiles)
+    # setup %{conn: _conn} do
+    #   {:ok, port, ref} = start_microservices(UploadingFiles)
 
-      System.put_env("MEDIA_STORAGE_ENDPOINT", "http://localhost:#{port}")
+    #   System.put_env("MEDIA_STORAGE_ENDPOINT", "http://localhost:#{port}")
 
-      on_exit(fn ->
-        System.put_env("MEDIA_STORAGE_ENDPOINT", "http://localhost:4040")
-        stop_microservices(ref)
-      end)
+    #   on_exit(fn ->
+    #     System.put_env("MEDIA_STORAGE_ENDPOINT", "http://localhost:4040")
+    #     stop_microservices(ref)
+    #   end)
 
-      :ok
-    end
+    #   :ok
+    # end
 
     test "generates links & updates declaration request" do
+      media_storage_expect(2)
+
       result = render_links("98e0a42f-20fe-472c-a614-0ea99426a3fb", ["PUT"], ["Passport", "SSN"])
 
       expected_documents = [
@@ -68,6 +74,8 @@ defmodule EHealth.Unit.DeclarationRequests.API.DocumentsTest do
     end
 
     test "returns error on documents field" do
+      media_storage_expect()
+
       result = render_links("98e0a42f-0000-9999-5555-0ea99426a3fb", ["PUT"], ["Passport"])
 
       error_message = %{"something" => "went wrong with declaration_request_Passport.jpeg"}
@@ -131,5 +139,17 @@ defmodule EHealth.Unit.DeclarationRequests.API.DocumentsTest do
                "person.PASSPORT"
              ] == gather_documents_list(person)
     end
+  end
+
+  defp media_storage_expect(count \\ 1) do
+    expect(MediaStorageMock, :create_signed_url, count, fn _action, _bucket, resource_name, resource_id, _headers ->
+      case resource_id do
+        "98e0a42f-20fe-472c-a614-0ea99426a3fb" ->
+          {:ok, %{"data" => %{"secret_url" => "http://a.link.for/#{resource_id}/#{resource_name}"}}}
+
+        "98e0a42f-0000-9999-5555-0ea99426a3fb" ->
+          {:error, %{"something" => "went wrong with #{resource_name}"}}
+      end
+    end)
   end
 end
