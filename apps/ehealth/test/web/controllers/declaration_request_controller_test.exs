@@ -488,6 +488,10 @@ defmodule EHealth.Web.DeclarationRequestControllerTest do
         {:ok, %Response{body: Jason.encode!(%{"data" => string_params_for(:person)}), status_code: 200}}
       end)
 
+      expect(OPSMock, :create_declaration_with_termination_logic, fn params, _headers ->
+        {:ok, %{"data" => params}}
+      end)
+
       data =
         "test/data/declaration_request/sign_request.json"
         |> File.read!()
