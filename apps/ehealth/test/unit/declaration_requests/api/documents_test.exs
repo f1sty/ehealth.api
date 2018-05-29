@@ -9,49 +9,6 @@ defmodule EHealth.Unit.DeclarationRequests.API.DocumentsTest do
   setup :verify_on_exit!
 
   describe "render_links/3" do
-    # defmodule UploadingFiles do
-    #   @moduledoc false
-
-    #   use MicroservicesHelper
-
-    #   Plug.Router.post "/media_content_storage_secrets" do
-    #     %{
-    #       "secret" => %{
-    #         "action" => _,
-    #         "bucket" => _,
-    #         "resource_id" => resource_id,
-    #         "resource_name" => resource_name,
-    #         "content_type" => "image/jpeg"
-    #       }
-    #     } = conn.body_params
-
-    #     case resource_id do
-    #       "98e0a42f-20fe-472c-a614-0ea99426a3fb" ->
-    #         upload = %{
-    #           secret_url: "http://a.link.for/#{resource_id}/#{resource_name}"
-    #         }
-
-    #         Plug.Conn.send_resp(conn, 200, Jason.encode!(%{data: upload}))
-
-    #       "98e0a42f-0000-9999-5555-0ea99426a3fb" ->
-    #         Plug.Conn.send_resp(conn, 500, Jason.encode!(%{something: "went wrong with #{resource_name}"}))
-    #     end
-    #   end
-    # end
-
-    # setup %{conn: _conn} do
-    #   {:ok, port, ref} = start_microservices(UploadingFiles)
-
-    #   System.put_env("MEDIA_STORAGE_ENDPOINT", "http://localhost:#{port}")
-
-    #   on_exit(fn ->
-    #     System.put_env("MEDIA_STORAGE_ENDPOINT", "http://localhost:4040")
-    #     stop_microservices(ref)
-    #   end)
-
-    #   :ok
-    # end
-
     test "generates links & updates declaration request" do
       media_storage_expect(2)
 
