@@ -18,6 +18,7 @@ defmodule EHealth.DeclarationRequests.API.Sign do
   require Logger
 
   @mpi_api Application.get_env(:ehealth, :api_resolvers)[:mpi]
+  @ops_api Application.get_env(:ehealth, :api_resolvers)[:ops]
 
   @auth_na DeclarationRequest.authentication_method(:na)
   @auth_otp DeclarationRequest.authentication_method(:otp)
@@ -271,7 +272,7 @@ defmodule EHealth.DeclarationRequests.API.Sign do
       "overlimit" => overlimit,
       "declaration_number" => declaration_number
     })
-    |> OPS.create_declaration_with_termination_logic(headers)
+    |> @ops_api.create_declaration_with_termination_logic(headers)
   end
 
   def update_declaration_request_status(%DeclarationRequest{} = declaration_request, declaration) do
