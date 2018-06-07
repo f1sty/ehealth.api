@@ -20,11 +20,14 @@ defmodule EHealth.Web.DeclarationRequestController do
   def show(conn, %{"declaration_request_id" => id} = params) do
     declaration_request = DeclarationRequests.get_by_id!(id, params)
     urgent_data = Map.take(declaration_request, [:authentication_method_current, :documents])
+    # IO.inspect declaration_request
     {:ok, %{"data" => %{"hash" => hash}}} = OPS.get_latest_block()
 
     conn
     |> assign(:urgent, urgent_data)
     |> render("declaration_request.json", declaration_request: declaration_request, hash: hash)
+    |> IO.inspect
+    # |> Map.fetch(:resp_body)
   end
 
   def create(conn, %{"declaration_request" => params}) do

@@ -313,6 +313,28 @@ defmodule EHealth.Web.DeclarationRequestControllerTest do
       assert Map.has_key?(resp, "urgent")
       assert "some_hash" == get_in(resp, ["data", "seed"])
     end
+
+    test "get declaration request by id in status expired" do
+      params =
+        fixture_params()
+        |> Map.put(:status, "EXPIRED")
+        |> Map.put(:data, %{})
+
+      %{
+        id: id,
+        declaration_id: declaration_id
+      } = fixture(DeclarationRequest, params)
+
+      conn = build_conn()
+      # conn = put_client_id_header(conn, get_in(data, [:legal_entity, :id]))
+      # conn = put_client_id_header(conn, id)
+      conn = get(conn, declaration_request_path(conn, :show, declaration_id))
+      resp = json_response(conn, 200)
+      # IO.inspect resp
+
+      assert true == false
+    end
+
   end
 
   describe "resend otp" do
