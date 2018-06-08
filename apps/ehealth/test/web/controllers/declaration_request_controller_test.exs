@@ -315,10 +315,11 @@ defmodule EHealth.Web.DeclarationRequestControllerTest do
     end
 
     test "get declaration request by id in status expired" do
+      params = fixture_params()
+      legal_entity_id = get_in(params, [:data, :legal_entity, :id])
       params =
-        fixture_params()
+        params
         |> Map.put(:status, "EXPIRED")
-        |> Map.put(:data, %{})
 
       %{
         id: id,
@@ -326,13 +327,10 @@ defmodule EHealth.Web.DeclarationRequestControllerTest do
       } = fixture(DeclarationRequest, params)
 
       conn = build_conn()
-      # conn = put_client_id_header(conn, get_in(data, [:legal_entity, :id]))
-      # conn = put_client_id_header(conn, id)
-      conn = get(conn, declaration_request_path(conn, :show, declaration_id))
-      resp = json_response(conn, 200)
-      # IO.inspect resp
+      conn = put_client_id_header(conn, legal_entity_id)
+      conn = get(conn, declaration_request_path(conn, :show, id))
 
-      assert true == false
+      assert resp = json_response(conn, 404)
     end
 
   end
