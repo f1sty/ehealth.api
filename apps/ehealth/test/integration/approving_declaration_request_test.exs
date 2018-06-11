@@ -120,35 +120,35 @@ defmodule EHealth.Integraiton.DeclarationRequestApproveTest do
       assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" == declaration_request.updated_by
     end
 
-    # test "declaration failed to approve: invalid OTP", %{conn: conn} do
-    #   %{id: id} =
-    #     insert(
-    #       :il,
-    #       :declaration_request,
-    #       authentication_method_current: %{
-    #         "type" => "OTP",
-    #         "number" => "+380972805261"
-    #       }
-    #     )
+    test "declaration failed to approve: invalid OTP", %{conn: conn} do
+      %{id: id} =
+        insert(
+          :il,
+          :declaration_request,
+          authentication_method_current: %{
+            "type" => "OTP",
+            "number" => "+380972805261"
+          }
+        )
 
-    #   response =
-    #     conn
-    #     |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
-    #     |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: ""}))
-    #     |> patch("/api/declaration_requests/#{id}/actions/approve", Jason.encode!(%{"verification_code" => "invalid"}))
-    #     |> json_response(422)
+      response =
+        conn
+        |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
+        |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: ""}))
+        |> patch("/api/declaration_requests/#{id}/actions/approve", Jason.encode!(%{"verification_code" => "invalid"}))
+        |> json_response(422)
 
-    #   assert %{"error" => %{"type" => "forbidden", "message" => _}} = response
+      assert %{"error" => %{"type" => "forbidden", "message" => _}} = response
 
-    #   response =
-    #     conn
-    #     |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
-    #     |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: ""}))
-    #     |> patch("/api/declaration_requests/#{id}/actions/approve", Jason.encode!(%{"verification_code" => "54321"}))
-    #     |> json_response(500)
+      response =
+        conn
+        |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
+        |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: ""}))
+        |> patch("/api/declaration_requests/#{id}/actions/approve", Jason.encode!(%{"verification_code" => "54321"}))
+        |> json_response(500)
 
-    #   assert %{"error" => %{"type" => "proxied error", "message" => _}} = response
-    # end
+      assert %{"error" => %{"type" => "proxied error", "message" => _}} = response
+    end
   end
 
   describe "Online (OTP) verification when DECLARATION_FORM not uploaded" do
@@ -242,66 +242,66 @@ defmodule EHealth.Integraiton.DeclarationRequestApproveTest do
       assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" == declaration_request.updated_by
     end
 
-    # test "offline documents was not uploaded. Declaration cannot be approved", %{conn: conn} do
-    #   expect(MediaStorageMock, :create_signed_url, 2, fn _, _, _, _, _ ->
-    #     {:ok, %{"data" => %{"secret_url" => "http://localhost/good_upload_1"}}}
-    #   end)
+    test "offline documents was not uploaded. Declaration cannot be approved", %{conn: conn} do
+      expect(MediaStorageMock, :create_signed_url, 2, fn _, _, _, _, _ ->
+        {:ok, %{"data" => %{"secret_url" => "http://localhost/good_upload_1"}}}
+      end)
 
-    #   expect(MediaStorageMock, :verify_uploaded_file, 2, fn _, _ ->
-    #     {:ok, %HTTPoison.Response{status_code: 404}}
-    #   end)
+      expect(MediaStorageMock, :verify_uploaded_file, 2, fn _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 404}}
+      end)
 
-    #   %{id: id} =
-    #     insert(
-    #       :il,
-    #       :declaration_request,
-    #       authentication_method_current: %{
-    #         "type" => "OFFLINE"
-    #       },
-    #       documents: [
-    #         %{"type" => "404", "verb" => "HEAD"},
-    #         %{"type" => "empty", "verb" => "HEAD"}
-    #       ]
-    #     )
+      %{id: id} =
+        insert(
+          :il,
+          :declaration_request,
+          authentication_method_current: %{
+            "type" => "OFFLINE"
+          },
+          documents: [
+            %{"type" => "404", "verb" => "HEAD"},
+            %{"type" => "empty", "verb" => "HEAD"}
+          ]
+        )
 
-    #   conn =
-    #     conn
-    #     |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
-    #     |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: ""}))
-    #     |> patch("/api/declaration_requests/#{id}/actions/approve")
+      conn =
+        conn
+        |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
+        |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: ""}))
+        |> patch("/api/declaration_requests/#{id}/actions/approve")
 
-    #   resp = json_response(conn, 409)
-    #   assert "Documents 404, empty is not uploaded" == resp["error"]["message"]
-    # end
+      resp = json_response(conn, 409)
+      assert "Documents 404, empty is not uploaded" == resp["error"]["message"]
+    end
 
-    # test "Ael not responding. Declaration cannot be approved", %{conn: conn} do
-    #   expect(MediaStorageMock, :create_signed_url, 3, fn _, _, _, _, _ ->
-    #     {:ok, %{"data" => %{"secret_url" => "http://localhost/good_upload_1"}}}
-    #   end)
+    test "Ael not responding. Declaration cannot be approved", %{conn: conn} do
+      expect(MediaStorageMock, :create_signed_url, 3, fn _, _, _, _, _ ->
+        {:ok, %{"data" => %{"secret_url" => "http://localhost/good_upload_1"}}}
+      end)
 
-    #   expect(MediaStorageMock, :verify_uploaded_file, 3, fn _, _ ->
-    #     {:error, %HTTPoison.Error{id: nil, reason: :timeout}}
-    #   end)
+      expect(MediaStorageMock, :verify_uploaded_file, 3, fn _, _ ->
+        {:error, %HTTPoison.Error{id: nil, reason: :timeout}}
+      end)
 
-    #   %{id: id} =
-    #     insert(
-    #       :il,
-    #       :declaration_request,
-    #       authentication_method_current: %{
-    #         "type" => "OFFLINE"
-    #       },
-    #       documents: [
-    #         %{"type" => "empty", "verb" => "HEAD"},
-    #         %{"type" => "error", "verb" => "HEAD"},
-    #         %{"type" => "404", "verb" => "HEAD"}
-    #       ]
-    #     )
+      %{id: id} =
+        insert(
+          :il,
+          :declaration_request,
+          authentication_method_current: %{
+            "type" => "OFFLINE"
+          },
+          documents: [
+            %{"type" => "empty", "verb" => "HEAD"},
+            %{"type" => "error", "verb" => "HEAD"},
+            %{"type" => "404", "verb" => "HEAD"}
+          ]
+        )
 
-    #   conn
-    #   |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
-    #   |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: ""}))
-    #   |> patch("/api/declaration_requests/#{id}/actions/approve")
-    #   |> json_response(500)
-    # end
+      conn
+      |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
+      |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: ""}))
+      |> patch("/api/declaration_requests/#{id}/actions/approve")
+      |> json_response(500)
+    end
   end
 end

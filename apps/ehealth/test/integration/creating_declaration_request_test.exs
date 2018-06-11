@@ -283,105 +283,105 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
                error["rules"] |> List.first()
     end
 
-    # test "declaration request is created with 'OTP' verification", %{conn: conn} do
-    #   expect(MPIMock, :search, fn params, _ ->
-    #     {:ok,
-    #      %{
-    #        "data" => [
-    #          params
-    #          |> Map.put("id", "b5350f79-f2ca-408f-b15d-1ae0a8cc861c")
-    #          |> Map.put("authentication_methods", [
-    #            %{"type" => "OTP", "phone_number" => "+380508887700"}
-    #          ])
-    #        ]
-    #      }}
-    #   end)
+    test "declaration request is created with 'OTP' verification", %{conn: conn} do
+      expect(MPIMock, :search, fn params, _ ->
+        {:ok,
+         %{
+           "data" => [
+             params
+             |> Map.put("id", "b5350f79-f2ca-408f-b15d-1ae0a8cc861c")
+             |> Map.put("authentication_methods", [
+               %{"type" => "OTP", "phone_number" => "+380508887700"}
+             ])
+           ]
+         }}
+      end)
 
-    #   expect(OTPVerificationMock, :search, fn _, _ ->
-    #     {:ok, %{"data" => []}}
-    #   end)
+      expect(OTPVerificationMock, :search, fn _, _ ->
+        {:ok, %{"data" => []}}
+      end)
 
-    #   params =
-    #     "test/data/declaration_request.json"
-    #     |> File.read!()
-    #     |> Jason.decode!()
+      params =
+        "test/data/declaration_request.json"
+        |> File.read!()
+        |> Jason.decode!()
 
-    #   uaddresses_mock_expect()
+      uaddresses_mock_expect()
 
-    #   tax_id = get_in(params["declaration_request"], ["person", "tax_id"])
-    #   employee_id = "ce377dea-d8c4-4dd8-9328-de24b1ee3879"
-    #   legal_entity_id = "8799e3b6-34e7-4798-ba70-d897235d2b6d"
+      tax_id = get_in(params["declaration_request"], ["person", "tax_id"])
+      employee_id = "ce377dea-d8c4-4dd8-9328-de24b1ee3879"
+      legal_entity_id = "8799e3b6-34e7-4798-ba70-d897235d2b6d"
 
-    #   d1 =
-    #     insert(
-    #       :il,
-    #       :declaration_request,
-    #       data: %{
-    #         person: %{
-    #           tax_id: tax_id
-    #         },
-    #         employee: %{
-    #           id: employee_id
-    #         },
-    #         legal_entity: %{
-    #           id: legal_entity_id
-    #         }
-    #       },
-    #       status: "NEW"
-    #     )
+      d1 =
+        insert(
+          :il,
+          :declaration_request,
+          data: %{
+            person: %{
+              tax_id: tax_id
+            },
+            employee: %{
+              id: employee_id
+            },
+            legal_entity: %{
+              id: legal_entity_id
+            }
+          },
+          status: "NEW"
+        )
 
-    #   d2 =
-    #     insert(
-    #       :il,
-    #       :declaration_request,
-    #       data: %{
-    #         person: %{
-    #           tax_id: tax_id
-    #         },
-    #         employee: %{
-    #           id: employee_id
-    #         },
-    #         legal_entity: %{
-    #           id: legal_entity_id
-    #         }
-    #       },
-    #       status: "APPROVED"
-    #     )
+      d2 =
+        insert(
+          :il,
+          :declaration_request,
+          data: %{
+            person: %{
+              tax_id: tax_id
+            },
+            employee: %{
+              id: employee_id
+            },
+            legal_entity: %{
+              id: legal_entity_id
+            }
+          },
+          status: "APPROVED"
+        )
 
-    #   resp =
-    #     conn
-    #     |> put_req_header("x-consumer-id", employee_id)
-    #     |> put_client_id_header(legal_entity_id)
-    #     |> post(declaration_request_path(conn, :create), params)
-    #     |> json_response(200)
+      resp =
+        conn
+        |> put_req_header("x-consumer-id", employee_id)
+        |> put_client_id_header(legal_entity_id)
+        |> post(declaration_request_path(conn, :create), params)
+        |> json_response(200)
 
-    #   id = resp["data"]["id"]
+      id = resp["data"]["id"]
 
-    #   assert_show_response_schema(resp, "declaration_request")
+      assert_show_response_schema(resp, "declaration_request")
 
-    #   assert to_string(Date.utc_today()) == resp["data"]["start_date"]
-    #   assert {:ok, _} = Date.from_iso8601(resp["data"]["end_date"])
-    #   assert "99bc78ba577a95a11f1a344d4d2ae55f2f857b98" == resp["data"]["seed"]
+      assert to_string(Date.utc_today()) == resp["data"]["start_date"]
+      assert {:ok, _} = Date.from_iso8601(resp["data"]["end_date"])
+      assert "99bc78ba577a95a11f1a344d4d2ae55f2f857b98" == resp["data"]["seed"]
 
-    #   declaration_request = DeclarationRequests.get_by_id!(id)
-    #   assert declaration_request.data["legal_entity"]["id"]
-    #   assert declaration_request.data["division"]["id"]
-    #   assert declaration_request.data["employee"]["id"]
-    #   # TODO: turn this into DB checks
-    #   #
-    #   # assert "NEW" = resp["status"]
-    #   # assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" = resp["data"]["updated_by"]
-    #   # assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" = resp["data"]["inserted_by"]
-    #   # assert %{"number" => "+380508887700", "type" => "OTP"} = resp["authentication_method_current"]
-    #   tax_id = resp["data"]["person"]["tax_id"]
+      declaration_request = DeclarationRequests.get_by_id!(id)
+      assert declaration_request.data["legal_entity"]["id"]
+      assert declaration_request.data["division"]["id"]
+      assert declaration_request.data["employee"]["id"]
+      # TODO: turn this into DB checks
+      #
+      # assert "NEW" = resp["status"]
+      # assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" = resp["data"]["updated_by"]
+      # assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" = resp["data"]["inserted_by"]
+      # assert %{"number" => "+380508887700", "type" => "OTP"} = resp["authentication_method_current"]
+      tax_id = resp["data"]["person"]["tax_id"]
 
-    #   assert "<html><body>Printout form for declaration request. tax_id = #{tax_id}</body></html>" ==
-    #            resp["data"]["content"]
+      assert "<html><body>Printout form for declaration request. tax_id = #{tax_id}</body></html>" ==
+               resp["data"]["content"]
 
-    #   refute Map.has_key?(resp["urgent"], "documents")
-    #   assert "CANCELLED" = Repo.get(DeclarationRequest, d1.id).status
-    #   assert "CANCELLED" = Repo.get(DeclarationRequest, d2.id).status
-    # end
+      refute Map.has_key?(resp["urgent"], "documents")
+      assert "CANCELLED" = Repo.get(DeclarationRequest, d1.id).status
+      assert "CANCELLED" = Repo.get(DeclarationRequest, d2.id).status
+    end
 
     test "declaration request is created with 'Offline' verification", %{conn: conn} do
       expect(MPIMock, :search, fn params, _ ->
@@ -483,102 +483,102 @@ defmodule EHealth.Integration.DeclarationRequestCreateTest do
       assert "CANCELLED" = Repo.get(DeclarationRequest, d2.id).status
     end
 
-    # test "declaration request is created without verification", %{conn: conn} do
-    #   expect(MPIMock, :search, fn _, _ ->
-    #     {:ok, %{"data" => []}}
-    #   end)
+    test "declaration request is created without verification", %{conn: conn} do
+      expect(MPIMock, :search, fn _, _ ->
+        {:ok, %{"data" => []}}
+      end)
 
-    #   expect(OTPVerificationMock, :search, fn _, _ ->
-    #     {:ok, %{"data" => []}}
-    #   end)
+      expect(OTPVerificationMock, :search, fn _, _ ->
+        {:ok, %{"data" => []}}
+      end)
 
-    #   declaration_request_params =
-    #     "test/data/declaration_request.json"
-    #     |> File.read!()
-    #     |> Jason.decode!()
-    #     |> put_in(["declaration_request", "person", "first_name"], "Тест")
+      declaration_request_params =
+        "test/data/declaration_request.json"
+        |> File.read!()
+        |> Jason.decode!()
+        |> put_in(["declaration_request", "person", "first_name"], "Тест")
 
-    #   uaddresses_mock_expect()
+      uaddresses_mock_expect()
 
-    #   decoded = declaration_request_params["declaration_request"]
-    #   d1 = clone_declaration_request(decoded, "8799e3b6-34e7-4798-ba70-d897235d2b6d", "NEW")
-    #   d2 = clone_declaration_request(decoded, "8799e3b6-34e7-4798-ba70-d897235d2b6d", "NEW")
+      decoded = declaration_request_params["declaration_request"]
+      d1 = clone_declaration_request(decoded, "8799e3b6-34e7-4798-ba70-d897235d2b6d", "NEW")
+      d2 = clone_declaration_request(decoded, "8799e3b6-34e7-4798-ba70-d897235d2b6d", "NEW")
 
-    #   conn =
-    #     conn
-    #     |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
-    #     |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: "8799e3b6-34e7-4798-ba70-d897235d2b6d"}))
-    #     |> post("/api/declaration_requests", Jason.encode!(declaration_request_params))
+      conn =
+        conn
+        |> put_req_header("x-consumer-id", "ce377dea-d8c4-4dd8-9328-de24b1ee3879")
+        |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: "8799e3b6-34e7-4798-ba70-d897235d2b6d"}))
+        |> post("/api/declaration_requests", Jason.encode!(declaration_request_params))
 
-    #   resp = json_response(conn, 200)
+      resp = json_response(conn, 200)
 
-    #   id = resp["data"]["id"]
+      id = resp["data"]["id"]
 
-    #   assert_show_response_schema(resp, "declaration_request")
+      assert_show_response_schema(resp, "declaration_request")
 
-    #   assert to_string(Date.utc_today()) == resp["data"]["start_date"]
-    #   assert {:ok, _} = Date.from_iso8601(resp["data"]["end_date"])
+      assert to_string(Date.utc_today()) == resp["data"]["start_date"]
+      assert {:ok, _} = Date.from_iso8601(resp["data"]["end_date"])
 
-    #   declaration_request = DeclarationRequests.get_by_id!(id)
-    #   assert declaration_request.data["legal_entity"]["id"]
-    #   assert declaration_request.data["division"]["id"]
-    #   assert declaration_request.data["employee"]["id"]
-    #   # TODO: turn this into DB checks
-    #   #
-    #   # assert "NEW" = resp["status"]
-    #   # assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" = resp["data"]["updated_by"]
-    #   # assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" = resp["data"]["inserted_by"]
-    #   # assert %{"number" => "+380508887700", "type" => "OTP"} = resp["authentication_method_current"]
-    #   tax_id = resp["data"]["person"]["tax_id"]
+      declaration_request = DeclarationRequests.get_by_id!(id)
+      assert declaration_request.data["legal_entity"]["id"]
+      assert declaration_request.data["division"]["id"]
+      assert declaration_request.data["employee"]["id"]
+      # TODO: turn this into DB checks
+      #
+      # assert "NEW" = resp["status"]
+      # assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" = resp["data"]["updated_by"]
+      # assert "ce377dea-d8c4-4dd8-9328-de24b1ee3879" = resp["data"]["inserted_by"]
+      # assert %{"number" => "+380508887700", "type" => "OTP"} = resp["authentication_method_current"]
+      tax_id = resp["data"]["person"]["tax_id"]
 
-    #   assert "<html><body>Printout form for declaration request. tax_id = #{tax_id}</body></html>" ==
-    #            resp["data"]["content"]
+      assert "<html><body>Printout form for declaration request. tax_id = #{tax_id}</body></html>" ==
+               resp["data"]["content"]
 
-    #   assert %{"type" => "NA"} = resp["urgent"]["authentication_method_current"]
-    #   refute resp["data"]["urgent"]["documents"]
+      assert %{"type" => "NA"} = resp["urgent"]["authentication_method_current"]
+      refute resp["data"]["urgent"]["documents"]
 
-    #   assert "CANCELLED" = Repo.get(DeclarationRequest, d1.id).status
-    #   assert "CANCELLED" = Repo.get(DeclarationRequest, d2.id).status
-    # end
+      assert "CANCELLED" = Repo.get(DeclarationRequest, d1.id).status
+      assert "CANCELLED" = Repo.get(DeclarationRequest, d2.id).status
+    end
 
-    # test "Declaration request creating with employee that has wron speciality", %{conn: conn} do
-    #   legal_entity = insert(:prm, :legal_entity, id: "ec7b4900-d7bf-4794-98cd-0fd72f4321ec")
-    #   insert(:prm, :medical_service_provider, legal_entity: legal_entity)
-    #   party = insert(:prm, :party, id: "d9382ec3-4d88-4c9a-ac71-153db6f04f96")
-    #   insert(:prm, :party_user, party: party)
-    #   division = insert(:prm, :division, id: "31506899-55a5-4011-b88c-10ba90c5e9bd", legal_entity: legal_entity)
+    test "Declaration request creating with employee that has wron speciality", %{conn: conn} do
+      legal_entity = insert(:prm, :legal_entity, id: "ec7b4900-d7bf-4794-98cd-0fd72f4321ec")
+      insert(:prm, :medical_service_provider, legal_entity: legal_entity)
+      party = insert(:prm, :party, id: "d9382ec3-4d88-4c9a-ac71-153db6f04f96")
+      insert(:prm, :party_user, party: party)
+      division = insert(:prm, :division, id: "31506899-55a5-4011-b88c-10ba90c5e9bd", legal_entity: legal_entity)
 
-    #   pharmacist2 = Map.put(doctor(), "specialities", [%{speciality: "PHARMACIST2"}])
+      pharmacist2 = Map.put(doctor(), "specialities", [%{speciality: "PHARMACIST2"}])
 
-    #   insert(
-    #     :prm,
-    #     :employee,
-    #     id: "b03f057f-aa84-4152-b6e5-3905ba821b66",
-    #     division: division,
-    #     party: party,
-    #     legal_entity: legal_entity,
-    #     additional_info: pharmacist2
-    #   )
+      insert(
+        :prm,
+        :employee,
+        id: "b03f057f-aa84-4152-b6e5-3905ba821b66",
+        division: division,
+        party: party,
+        legal_entity: legal_entity,
+        additional_info: pharmacist2
+      )
 
-    #   declaration_request_params =
-    #     "test/data/declaration_request.json"
-    #     |> File.read!()
-    #     |> Jason.decode!()
-    #     |> put_in(["declaration_request", "division_id"], "31506899-55a5-4011-b88c-10ba90c5e9bd")
-    #     |> put_in(["declaration_request", "employee_id"], "b03f057f-aa84-4152-b6e5-3905ba821b66")
+      declaration_request_params =
+        "test/data/declaration_request.json"
+        |> File.read!()
+        |> Jason.decode!()
+        |> put_in(["declaration_request", "division_id"], "31506899-55a5-4011-b88c-10ba90c5e9bd")
+        |> put_in(["declaration_request", "employee_id"], "b03f057f-aa84-4152-b6e5-3905ba821b66")
 
-    #   uaddresses_mock_expect()
+      uaddresses_mock_expect()
 
-    #   conn =
-    #     conn
-    #     |> put_req_header("x-consumer-id", "b03f057f-aa84-4152-b6e5-3905ba821b66")
-    #     |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: "ec7b4900-d7bf-4794-98cd-0fd72f4321ec"}))
-    #     |> post(declaration_request_path(conn, :create), declaration_request_params)
+      conn =
+        conn
+        |> put_req_header("x-consumer-id", "b03f057f-aa84-4152-b6e5-3905ba821b66")
+        |> put_req_header("x-consumer-metadata", Jason.encode!(%{client_id: "ec7b4900-d7bf-4794-98cd-0fd72f4321ec"}))
+        |> post(declaration_request_path(conn, :create), declaration_request_params)
 
-    #   resp = json_response(conn, 422)
-    #   error_message = resp["error"]["message"]
-    #   assert String.starts_with?(error_message, "Employee's speciality does not belong to a doctor")
-    # end
+      resp = json_response(conn, 422)
+      error_message = resp["error"]["message"]
+      assert String.starts_with?(error_message, "Employee's speciality does not belong to a doctor")
+    end
   end
 
   describe "Global parameters return 404" do
