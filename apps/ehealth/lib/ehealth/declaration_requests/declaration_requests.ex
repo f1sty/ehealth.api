@@ -145,22 +145,28 @@ defmodule EHealth.DeclarationRequests do
   def get_by_id!(id), do: get_by_id!(id, %{})
   def get_by_id!(id, nil), do: get_by_id!(id, %{})
 
-  def get_by_id!(id, params) do
-    p =
-      DeclarationRequest
-      |> where([dr], dr.id == ^id)
-      |> Repo.one!()
+  def get_by_id!(id, %{"legal_entity_id" => legal_entity_id}) do
+    id
+    |> get_by_id!(%{})
+    |> validate_data_legal_entity(legal_entity_id)
+  end
 
-    if Enum.empty?(p.data) do
-      p
-    else
-      if p.data["legal_entity"]["id"] == params["legal_entity_id"] do
-        p
-      else
-        nil
-      end
+  def get_by_id!(id, _) do
+    DeclarationRequest
+    |> where([dr], dr.id == ^id)
+    |> Repo.one()
+  end
+
+  defp validate_data_legal_entity(%DeclarationRequest{data: data} = declaration_request, legal_entity_id)
+       when is_map(data) do
+    cond do
+      data["legal_entity"]["id"] == legal_entity_id -> declaration_request
+      Enum.empty?(data) -> declaration_request
+      true -> nil
     end
   end
+
+  defp validate_data_legal_entity(declaration_request, _), do: declaration_request
 
   defp filter_by_legal_entity_id(query, %{"legal_entity_id" => legal_entity_id}) do
     where(query, [r], fragment("?->'legal_entity'->>'id' = ?", r.data, ^legal_entity_id))
