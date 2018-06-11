@@ -315,22 +315,29 @@ defmodule EHealth.Web.DeclarationRequestControllerTest do
     end
 
     test "get declaration request by id in status expired" do
-      params = fixture_params()
-      legal_entity_id = get_in(params, [:data, :legal_entity, :id])
+      declaration_id  = UUID.generate()
+      legal_entity_id = UUID.generate()
+      status = "EXPIRED"
+
       params =
-        params
-        |> Map.put(:status, "EXPIRED")
+        fixture_params()
+        |> put_in([:id], declaration_id)
+        |> put_in([:data, :legal_entity, :id], legal_entity_id)
+        |> put_in([:status], status)
+        |> put_in([:data], %{})
 
-      %{
-        id: id,
-        declaration_id: declaration_id
-      } = fixture(DeclarationRequest, params)
+      fixture(DeclarationRequest, params)
 
-      conn = build_conn()
-      conn = put_client_id_header(conn, legal_entity_id)
-      conn = get(conn, declaration_request_path(conn, :show, id))
+      conn = put_client_id_header(build_conn(), legal_entity_id)
+      conn = get(conn, declaration_request_path(conn, :show, declaration_id))
+      resp = json_response(conn, 200)
 
-      assert resp = json_response(conn, 404)
+      assert resp["data"]["id"]
+      assert resp["data"]["declaration_number"]
+      assert resp["data"]["status"] == "EXPIRED"
+      assert resp["data"]["person"] == nil
+      assert resp["data"]["employee"] == nil
+      assert resp["data"]["legal_entity"] == nil
     end
 
   end
