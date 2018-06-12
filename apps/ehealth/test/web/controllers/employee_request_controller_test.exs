@@ -991,8 +991,6 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
                  "first_name" => "Петро",
                  "second_name" => "Миколайович",
                  "last_name" => "Іванов",
-                 "birth_country" => "UA",
-                 "birth_settlement" => "Київ",
                }
              ] = resp["data"]
     end
