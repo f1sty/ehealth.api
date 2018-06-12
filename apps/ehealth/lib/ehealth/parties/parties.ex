@@ -21,6 +21,8 @@ defmodule EHealth.Parties do
   )a
 
   @fields_optional ~w(
+    birth_country
+    birth_settlement
     second_name
     educations
     qualifications

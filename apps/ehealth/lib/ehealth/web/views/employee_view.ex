@@ -111,6 +111,8 @@ defmodule EHealth.Web.EmployeeView do
       last_name
       second_name
       birth_date
+      birth_country
+      birth_settlement
       gender
       tax_id
       no_tax_id

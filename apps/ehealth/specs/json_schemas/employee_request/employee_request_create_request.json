@@ -232,6 +232,13 @@
         "birth_date": {
           "$ref": "#/definitions/date"
         },
+        "birth_country": {
+          "type": "string",
+          "description": "Dictionary: COUNTRY"
+        },
+        "birth_settlement": {
+          "$ref": "#/definitions/name"
+        },
         "gender": {
           "$ref": "#/definitions/gender"
         },

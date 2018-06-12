@@ -10,6 +10,8 @@
       "last_name": "Іванов",
       "second_name": "Миколайович",
       "birth_date": "1991-08-19",
+      "birth_country": "UA",
+      "birth_settlement": "Київ",
       "gender": "MALE",
       "tax_id": "3067305998",
       "no_tax_id": false,

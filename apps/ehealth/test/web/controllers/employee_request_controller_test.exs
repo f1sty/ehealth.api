@@ -91,6 +91,8 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
       assert request_party["first_name"] == resp["first_name"]
       assert request_party["second_name"] == resp["second_name"]
       assert request_party["last_name"] == resp["last_name"]
+      assert request_party["birth_country"] == resp["party"]["birth_country"]
+      assert request_party["birth_settlement"] == resp["party"]["birth_settlement"]
       assert Map.has_key?(resp, "no_tax_id")
       refute resp["no_tax_id"]
 
@@ -126,6 +128,8 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
       assert request_party["first_name"] == resp["first_name"]
       assert request_party["second_name"] == resp["second_name"]
       assert request_party["last_name"] == resp["last_name"]
+      assert request_party["birth_country"] == resp["party"]["birth_country"]
+      assert request_party["birth_settlement"] == resp["party"]["birth_settlement"]
     end
 
     test "without tax_id and employee_id with valid params and valid client_id", %{conn: conn} do
@@ -986,7 +990,9 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
                  "legal_entity_name" => ^legal_entity_name,
                  "first_name" => "Петро",
                  "second_name" => "Миколайович",
-                 "last_name" => "Іванов"
+                 "last_name" => "Іванов",
+                 "birth_country" => "UA",
+                 "birth_settlement" => "Київ",
                }
              ] = resp["data"]
     end

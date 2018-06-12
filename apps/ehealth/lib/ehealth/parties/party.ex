@@ -10,6 +10,8 @@ defmodule EHealth.Parties.Party do
     field(:last_name, :string)
     field(:second_name, :string)
     field(:birth_date, :date)
+    field(:birth_country, :string)
+    field(:birth_settlement, :string)
     field(:gender, :string)
     field(:tax_id, :string)
     field(:no_tax_id, :boolean, default: false)
