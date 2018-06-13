@@ -13,6 +13,58 @@
       "type": "string",
       "pattern": "^(?!.*[ЫЪЭЁыъэё@%&$^#])[А-ЯҐЇІЄа-яґїіє\\'\\- ]+$"
     },
+    "address": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Dictionary: ADDRESS_TYPE"
+        },
+        "country": {
+          "type": "string"
+        },
+        "area": {
+          "$ref": "#/definitions/name"
+        },
+        "region": {
+          "$ref": "#/definitions/name"
+        },
+        "settlement": {
+          "$ref": "#/definitions/name"
+        },
+        "settlement_type": {
+          "type": "string",
+          "description": "Dictionary: SETTLEMENT_TYPE"
+        },
+        "street_type": {
+          "type": "string",
+          "description": "street type Dictionary: STREET_TYPE"
+        },
+        "street": {
+          "$ref": "#/definitions/name"
+        },
+        "building": {
+          "type": "string",
+          "pattern": "^[1-9]([0-9]{1,3})?(([ \\-]{1})?(?![ЫЪЭЁыъэё])[А-ЯҐЇЄа-яґїє]{1})?((\\s)?(\\\\|/)(\\s)?[1-9]([0-9]{1,3})?(([ \\-]{1})?(?![ЫЪЭЁыъэё])[А-ЯҐЇЄа-яґїє]{1})?)?$"
+        },
+        "apartment": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string",
+          "pattern": "^[0-9]{5}$"
+        }
+      },
+      "required": [
+        "type",
+        "country",
+        "area",
+        "settlement",
+        "settlement_type",
+        "building"
+      ],
+      "additionalProperties": false
+    },
     "phone": {
       "type": "object",
       "properties": {
@@ -28,6 +80,40 @@
       "required": [
         "type",
         "number"
+      ],
+      "additionalProperties": false
+    },
+    "language_skill": {
+      "type": "object",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "Dictionary: ISO_LANG_CODE"
+        },
+        "level": {
+          "type": "string",
+          "description": "Dictionary: LANG_LEVEL"
+        }
+      },
+      "required": [
+        "language"
+      ],
+      "additionalProperties": false
+    },
+    "retirement": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Dictionary: RETIREMENT_TYPE"
+        },
+        "date": {
+          "$ref": "#/definitions/date"
+        }
+      },
+      "required": [
+        "type",
+        "date"
       ],
       "additionalProperties": false
     },
@@ -61,6 +147,27 @@
       ],
       "additionalProperties": false
     },
+    "legalization": {
+      "type": "object",
+      "properties": {
+        "issued_date": {
+          "$ref": "#/definitions/date"
+        },
+        "number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "institution_name": {
+          "$ref": "#/definitions/name"
+        }
+      },
+      "required": [
+        "issued_date",
+        "number",
+        "institution_name"
+      ],
+      "additionalProperties": false
+    },
     "education": {
       "type": "object",
       "properties": {
@@ -87,6 +194,13 @@
         },
         "speciality": {
           "$ref": "#/definitions/name"
+        },
+        "legalization": {
+          "$ref": "#/definitions/legalization"
+        },
+        "speciality_code": {
+          "type": "string",
+          "description": "Dictionary: SPECIALITY_CODE"
         }
       },
       "required": [
@@ -95,7 +209,8 @@
         "institution_name",
         "diploma_number",
         "degree",
-        "speciality"
+        "speciality",
+        "speciality_code"
       ],
       "additionalProperties": false
     },
@@ -239,6 +354,18 @@
         "birth_settlement": {
           "$ref": "#/definitions/name"
         },
+        "birth_settlement_type": {
+          "type": "string",
+          "description": "Dictionary: SETTLEMENT_TYPE"
+        },
+        "citizenship": {
+          "type": "string",
+          "description": "Dictionary: COUNTRY"
+        },
+        "citizenship_at_birth": {
+          "type": "string",
+          "description": "Dictionary: COUNTRY"
+        },
         "gender": {
           "$ref": "#/definitions/gender"
         },
@@ -252,6 +379,34 @@
         "email": {
           "type": "string",
           "format": "email"
+        },
+        "personal_email": {
+          "type": "string",
+          "format": "email"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "language_skills": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/language_skill"
+          },
+          "minItems": 1
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/address"
+          },
+          "minItems": 1
+        },
+        "retirement": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/retirement"
+          },
+          "minItems": 1
         },
         "documents": {
           "type": "array",
@@ -281,6 +436,12 @@
         "first_name",
         "last_name",
         "birth_date",
+        "birth_country",
+        "birth_settlement",
+        "birth_settlement_type",
+        "addresses",
+        "citizenship",
+        "photo",
         "gender",
         "tax_id",
         "email",

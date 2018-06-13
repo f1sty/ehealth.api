@@ -9,6 +9,27 @@
       "type": "string",
       "pattern": "^(?!.*[ЫЪЭЁыъэё@%&$^#])[a-zA-ZА-ЯҐЇІЄа-яґїіє0-9№\\\"!\\^\\*)\\]\\[(._-].*$"
     },
+    "legalization": {
+      "type": "object",
+      "properties": {
+        "issued_date": {
+          "$ref": "#/definitions/date"
+        },
+        "number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "institution_name": {
+          "$ref": "#/definitions/name"
+        }
+      },
+      "required": [
+        "issued_date",
+        "number",
+        "institution_name"
+      ],
+      "additionalProperties": false
+    },
     "education": {
       "type": "object",
       "properties": {
@@ -35,6 +56,13 @@
         },
         "speciality": {
           "$ref": "#/definitions/name"
+        },
+        "legalization": {
+          "$ref": "#/definitions/legalization"
+        },
+        "speciality_code": {
+          "type": "string",
+          "description": "Dictionary: SPECIALITY_CODE"
         }
       },
       "required": [
@@ -43,7 +71,8 @@
         "institution_name",
         "diploma_number",
         "degree",
-        "speciality"
+        "speciality",
+        "speciality_code"
       ],
       "additionalProperties": false
     },

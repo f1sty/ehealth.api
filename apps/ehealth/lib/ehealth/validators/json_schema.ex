@@ -51,7 +51,8 @@ defmodule EHealth.Validators.JsonSchema do
     :medication_request_qualify,
     "specs/json_schemas/medication_request/medication_request_qualify_request.json"
   )
-
+  
+  # NOTE: recompile sources every time you modify json_schemas!
   def validate(schema, attrs) do
     @schemas
     |> Keyword.get(schema)
