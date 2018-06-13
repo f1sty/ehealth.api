@@ -12,6 +12,14 @@ defmodule EHealth.Parties.Party do
     field(:birth_date, :date)
     field(:birth_country, :string)
     field(:birth_settlement, :string)
+    field(:birth_settlement_type, :string)
+    field(:citizenship, :string)
+    field(:citizenship_at_birth, :string)
+    field(:photo, :string)
+    field(:personal_email, :string)
+    field(:ligalization, :map)
+    field(:language_skills, {:array, :map})
+    field(:retirement, {:array, :map})
     field(:gender, :string)
     field(:tax_id, :string)
     field(:no_tax_id, :boolean, default: false)
@@ -27,6 +35,7 @@ defmodule EHealth.Parties.Party do
 
     embeds_many(:phones, EHealth.Parties.Phone, on_replace: :delete)
     embeds_many(:documents, EHealth.Parties.Document, on_replace: :delete)
+    embeds_many(:addresses, EHealth.Parties.Address, on_replace: :delete)
 
     has_many(:users, EHealth.PartyUsers.PartyUser, foreign_key: :party_id)
 

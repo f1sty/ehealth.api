@@ -6,7 +6,7 @@ defmodule EHealth.Parties do
   import Ecto.{Query, Changeset}, warn: false
 
   alias EHealth.PRMRepo
-  alias EHealth.Parties.{Party, Search, Phone, Document}
+  alias EHealth.Parties.{Party, Search, Phone, Document, Address}
 
   # Party users
 
@@ -31,12 +31,21 @@ defmodule EHealth.Parties do
     declaration_limit
     about_myself
     working_experience
+    birth_settlement_type
+    citizenship_at_birth
+    language_skills
+    personal_email
+    lagalization
+    retirement
+    photo
   )a
 
   @fields_required ~w(
     first_name
     last_name
     birth_date
+    addresses
+    citizenship
     gender
     tax_id
     no_tax_id
@@ -118,6 +127,7 @@ defmodule EHealth.Parties do
     |> cast(attrs, @fields_optional ++ @fields_required)
     |> cast_embed(:phones, with: &Phone.changeset/2)
     |> cast_embed(:documents, with: &Document.changeset/2)
+    |> cast_embed(:addresses, with: &Address.changeset/2)
     |> validate_required(@fields_required)
   end
 
