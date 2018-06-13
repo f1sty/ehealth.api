@@ -6,12 +6,12 @@ defmodule EHealth.PRMRepo.Migrations.AddNewFieldsToParties do
       add(:birth_settlement_type, :string)
       add(:citizenship, :string)
       add(:citizenship_at_birth, :string)
-      add(:language_skills, :map)
+      add(:language_skills, :jsonb)
       add(:photo, :string)
-      add(:addresses, :map)
+      add(:addresses, :jsonb)
       add(:personal_email, :string)
-      add(:legalization, :map)
-      add(:retirement, :map)
+      add(:legalization, :jsonb)
+      add(:retirement, :jsonb)
     end
   end
 end
