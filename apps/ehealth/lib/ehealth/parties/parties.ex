@@ -21,8 +21,6 @@ defmodule EHealth.Parties do
   )a
 
   @fields_optional ~w(
-    birth_country
-    birth_settlement
     second_name
     educations
     qualifications
@@ -31,26 +29,30 @@ defmodule EHealth.Parties do
     declaration_limit
     about_myself
     working_experience
-    birth_settlement_type
     citizenship_at_birth
-    language_skills
     personal_email
-    lagalization
     retirement
-    photo
+    language_skills
   )a
 
   @fields_required ~w(
+    birth_country
+    birth_settlement
+    birth_settlement_type
+    photo
     first_name
     last_name
     birth_date
-    addresses
     citizenship
     gender
     tax_id
     no_tax_id
     inserted_by
     updated_by
+  )a
+
+  @embed_required ~w(
+    addresses
   )a
 
   def list(params) do
@@ -128,7 +130,7 @@ defmodule EHealth.Parties do
     |> cast_embed(:phones, with: &Phone.changeset/2)
     |> cast_embed(:documents, with: &Document.changeset/2)
     |> cast_embed(:addresses, with: &Address.changeset/2)
-    |> validate_required(@fields_required)
+    |> validate_required(@fields_required ++ @embed_required)
   end
 
   def get_search_query(Party = entity, %{phone_number: number} = changes) do

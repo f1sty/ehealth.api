@@ -143,7 +143,9 @@
       },
       "required": [
         "type",
-        "number"
+        "number",
+        "issued_by",
+        "issued_at"
       ],
       "additionalProperties": false
     },
