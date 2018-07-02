@@ -118,6 +118,7 @@ defmodule EHealth.Web.EmployeeView do
       no_tax_id
       documents
       phones
+      addresses
       about_myself
       working_experience
       declaration_limit

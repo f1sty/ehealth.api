@@ -22,7 +22,6 @@ defmodule EHealth.Parties do
 
   @fields_optional ~w(
     second_name
-    educations
     qualifications
     science_degree
     specialities
@@ -126,10 +125,12 @@ defmodule EHealth.Parties do
 
   def changeset(%Party{} = party, attrs) do
     party
+    |> PRMRepo.preload(:educations)
     |> cast(attrs, @fields_optional ++ @fields_required)
     |> cast_embed(:phones, with: &Phone.changeset/2)
     |> cast_embed(:documents, with: &Document.changeset/2)
     |> cast_embed(:addresses, with: &Address.changeset/2)
+    |> cast_assoc(:educations)
     |> validate_required(@fields_required ++ @embed_required)
   end
 

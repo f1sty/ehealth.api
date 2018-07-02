@@ -22,7 +22,6 @@ defmodule EHealth.Parties.Party do
     field(:gender, :string)
     field(:tax_id, :string)
     field(:no_tax_id, :boolean, default: false)
-    field(:educations, {:array, :map})
     field(:qualifications, {:array, :map})
     field(:specialities, {:array, :map})
     field(:science_degree, :map)
@@ -37,6 +36,7 @@ defmodule EHealth.Parties.Party do
     embeds_many(:addresses, EHealth.Parties.Address, on_replace: :delete)
 
     has_many(:users, EHealth.PartyUsers.PartyUser, foreign_key: :party_id)
+    has_many(:educations, EHealth.Parties.Education, foreign_key: :party_id)
 
     timestamps()
   end
