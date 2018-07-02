@@ -6,6 +6,16 @@ defmodule EHealth.Parties.Education do
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
+  @required_fields ~w(
+    country
+    city
+    degree
+    speciality
+    diploma_number
+    institution_name
+    issued_date
+  )a
+
   schema "educations" do
     field(:country, :string)
     field(:city, :string)
@@ -22,7 +32,7 @@ defmodule EHealth.Parties.Education do
 
   def changeset(education, attrs) do
     education
-    |> Changeset.cast(attrs, [:country, :city, :degree, :speciality, :diploma_number, :institution_name, :issued_date])
-    |> Changeset.validate_required([:country])
+    |> Changeset.cast(attrs, @required_fields)
+    |> Changeset.validate_required(@required_fields)
   end
 end
