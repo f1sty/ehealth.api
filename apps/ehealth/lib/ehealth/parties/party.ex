@@ -18,12 +18,10 @@ defmodule EHealth.Parties.Party do
     field(:photo, :string)
     field(:personal_email, :string)
     field(:language_skills, {:array, :map})
-    field(:retirement, {:array, :map})
     field(:gender, :string)
     field(:tax_id, :string)
     field(:no_tax_id, :boolean, default: false)
     field(:qualifications, {:array, :map})
-    field(:specialities, {:array, :map})
     field(:science_degree, :map)
     field(:inserted_by, Ecto.UUID)
     field(:updated_by, Ecto.UUID)
@@ -36,7 +34,8 @@ defmodule EHealth.Parties.Party do
     embeds_many(:addresses, EHealth.Parties.Address, on_replace: :delete)
 
     has_many(:users, EHealth.PartyUsers.PartyUser, foreign_key: :party_id)
-    has_many(:educations, EHealth.Parties.Education, foreign_key: :party_id)
+    has_many(:educations, EHealth.Parties.Education, foreign_key: :party_id, on_replace: :nilify)
+    has_many(:specialities, EHealth.Parties.Speciality, foreign_key: :party_id, on_replace: :nilify)
 
     timestamps()
   end

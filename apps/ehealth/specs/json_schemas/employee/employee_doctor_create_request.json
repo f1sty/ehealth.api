@@ -57,12 +57,19 @@
         "speciality": {
           "$ref": "#/definitions/name"
         },
+        "legalized": {
+          "type": "boolean"
+        },
         "legalization": {
           "$ref": "#/definitions/legalization"
         },
         "speciality_code": {
           "type": "string",
           "description": "Dictionary: SPECIALITY_CODE"
+        },
+        "form": {
+          "type": "string",
+          "minLength": 1
         }
       },
       "required": [
@@ -72,7 +79,9 @@
         "diploma_number",
         "degree",
         "speciality",
-        "speciality_code"
+        "speciality_code",
+        "issued_date",
+        "form"
       ],
       "additionalProperties": false
     },
@@ -140,16 +149,34 @@
         },
         "certificate_number": {
           "$ref": "#/definitions/name"
+        },
+        "order_date": {
+          "$ref": "#/definitions/date"
+        },
+        "order_institution_name": {
+          "$ref": "#/definitions/name"
+        },
+        "order_number": {
+          "$ref": "#/definitions/name"
+        },
+        "attestation_results": {
+          "type": "string",
+          "minLength": 1
         }
       },
       "required": [
         "speciality",
-        "speciality_officio",
         "level",
+        "order_date",
+        "order_number",
+        "order_institution_name",
+        "attestation_results",
         "qualification_type",
         "attestation_name",
         "attestation_date",
-        "certificate_number"
+        "certificate_number",
+        "valid_to_date"
+
       ],
       "additionalProperties": false
     },

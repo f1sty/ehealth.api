@@ -24,13 +24,12 @@ defmodule EHealth.Parties do
     second_name
     qualifications
     science_degree
-    specialities
     declaration_limit
     about_myself
     working_experience
     citizenship_at_birth
     personal_email
-    retirement
+    no_tax_id
     language_skills
   )a
 
@@ -38,14 +37,13 @@ defmodule EHealth.Parties do
     birth_country
     birth_settlement
     birth_settlement_type
+    citizenship
     photo
     first_name
     last_name
     birth_date
-    citizenship
     gender
     tax_id
-    no_tax_id
     inserted_by
     updated_by
   )a
@@ -53,6 +51,11 @@ defmodule EHealth.Parties do
   @embed_required ~w(
     addresses
   )a
+
+  @assoc_required ~w{
+    educations
+    specialities
+  }a
 
   def list(params) do
     %Search{}
@@ -126,11 +129,13 @@ defmodule EHealth.Parties do
   def changeset(%Party{} = party, attrs) do
     party
     |> PRMRepo.preload(:educations)
+    |> PRMRepo.preload(:specialities)
     |> cast(attrs, @fields_optional ++ @fields_required)
     |> cast_embed(:phones, with: &Phone.changeset/2)
     |> cast_embed(:documents, with: &Document.changeset/2)
     |> cast_embed(:addresses, with: &Address.changeset/2)
     |> cast_assoc(:educations)
+    |> cast_assoc(:specialities)
     |> validate_required(@fields_required ++ @embed_required)
   end
 

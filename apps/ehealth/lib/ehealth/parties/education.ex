@@ -11,9 +11,11 @@ defmodule EHealth.Parties.Education do
     city
     degree
     speciality
+    speciality_code
     diploma_number
     institution_name
     issued_date
+    form
   )a
 
   schema "educations" do
@@ -21,6 +23,9 @@ defmodule EHealth.Parties.Education do
     field(:city, :string)
     field(:degree, :string)
     field(:speciality, :string)
+    field(:speciality_code, :string)
+    field(:legalized, :boolean)
+    field(:form, :string)
     field(:diploma_number, :string)
     field(:institution_name, :string)
     field(:issued_date, :date)
