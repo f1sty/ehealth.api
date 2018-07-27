@@ -4,6 +4,7 @@ defmodule EHealth.Parties.Speciality do
   use Ecto.Schema
   alias Ecto.Changeset
 
+
   @primary_key {:id, :binary_id, autogenerate: true}
 
   @required_fields ~w(
@@ -19,6 +20,8 @@ defmodule EHealth.Parties.Speciality do
     valid_to_date
     certificate_number
   )a
+
+  @derive {Jason.Encoder, only: @required_fields}
 
   @optional_fields ~w(
     speciality_officio

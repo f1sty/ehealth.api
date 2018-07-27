@@ -4,6 +4,8 @@ defmodule EHealth.Parties.Education do
   use Ecto.Schema
   alias Ecto.Changeset
 
+  @derive {Jason.Encoder, except: [:__meta__]}
+
   @primary_key {:id, :binary_id, autogenerate: true}
 
   @required_fields ~w(

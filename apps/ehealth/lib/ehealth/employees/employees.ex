@@ -103,6 +103,7 @@ defmodule EHealth.Employees do
       {:ok,
        employee
        |> PRMRepo.preload(:party)
+       |> PRMRepo.preload(party: [:specialities, :educations])
        |> PRMRepo.preload(:division)
        |> PRMRepo.preload(:legal_entity)}
     end
