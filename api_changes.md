@@ -37,13 +37,13 @@
       "birth_settlement": "Говтва",
       "birth_settlement_type": "SETTLEMENT",
       "citizenship": "UA",
-	  "citizenship_at_birth": "UA",
+      "citizenship_at_birth": "UA",
       "gender": "MALE",
       "tax_id": "АН321518",
       "no_tax_id": true,
       "photo": "http://imgur.com",
       "email": "ehealth.demo42@gmail.com",
-	  "personal_email": "goofy@demo.com",
+      "personal_email": "goofy@demo.com",
       "language_skills": [
       	{
           "language": "UA",
@@ -56,7 +56,7 @@
       ],
       "retirement": [
         {
-		  "type": "OLD_AGE",
+          "type": "OLD_AGE",
           "date": "2017-01-20"
         },
         {
@@ -104,12 +104,12 @@
         {
           "type": "MOBILE",
           "number": "+380502351978",
-		  "public": false,
+          "public": false,
         },
 		{
           "type": "MOBILE",
           "number": "+380502354978",
-		  "public": true,
+          "public": true,
         }
       ],
       "about_myself": "тут трохи про себе",
