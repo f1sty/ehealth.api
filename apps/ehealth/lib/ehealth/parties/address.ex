@@ -12,14 +12,13 @@ defmodule EHealth.Parties.Address do
     region
     settlement_type
     settlement
+    settlement_id
     street_type
     street
     building
     apartment
     zip
   )a
-
-  @derive {Jason.Encoder, except: [:__meta__]}
 
   @primary_key false
   schema "addresses" do
@@ -29,14 +28,17 @@ defmodule EHealth.Parties.Address do
     field(:region, :string)
     field(:settlement_type, :string)
     field(:settlement, :string)
+    field(:settlement_id, Ecto.UUID)
     field(:street_type, :string)
     field(:street, :string)
     field(:building, :string)
     field(:apartment, :string)
     field(:zip, :string)
+
+    belongs_to(:party, EHealth.Parties.Party, type: Ecto.UUID)
   end
 
-  def changeset(%__MODULE__{} = addr, attrs) do
+  def changeset(addr, attrs) do
     addr
     |> cast(attrs, @fields)
     |> validate_required(@fields)

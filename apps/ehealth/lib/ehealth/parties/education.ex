@@ -2,11 +2,8 @@ defmodule EHealth.Parties.Education do
   @moduledoc false
 
   use Ecto.Schema
-  alias Ecto.Changeset
 
-  @derive {Jason.Encoder, except: [:__meta__]}
-
-  @primary_key {:id, :binary_id, autogenerate: true}
+  import Ecto.Changeset, warn: false
 
   @required_fields ~w(
     country
@@ -20,6 +17,11 @@ defmodule EHealth.Parties.Education do
     form
   )a
 
+  @optional_fields ~w(
+    legalized
+  )a
+
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "educations" do
     field(:country, :string)
     field(:city, :string)
@@ -34,12 +36,14 @@ defmodule EHealth.Parties.Education do
 
     timestamps()
 
+    has_many(:legalizations, EHealth.Parties.Legalization, foreign_key: :education_id)
+
     belongs_to(:party, EHealth.Parties.Party, type: Ecto.UUID)
   end
 
   def changeset(education, attrs) do
     education
-    |> Changeset.cast(attrs, @required_fields)
-    |> Changeset.validate_required(@required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end

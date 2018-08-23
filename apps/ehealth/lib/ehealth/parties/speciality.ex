@@ -2,7 +2,8 @@ defmodule EHealth.Parties.Speciality do
   @moduledoc false
 
   use Ecto.Schema
-  alias Ecto.Changeset
+ 
+  import Ecto.Changeset, warn: false
 
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -20,8 +21,6 @@ defmodule EHealth.Parties.Speciality do
     valid_to_date
     certificate_number
   )a
-
-  @derive {Jason.Encoder, only: @required_fields}
 
   @optional_fields ~w(
     speciality_officio
@@ -48,7 +47,7 @@ defmodule EHealth.Parties.Speciality do
 
   def changeset(speciality, attrs) do
     speciality
-    |> Changeset.cast(attrs, @required_fields ++ @optional_fields)
-    |> Changeset.validate_required(@required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end

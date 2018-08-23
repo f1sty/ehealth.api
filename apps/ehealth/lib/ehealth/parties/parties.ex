@@ -128,8 +128,6 @@ defmodule EHealth.Parties do
 
   def changeset(%Party{} = party, attrs) do
     party
-    |> PRMRepo.preload(:educations)
-    |> PRMRepo.preload(:specialities)
     |> cast(attrs, @fields_optional ++ @fields_required)
     |> cast_embed(:phones, with: &Phone.changeset/2)
     |> cast_embed(:documents, with: &Document.changeset/2)
