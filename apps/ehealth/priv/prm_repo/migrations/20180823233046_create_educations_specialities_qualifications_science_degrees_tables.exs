@@ -68,7 +68,7 @@ defmodule EHealth.PRMRepo.Migrations.CreateEducationsSpecialitiesQualificationsS
 
       timestamps()
 
-      add(:party_id, references(:parties, type: uuid))
+      add(:party_id, references(:parties, type: :uuid))
     end
 
     create table(:science_degrees, primary_key: false) do

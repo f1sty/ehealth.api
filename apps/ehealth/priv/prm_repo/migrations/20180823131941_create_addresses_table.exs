@@ -10,7 +10,7 @@ defmodule EHealth.PRMRepo.Migrations.CreateAddressesTable do
       add(:region, :string)
       add(:settlement_type, :string)
       add(:settlement, :string)
-      add(:settlement_id, :string)
+      add(:settlement_id, :uuid)
       add(:street_type, :string)
       add(:street, :string)
       add(:building, :string)

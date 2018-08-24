@@ -40,8 +40,15 @@ defmodule EHealth.Employees.Employee do
     field(:status_reason, :string)
     field(:updated_by, Ecto.UUID)
     field(:inserted_by, Ecto.UUID)
+    field(:employment_status, :map)
+    field(:emplyee_category, :string)
+    field(:position_level, :string)
+    field(:speciality_nomenclature, :string)
+    field(:dk_code, :string)
     field(:additional_info, :map)
     field(:speciality, :map)
+
+    has_many(:provided_services, EHealth.Employees.ProvidedService, foreign_key: :employee_id)
 
     belongs_to(:party, Party, type: Ecto.UUID)
     belongs_to(:division, Division, type: Ecto.UUID)

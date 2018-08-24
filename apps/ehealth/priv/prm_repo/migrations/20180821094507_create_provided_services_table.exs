@@ -5,7 +5,7 @@ defmodule EHealth.PRMRepo.Migrations.CreateProvidedServicesTable do
     create table(:provided_services, primary_key: false) do
       add(:id, :uuid, primary_key: true)
       add(:type, :string, null: false)
-      add(:sub_types, :string, null: false)
+      add(:sub_types, {:array, :map})
       add(:employee_id, references(:employees, type: :uuid, on_delete: :nothing))
     end
 

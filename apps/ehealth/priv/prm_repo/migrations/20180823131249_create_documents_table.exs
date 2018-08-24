@@ -6,13 +6,13 @@ defmodule EHealth.PRMRepo.Migrations.CreateDocumentsTable do
       add(:id, :uuid, primary_key: true)
       add(:type, :string)
       add(:number, :string)
-      add(:issued_bu, :string)
+      add(:issued_by, :string)
       add(:issued_at, :date)
 
-      add(:party_id, references(:parties, type: :uuid)
+      add(:party_id, references(:parties, type: :uuid))
     end
 
-    create(index(:documents, [:party_id])
+    create(index(:documents, [:party_id]))
 
   end
 end
