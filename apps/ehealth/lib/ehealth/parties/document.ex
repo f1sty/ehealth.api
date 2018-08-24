@@ -5,6 +5,8 @@ defmodule EHealth.Parties.Document do
 
   import Ecto.Changeset, warn: false
 
+  @derive {Jason.Encoder, except: [:__meta__]}
+
   @fields ~w(
     type
     number
@@ -14,12 +16,11 @@ defmodule EHealth.Parties.Document do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "documents" do
+    field(:party_id, Ecto.UUID)
     field(:type, :string)
     field(:number, :string)
     field(:issued_by, :string)
     field(:issued_at, :date)
-
-    belongs_to(:party, EHealth.Parties.Party, type: Ecto.UUID)
   end
 
   def changeset(doc, attrs) do

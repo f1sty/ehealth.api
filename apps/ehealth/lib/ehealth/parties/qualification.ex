@@ -4,6 +4,8 @@ defmodule EHealth.Parties.Qualification do
 
   import Ecto.Changeset, warn: false
 
+  @derive {Jason.Encoder, except: [:__meta__]}
+
   @required_fields ~w(
     type
     institution_name
@@ -26,6 +28,7 @@ defmodule EHealth.Parties.Qualification do
 
   @primary_key {:id, :binary_id, autogenerate: false}
   schema "qualifications" do
+    field(:party_id, Ecto.UUID)
     field(:type, :string)
     field(:institution_name, :string)
     field(:related_to, :map)
@@ -42,8 +45,6 @@ defmodule EHealth.Parties.Qualification do
     field(:results, :float)
 
     timestamps()
-
-    belongs_to(:party, EHealth.Parties.Party, type: Ecto.UUID)
   end
 
   def changeset(qualification, attrs) do

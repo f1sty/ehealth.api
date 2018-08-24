@@ -4,6 +4,8 @@ defmodule EHealth.Parties.ScienceDegree do
 
   import Ecto.Changeset, warn: false
 
+  @derive {Jason.Encoder, except: [:__meta__]}
+
   @fields ~w(
     institution_name
     degree
@@ -24,6 +26,7 @@ defmodule EHealth.Parties.ScienceDegree do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "science_degrees" do
+    field(:party_id, Ecto.UUID)
     field(:institution_name, :string)
     field(:degree, :string)
     field(:diploma_number, :string)
@@ -41,8 +44,6 @@ defmodule EHealth.Parties.ScienceDegree do
     field(:issued_date, :date)
 
     timestamps()
-
-    belongs_to(:party, EHealth.Parties.Party, type: Ecto.UUID)
   end
 
   def changeset(degree, attrs) do

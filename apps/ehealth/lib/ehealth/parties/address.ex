@@ -5,6 +5,8 @@ defmodule EHealth.Parties.Address do
 
   import Ecto.Changeset, warn: false
 
+  @derive {Jason.Encoder, except: [:__meta__]}
+
   @fields ~w(
     type
     country
@@ -20,8 +22,9 @@ defmodule EHealth.Parties.Address do
     zip
   )a
 
-  @primary_key false
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "addresses" do
+    field(:party_id, Ecto.UUID)
     field(:type, :string)
     field(:country, :string)
     field(:area, :string)
@@ -34,8 +37,6 @@ defmodule EHealth.Parties.Address do
     field(:building, :string)
     field(:apartment, :string)
     field(:zip, :string)
-
-    belongs_to(:party, EHealth.Parties.Party, type: Ecto.UUID)
   end
 
   def changeset(addr, attrs) do

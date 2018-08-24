@@ -5,6 +5,8 @@ defmodule EHealth.Parties.Phone do
 
   import Ecto.Changeset, warn: false
 
+  @derive {Jason.Encoder, except: [:__meta__]}
+
   @fields ~w(
     type
     number
@@ -13,11 +15,10 @@ defmodule EHealth.Parties.Phone do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "phones" do
+    field(:party_id, Ecto.UUID)
     field(:type, :string)
     field(:number, :string)
     field(:public, :boolean, default: false)
-
-    belongs_to(:party, EHealth.Parties.Party, type: Ecto.UUID)
   end
 
   def changeset(phone, attrs) do

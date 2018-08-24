@@ -5,8 +5,7 @@ defmodule EHealth.Parties.Speciality do
  
   import Ecto.Changeset, warn: false
 
-
-  @primary_key {:id, :binary_id, autogenerate: true}
+  @derive {Jason.Encoder, except: [:__meta__]}
 
   @required_fields ~w(
     speciality
@@ -26,7 +25,9 @@ defmodule EHealth.Parties.Speciality do
     speciality_officio
   )a
 
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "specialities" do
+    field(:party_id, Ecto.UUID)
     field(:speciality, :string)
     field(:level, :string)
     field(:order_date, :date)
@@ -41,8 +42,6 @@ defmodule EHealth.Parties.Speciality do
     field(:certificate_number, :string)
 
     timestamps()
-
-    belongs_to(:party, EHealth.Parties.Party, type: Ecto.UUID)
   end
 
   def changeset(speciality, attrs) do

@@ -4,7 +4,6 @@ defmodule EHealth.Parties.Party do
   use Ecto.Schema
 
   @primary_key {:id, :binary_id, autogenerate: true}
-
   schema "parties" do
     field(:first_name, :string)
     field(:last_name, :string)
