@@ -22,15 +22,12 @@ defmodule EHealth.Parties do
 
   @fields_optional ~w(
     second_name
-    qualifications
-    science_degree
     declaration_limit
     about_myself
     working_experience
     citizenship_at_birth
     personal_email
     no_tax_id
-    language_skills
   )a
 
   @fields_required ~w(
@@ -38,7 +35,6 @@ defmodule EHealth.Parties do
     birth_settlement
     birth_settlement_type
     citizenship
-    photo
     first_name
     last_name
     birth_date
@@ -65,14 +61,28 @@ defmodule EHealth.Parties do
 
   def get_by_id!(id) do
     Party
-    |> where([p], p.id == ^id)
-    |> join(:left, [p], u in assoc(p, :users))
-    |> preload([p, u], users: u)
-    |> PRMRepo.one!()
+    |> PRMRepo.get!(id)
+    |> PRMRepo.preload(
+      educations: [:legalizations],
+      phones: [],
+      addresses: [],
+      documents: [],
+      qualifications: [],
+      specialities: [],
+      science_degree: [],
+      users: []
+    )
+
+    # |> where([p], p.id == ^id)
+    # |> join(:left, [p], u in assoc(p, :users))
+    # |> join(:left, [p], ph in assoc(ph, :phones))
+    # |> preload([p, u, ph], users: u, phones: ph)
+    # |> PRMRepo.one!()
   end
 
   def get_by_id(id) do
     PRMRepo.get(Party, id)
+    |> PRMRepo.preload(educations: [:legalizations], phones: [], users: [])
   end
 
   def get_by_ids(ids) do
@@ -128,12 +138,17 @@ defmodule EHealth.Parties do
 
   def changeset(%Party{} = party, attrs) do
     party
+    |> PRMRepo.preload(:phones)
     |> cast(attrs, @fields_optional ++ @fields_required)
-    |> cast_embed(:phones, with: &Phone.changeset/2)
-    |> cast_embed(:documents, with: &Document.changeset/2)
-    |> cast_embed(:addresses, with: &Address.changeset/2)
+    |> cast_assoc(:phones)
+    |> cast_assoc(:documents)
+    |> cast_assoc(:addresses)
     |> cast_assoc(:educations)
     |> cast_assoc(:specialities)
+    |> cast_assoc(:qualifications)
+    |> cast_assoc(:science_degree)
+    |> cast_embed(:language_skills)
+    |> cast_embed(:retirements)
     |> validate_required(@fields_required ++ @embed_required)
   end
 
@@ -158,5 +173,5 @@ defmodule EHealth.Parties do
   end
 
   defp load_references(%Ecto.Query{} = query), do: preload(query, :users)
-  defp load_references(%Party{} = party), do: PRMRepo.preload(party, :users)
+  defp load_references(%Party{} = party), do: PRMRepo.preload(party, educations: [:legalizations], phones: [], users: [])
 end

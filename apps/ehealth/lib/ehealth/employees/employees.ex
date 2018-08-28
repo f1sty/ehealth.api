@@ -92,6 +92,15 @@ defmodule EHealth.Employees do
     Employee
     |> get_by_id_query(id)
     |> PRMRepo.one()
+    |> PRMRepo.preload(party: [
+      :phones,
+      :addresses,
+      :documents,
+      :specialities,
+      :qualifications,
+      :educations,
+      :science_degree
+    ])
   end
 
   def get_by_id(id, headers) do

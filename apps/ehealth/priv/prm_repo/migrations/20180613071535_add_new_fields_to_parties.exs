@@ -9,7 +9,7 @@ defmodule EHealth.PRMRepo.Migrations.AddNewFieldsToParties do
       add(:language_skills, :jsonb)
       add(:photo, :string)
       add(:personal_email, :string)
-      add(:retirement, :jsonb)
+      add(:retirements, :jsonb)
     end
   end
 end
