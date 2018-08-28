@@ -12,7 +12,7 @@
     "start_date": "2017-09-05",
     "end_date": "2019-03-05",
     "status": "NEW",
-    "employee_status": "INTERNSHIP",
+    "employment_status": "INTERNSHIP",
     "employee_category": "SPECIALIST",
     "employee_type": "DOCTOR",
     "position_level": "SPECIALIST_DOCTOR",
@@ -104,12 +104,12 @@
         {
           "type": "MOBILE",
           "number": "+380502351978",
-          "public": false,
+          "public": false
         },
 		{
           "type": "MOBILE",
           "number": "+380502354978",
-          "public": true,
+          "public": true
         }
       ],
       "about_myself": "тут трохи про себе",
