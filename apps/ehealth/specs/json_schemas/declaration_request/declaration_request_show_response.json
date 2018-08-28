@@ -216,6 +216,15 @@
                       },
                       "type": {
                         "type": "string"
+                      },
+                      "public": {
+                          "type": "boolean"
+                      },
+                      "party_id": {
+                          "type": "string"
+                      },
+                      "id": {
+                          "type": "string"
                       }
                     },
                     "required": [

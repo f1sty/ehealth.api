@@ -21,11 +21,11 @@
     "provided_services": [
       {
         "type": "HIV",
-        "sub_type": "ARV"
+        "sub_types": [ {"title": "ARV", "additional": "reserved"} ]
       },
       {
         "type": "HIV",
-        "sub_type": "SMT"
+        "sub_types": [ {"title": "SMT", "additional": "reserved"} ]
       }
     ],
     "party": {
@@ -128,7 +128,7 @@
           "speciality_code": "091",
           "form": "FULL_TIME",
           "legalized": true,
-          "legalization": [
+          "legalizations": [
             {
               "issued_date": "1988-04-23",
               "number": "AC438942",

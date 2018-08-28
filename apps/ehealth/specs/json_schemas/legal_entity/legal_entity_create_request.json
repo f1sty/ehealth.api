@@ -27,6 +27,9 @@
         "number": {
           "type": "string",
           "pattern": "^\\+38[0-9]{10}$"
+        },
+        "public": {
+            "type": "boolean"
         }
       },
       "required": [

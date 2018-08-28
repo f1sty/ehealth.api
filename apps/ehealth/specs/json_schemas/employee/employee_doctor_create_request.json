@@ -9,6 +9,42 @@
       "type": "string",
       "pattern": "^(?!.*[ЫЪЭЁыъэё@%&$^#])[a-zA-ZА-ЯҐЇІЄа-яґїіє0-9№\\\"!\\^\\*)\\]\\[(._-].*$"
     },
+    "sub_type": {
+        "type": "object",
+        "properties": {
+            "title": {
+                "type": "string"
+            },
+            "additional": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "title"
+        ],
+        "additionalProperties": false
+    },
+    "provided_service": {
+        "type": "object",
+        "properties": {
+            "type": {
+                "type": "string",
+                "description": "Dictionary: PROVIDED_SERVICE_TYPE"
+            },
+            "sub_types": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/sub_type"
+                },
+                "minItems": 1
+            }
+        },
+        "required": [
+            "type",
+            "sub_types"
+        ],
+        "additionalProperties": false
+    },
     "legalization": {
       "type": "object",
       "properties": {
@@ -20,7 +56,8 @@
           "minLength": 1
         },
         "institution_name": {
-          "$ref": "#/definitions/name"
+            "type": "string",
+            "minLength": 1
         }
       },
       "required": [
@@ -60,8 +97,11 @@
         "legalized": {
           "type": "boolean"
         },
-        "legalization": {
-          "$ref": "#/definitions/legalization"
+        "legalizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/legalization"
+          }
         },
         "speciality_code": {
           "type": "string",
@@ -69,7 +109,7 @@
         },
         "form": {
           "type": "string",
-          "minLength": 1
+          "description": "Dictionary: EDUCATION_FORM"
         }
       },
       "required": [
@@ -85,12 +125,57 @@
       ],
       "additionalProperties": false
     },
+    "related_to": {
+        "type": "object",
+        "properties": {
+            "type": {
+                "type": "string",
+                "description": "Dictionary: PROVIDED_SERVICE_TYPE"
+            },
+            "sub_type": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "type",
+            "sub_type"
+        ],
+        "additionalProperties": false
+    },
     "qualification": {
       "type": "object",
       "properties": {
         "type": {
           "type": "string",
           "description": "Dictionary: QUALIFICATION_TYPE"
+        },
+        "related_to": {
+            "$ref": "#/definitions/related_to"
+        },
+        "course_name": {
+            "type": "string"
+        },
+        "form": {
+            "type": "string",
+            "description": "Dictionary: EDUCATION_FORM"
+        },
+        "duration": {
+            "type": "string"
+        },
+        "duration_units": {
+            "type": "string",
+            "description": "Dictionary: DURATION_UNITS"
+        },
+        "results": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true
+        },
+        "start_date": {
+            "$ref": "#/definitions/date"
+        },
+        "end_date": {
+            "$ref": "#/definitions/date"
         },
         "institution_name": {
           "$ref": "#/definitions/name"
@@ -109,14 +194,16 @@
           "$ref": "#/definitions/date"
         },
         "additional_info": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         }
       },
       "required": [
         "type",
         "institution_name",
-        "speciality"
+        "speciality",
+        "related_to",
+        "course_name",
+        "form"
       ],
       "additionalProperties": false
     },
@@ -176,7 +263,6 @@
         "attestation_date",
         "certificate_number",
         "valid_to_date"
-
       ],
       "additionalProperties": false
     },
@@ -206,6 +292,38 @@
         },
         "issued_date": {
           "$ref": "#/definitions/date"
+        },
+        "degree_country": {
+            "type": "string",
+            "description": "Dictionary: COUNTRY"
+        },
+        "degree_city": {
+            "type": "string",
+            "minLength": 1
+        },
+        "degree_institution_name": {
+            "type": "string",
+            "minLength": 1
+        },
+        "science_domain": {
+            "type": "string",
+            "description": "Dictionary: SCIENCE_DOMAIN"
+        },
+        "speciality_group": {
+            "type": "string",
+            "description": "Dictionary: SPECIALITY_GROUP"
+        },
+        "code": {
+            "type": "string",
+            "minLength": 1
+        },
+        "degree_science_domain": {
+            "type": "string",
+            "description": "Dictionary: SCIENCE_DOMAIN"
+        },
+        "academic_status": {
+            "type": "string",
+            "description": "Dictionary: ACADEMIC_STATUS"
         }
       },
       "required": [
@@ -214,7 +332,16 @@
         "degree",
         "institution_name",
         "diploma_number",
-        "speciality"
+        "speciality",
+        "issued_date",
+        "degree_country",
+        "degree_city",
+        "degree_institution_name",
+        "science_domain",
+        "speciality_group",
+        "code",
+        "degree_science_domain",
+        "academic_status"
       ],
       "additionalProperties": false
     }

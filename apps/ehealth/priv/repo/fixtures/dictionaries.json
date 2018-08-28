@@ -13,6 +13,127 @@
     "is_active": true
   },
   {
+    "name": "ACADEMIC_STATUS",
+    "values": {
+      "PHD": "Доктор філософії",
+      "DOCTOR_OF_SCIENCE": "Доктор наук",
+      "CANDIDATE_OF_SCIENCE": "Кандидат наук"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "SCIENCE_DOMAIN",
+    "values": {
+      "PHYSICS": "test value",
+      "BIOLOGY": "the meaning of life"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "EDUCATION_FORM",
+    "values": {
+      "FULL_TIME": "test value",
+      "NIGHTLY": "the meaning of life"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "DURATION_UNITS",
+    "values": {
+      "WEEK": "weeks",
+      "DAY": "days"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "SPECIALITY_GROUP",
+    "values": {
+      "CLINICAL": "test value",
+      "OUTDOOR": "the meaning of life"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "SPECIALITY_CODE",
+    "values": {
+      "091": "test value",
+      "042": "the meaning of life"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "RETIREMENT_TYPE",
+    "values": {
+      "OLD_AGE": "за віком",
+      "DISABILITY": "за інвалідністю"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "LANG_LEVEL",
+    "values": {
+      "BEGINNER": "початковий",
+      "INTERMEDIATE": "середній"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "ISO_LANG_CODE",
+    "values": {
+      "UK": "Українська",
+      "EN": "English"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "PROVIDED_SERVICE_TYPE",
+    "values": {
+      "HIV": "test value",
+      "MDT": "Mental disorder treatment"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
     "name": "LEGAL_FORM",
     "values": {
       "120": "ПРИВАТНЕ ПІДПРИЄМСТВО",

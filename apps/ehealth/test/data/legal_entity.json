@@ -36,22 +36,45 @@
     "first_name": "Петро",
     "last_name": "Іванов",
     "second_name": "Миколайович",
+    "birth_country": "UA",
+    "birth_settlement": "Львів",
+    "birth_settlement_type": "CITY",
+    "photo": "http://example.com",
+    "citizenship": "UA",
     "position": "P1",
     "tax_id": "3067305998",
     "no_tax_id": false,
     "birth_date": "1991-08-19",
     "gender": "MALE",
     "email": "email@example.com",
+    "addresses": [
+        {
+            "type": "RESIDENCE",
+            "country": "UA",
+            "area": "DP",
+            "region": "DP",
+            "settlement": "Dnipro",
+            "settlement_type": "CITY",
+            "street": "Sadove",
+            "apartment": "24",
+            "street_type": "STREET",
+            "zip": "12342",
+            "building": "26"
+        }
+    ],
     "documents": [
       {
         "type": "PASSPORT",
-        "number": "120518"
+        "number": "120518",
+        "issued_by": "VDFSF",
+        "issued_at": "1988-03-04"
       }
     ],
     "phones": [
       {
         "type": "MOBILE",
-        "number": "+380503410870"
+        "number": "+380503410870",
+        "public": true
       }
     ]
   },

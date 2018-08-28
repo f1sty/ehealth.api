@@ -202,7 +202,11 @@ defmodule EHealth.Web.EmployeesControllerTest do
         "attestation_date" => "2017-08-04",
         "valid_to_date" => "2017-08-05",
         "certificate_number" => "AB/21331",
-        "speciality_officio" => true
+        "speciality_officio" => true,
+        "order_date" => "2017-01-02",
+        "order_number" => "X23423",
+        "order_institution_name" => "Богомольця",
+        "attestation_results": "BA"
       }
 
       specialities = [
@@ -215,7 +219,11 @@ defmodule EHealth.Web.EmployeesControllerTest do
           "attestation_date" => "2017-08-04",
           "valid_to_date" => "2017-08-05",
           "certificate_number" => "AB/21331",
-          "speciality_officio" => false
+          "speciality_officio" => false,
+          "order_date" => "2017-01-02",
+          "order_number" => "X23423",
+          "order_institution_name" => "Богомольця",
+          "attestation_results": "BA"
         }
       ]
 
