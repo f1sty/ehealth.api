@@ -150,7 +150,15 @@ defmodule EHealth.Parties do
 
   def changeset(%Party{} = party, attrs) do
     party
-    |> PRMRepo.preload(:phones)
+    |> PRMRepo.preload([
+      :phones,
+      :addresses,
+      :documents,
+      :specialities,
+      :qualifications,
+      :educations,
+      :science_degree
+    ])
     |> cast(attrs, @fields_optional ++ @fields_required)
     |> cast_assoc(:phones)
     |> cast_assoc(:documents)
@@ -187,7 +195,7 @@ defmodule EHealth.Parties do
   defp load_references(%Ecto.Query{} = query), do: preload(query, :users)
   defp load_references(%Party{} = party) do
     party
-    |> PRMRepo.preload(party: [
+    |> PRMRepo.preload([
       :phones,
       :addresses,
       :documents,

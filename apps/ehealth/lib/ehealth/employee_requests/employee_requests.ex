@@ -195,6 +195,7 @@ defmodule EHealth.EmployeeRequests do
     with {:ok, employee_request} <- check_transition_status(employee_request),
          {:ok, employee} <- Employees.create_or_update_employee(employee_request, headers),
          {:ok, employee_request} <- update_status(employee_request, employee, @status_approved, user_id) do
+           IO.inspect(employee_request)
       send_email(
         employee_request,
         EmployeeCreatedNotificationTemplate,
@@ -262,6 +263,7 @@ defmodule EHealth.EmployeeRequests do
       "specialities",
       data |> Map.get("specialities") |> Enum.map(&Map.delete(&1, "speciality_officio"))
     )
+    |> IO.inspect
     |> Map.put("science_degree", Map.get(data, "science_degree"))
   end
 

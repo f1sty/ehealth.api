@@ -26,7 +26,7 @@ defmodule EHealth.Parties.Qualification do
     results
   )a
 
-  @primary_key {:id, :binary_id, autogenerate: false}
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "qualifications" do
     field(:party_id, Ecto.UUID)
     field(:type, :string)

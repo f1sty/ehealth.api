@@ -72,6 +72,9 @@
           "type": "string",
           "description": "Dictionary: SETTLEMENT_TYPE"
         },
+        "settlement_id": {
+            "type": "string"
+        },
         "street_type": {
           "type": "string",
           "description": "street type Dictionary: STREET_TYPE"
