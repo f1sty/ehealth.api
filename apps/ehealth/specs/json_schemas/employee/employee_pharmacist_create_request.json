@@ -9,6 +9,64 @@
       "type": "string",
       "pattern": "^(?!.*[ЫЪЭЁыъэё@%&$^#])[a-zA-ZА-ЯҐЇІЄа-яґїіє0-9№\\\"!\\^\\*)\\]\\[(._-].*$"
     },
+    "sub_type": {
+        "type": "object",
+        "properties": {
+            "title": {
+                "type": "string"
+            },
+            "additional": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "title"
+        ],
+        "additionalProperties": false
+    },
+    "provided_service": {
+        "type": "object",
+        "properties": {
+            "type": {
+                "type": "string",
+                "description": "Dictionary: PROVIDED_SERVICE_TYPE"
+            },
+            "sub_types": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/sub_type"
+                },
+                "minItems": 1
+            }
+        },
+        "required": [
+            "type",
+            "sub_types"
+        ],
+        "additionalProperties": false
+    },
+    "legalization": {
+      "type": "object",
+      "properties": {
+        "issued_date": {
+          "$ref": "#/definitions/date"
+        },
+        "number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "institution_name": {
+            "type": "string",
+            "minLength": 1
+        }
+      },
+      "required": [
+        "issued_date",
+        "number",
+        "institution_name"
+      ],
+      "additionalProperties": false
+    },
     "education": {
       "type": "object",
       "properties": {
@@ -35,6 +93,23 @@
         },
         "speciality": {
           "$ref": "#/definitions/name"
+        },
+        "legalized": {
+          "type": "boolean"
+        },
+        "legalizations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/legalization"
+          }
+        },
+        "speciality_code": {
+          "type": "string",
+          "description": "Dictionary: SPECIALITY_CODE"
+        },
+        "form": {
+          "type": "string",
+          "description": "Dictionary: EDUCATION_FORM"
         }
       },
       "required": [
@@ -43,9 +118,29 @@
         "institution_name",
         "diploma_number",
         "degree",
-        "speciality"
+        "speciality",
+        "speciality_code",
+        "issued_date",
+        "form"
       ],
       "additionalProperties": false
+    },
+    "related_to": {
+        "type": "object",
+        "properties": {
+            "type": {
+                "type": "string",
+                "description": "Dictionary: PROVIDED_SERVICE_TYPE"
+            },
+            "sub_type": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "type",
+            "sub_type"
+        ],
+        "additionalProperties": false
     },
     "qualification": {
       "type": "object",
@@ -53,6 +148,34 @@
         "type": {
           "type": "string",
           "description": "Dictionary: QUALIFICATION_TYPE"
+        },
+        "related_to": {
+            "$ref": "#/definitions/related_to"
+        },
+        "course_name": {
+            "type": "string"
+        },
+        "form": {
+            "type": "string",
+            "description": "Dictionary: EDUCATION_FORM"
+        },
+        "duration": {
+            "type": "string"
+        },
+        "duration_units": {
+            "type": "string",
+            "description": "Dictionary: DURATION_UNITS"
+        },
+        "results": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true
+        },
+        "start_date": {
+            "$ref": "#/definitions/date"
+        },
+        "end_date": {
+            "$ref": "#/definitions/date"
         },
         "institution_name": {
           "$ref": "#/definitions/name"
@@ -64,24 +187,27 @@
           "$ref": "#/definitions/date"
         },
         "certificate_number": {
-          "$ref": "#/definitions/name"
+          "type": "string",
+          "minLength": 1
         },
         "valid_to": {
           "$ref": "#/definitions/date"
         },
         "additional_info": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         }
       },
       "required": [
         "type",
         "institution_name",
-        "speciality"
+        "speciality",
+        "related_to",
+        "course_name",
+        "form"
       ],
       "additionalProperties": false
     },
-    "specialities": {
+    "speciality": {
       "type": "object",
       "properties": {
         "speciality": {
@@ -110,16 +236,33 @@
         },
         "certificate_number": {
           "$ref": "#/definitions/name"
+        },
+        "order_date": {
+          "$ref": "#/definitions/date"
+        },
+        "order_institution_name": {
+          "$ref": "#/definitions/name"
+        },
+        "order_number": {
+          "$ref": "#/definitions/name"
+        },
+        "attestation_results": {
+          "type": "string",
+          "minLength": 1
         }
       },
       "required": [
         "speciality",
-        "speciality_officio",
         "level",
+        "order_date",
+        "order_number",
+        "order_institution_name",
+        "attestation_results",
         "qualification_type",
         "attestation_name",
         "attestation_date",
-        "certificate_number"
+        "certificate_number",
+        "valid_to_date"
       ],
       "additionalProperties": false
     },
@@ -149,6 +292,38 @@
         },
         "issued_date": {
           "$ref": "#/definitions/date"
+        },
+        "degree_country": {
+            "type": "string",
+            "description": "Dictionary: COUNTRY"
+        },
+        "degree_city": {
+            "type": "string",
+            "minLength": 1
+        },
+        "degree_institution_name": {
+            "type": "string",
+            "minLength": 1
+        },
+        "science_domain": {
+            "type": "string",
+            "description": "Dictionary: SCIENCE_DOMAIN"
+        },
+        "speciality_group": {
+            "type": "string",
+            "description": "Dictionary: SPECIALITY_GROUP"
+        },
+        "code": {
+            "type": "string",
+            "minLength": 1
+        },
+        "degree_science_domain": {
+            "type": "string",
+            "description": "Dictionary: SCIENCE_DOMAIN"
+        },
+        "academic_status": {
+            "type": "string",
+            "description": "Dictionary: ACADEMIC_STATUS"
         }
       },
       "required": [
@@ -157,36 +332,45 @@
         "degree",
         "institution_name",
         "diploma_number",
-        "speciality"
+        "speciality",
+        "issued_date",
+        "degree_country",
+        "degree_city",
+        "degree_institution_name",
+        "science_domain",
+        "speciality_group",
+        "code",
+        "degree_science_domain",
+        "academic_status"
       ],
       "additionalProperties": false
     }
   },
   "type": "object",
   "properties": {
-    "educations":{
-        "type":"array",
-        "items":{
-          "$ref":"#/definitions/education"
-        },
-        "minItems":1
+    "educations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/education"
+      },
+      "minItems": 1
     },
-    "qualifications":{
-        "type":"array",
-        "items":{
-          "$ref":"#/definitions/qualification"
-        },
-        "minItems":1
+    "qualifications": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/qualification"
+      },
+      "minItems": 1
     },
-    "specialities":{
-        "type":"array",
-        "items":{
-          "$ref":"#/definitions/specialities"
-        },
-        "minItems":1
+    "specialities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/speciality"
+      },
+      "minItems": 1
     },
-    "science_degree":{
-        "$ref":"#/definitions/science_degree"
+    "science_degree": {
+      "$ref": "#/definitions/science_degree"
     }
   },
   "required": [

@@ -173,5 +173,16 @@ defmodule EHealth.Parties do
   end
 
   defp load_references(%Ecto.Query{} = query), do: preload(query, :users)
-  defp load_references(%Party{} = party), do: PRMRepo.preload(party, educations: [:legalizations], phones: [], users: [])
+  defp load_references(%Party{} = party) do
+    party
+    |> PRMRepo.preload(party: [
+      :phones,
+      :addresses,
+      :documents,
+      :specialities,
+      :qualifications,
+      :educations,
+      :science_degree
+    ])
+  end
 end

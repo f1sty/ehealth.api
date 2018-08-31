@@ -47,7 +47,7 @@
           "language_level": "INTERMEDIATE"
         }
       ],
-      "retirement": [
+      "retirements": [
         {
           "type": "OLD_AGE",
           "date": "2017-01-20"
@@ -100,7 +100,7 @@
           "public": false
         },
 		{
-          "type": "MOBILE",
+          "type": "LAND_LINE",
           "number": "+380502354978",
           "public": true
         }

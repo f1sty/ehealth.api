@@ -86,6 +86,8 @@ defmodule EHealth.Employees do
     Employee
     |> get_by_id_query(id)
     |> PRMRepo.one!()
+    |> PRMRepo.preload(:provided_services)
+    |> PRMRepo.preload(:party)
     |> PRMRepo.preload(party: [
       :phones,
       :addresses,
@@ -101,6 +103,8 @@ defmodule EHealth.Employees do
     Employee
     |> get_by_id_query(id)
     |> PRMRepo.one()
+    |> PRMRepo.preload(:provided_services)
+    |> PRMRepo.preload(:party)
     |> PRMRepo.preload(party: [
       :phones,
       :addresses,
@@ -121,7 +125,15 @@ defmodule EHealth.Employees do
       {:ok,
        employee
        |> PRMRepo.preload(:party)
-       |> PRMRepo.preload(party: [:specialities, :educations])
+        |> PRMRepo.preload(party: [
+          :phones,
+          :addresses,
+          :documents,
+          :specialities,
+          :qualifications,
+          :educations,
+          :science_degree
+        ])
        |> PRMRepo.preload(:division)
        |> PRMRepo.preload(:legal_entity)}
     end

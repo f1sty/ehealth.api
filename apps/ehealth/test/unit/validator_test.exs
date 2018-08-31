@@ -12,7 +12,7 @@ defmodule EHealth.Unit.ValidatorTest do
     "name" => "PHONE_TYPE",
     "values" => %{
       "MOBILE" => "mobile",
-      "LANDLINE" => "landline"
+      "LAND_LINE" => "landline"
     },
     "labels" => ["SYSTEM"],
     "is_active" => true
