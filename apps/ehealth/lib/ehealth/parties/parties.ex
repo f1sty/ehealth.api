@@ -81,8 +81,20 @@ defmodule EHealth.Parties do
   end
 
   def get_by_id(id) do
-    PRMRepo.get(Party, id)
-    |> PRMRepo.preload(educations: [:legalizations], phones: [], users: [])
+    Party
+    |> PRMRepo.get(id)
+    |> PRMRepo.preload(
+      educations: [:legalizations],
+      phones: [],
+      addresses: [],
+      documents: [],
+      qualifications: [],
+      specialities: [],
+      science_degree: [],
+      users: []
+    )
+    # PRMRepo.get(Party, id)
+    # |> PRMRepo.preload(educations: [:legalizations], phones: [], users: [])
   end
 
   def get_by_ids(ids) do

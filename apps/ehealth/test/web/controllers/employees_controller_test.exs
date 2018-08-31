@@ -206,7 +206,7 @@ defmodule EHealth.Web.EmployeesControllerTest do
         "order_date" => "2017-01-02",
         "order_number" => "X23423",
         "order_institution_name" => "Богомольця",
-        "attestation_results": "BA"
+        "attestation_results" => "BA"
       }
 
       specialities = [
@@ -223,7 +223,7 @@ defmodule EHealth.Web.EmployeesControllerTest do
           "order_date" => "2017-01-02",
           "order_number" => "X23423",
           "order_institution_name" => "Богомольця",
-          "attestation_results": "BA"
+          "attestation_results" => "BA"
         }
       ]
 

@@ -20,6 +20,7 @@ defmodule EHealth.Web.MedicationRequestController do
     client_type = conn.assigns.client_type
 
     with {:ok, medication_request} <- API.show(params, client_type, headers) do
+      # IO.puts inspect medication_request
       render(conn, "show.json", medication_request: medication_request)
     end
   end

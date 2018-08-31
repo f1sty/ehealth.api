@@ -30,12 +30,12 @@
   "owner":  {
     "birth_date":  "1991-08-19",
     "birth_place":  "Вінниця, Україна",
-    "documents":  [{"number":  "120518", "type":  "PASSPORT"}],
+    "documents":  [{"number":  "120518", "type":  "PASSPORT", "issued_at": "1988-02-03", "issued_by": "FDSF"}],
     "email":  "m.miliaieva@gmail.com",
     "first_name":  "Петро",
     "gender":  "MALE",
     "last_name":  "Іванов",
-    "phones":  [{"number":  "+380503410870", "type":  "MOBILE"}],
+    "phones":  [{"number":  "+380503410870", "type":  "MOBILE", "public": true}],
     "position":  "Голова правління",
     "second_name":  "Миколайович",
     "tax_id":  "3067305998"
