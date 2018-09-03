@@ -263,7 +263,6 @@ defmodule EHealth.EmployeeRequests do
       "specialities",
       data |> Map.get("specialities") |> Enum.map(&Map.delete(&1, "speciality_officio"))
     )
-    |> IO.inspect
     |> Map.put("science_degree", Map.get(data, "science_degree"))
   end
 

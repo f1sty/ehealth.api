@@ -19,8 +19,6 @@ defmodule EHealth.Parties.Legalization do
     field(:issued_date, :date)
     field(:number, :string)
     field(:institution_name, :string)
-
-    timestamps()
   end
 
   def changeset(legal, attrs) do

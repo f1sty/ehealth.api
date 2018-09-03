@@ -93,8 +93,6 @@ defmodule EHealth.Parties do
       science_degree: [],
       users: []
     )
-    # PRMRepo.get(Party, id)
-    # |> PRMRepo.preload(educations: [:legalizations], phones: [], users: [])
   end
 
   def get_by_ids(ids) do
@@ -159,6 +157,7 @@ defmodule EHealth.Parties do
       :educations,
       :science_degree
     ])
+    |> PRMRepo.preload(educations: [:legalizations])
     |> cast(attrs, @fields_optional ++ @fields_required)
     |> cast_assoc(:phones)
     |> cast_assoc(:documents)
@@ -192,17 +191,29 @@ defmodule EHealth.Parties do
     |> load_references()
   end
 
-  defp load_references(%Ecto.Query{} = query), do: preload(query, :users)
+  defp load_references(%Ecto.Query{} = query) do
+    query
+    |> preload(
+      users: [],
+      educations: [:legalizations],
+      phones: [],
+      addresses: [],
+      documents: [],
+      qualifications: [],
+      specialities: [],
+      science_degree: []
+    )
+  end
   defp load_references(%Party{} = party) do
     party
-    |> PRMRepo.preload([
-      :phones,
-      :addresses,
-      :documents,
-      :specialities,
-      :qualifications,
-      :educations,
-      :science_degree
-    ])
+    |> PRMRepo.preload(
+      educations: [:legalizations],
+      phones: [],
+      addresses: [],
+      documents: [],
+      qualifications: [],
+      specialities: [],
+      science_degree: []
+    )
   end
 end

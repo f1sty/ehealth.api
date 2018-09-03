@@ -86,34 +86,12 @@ defmodule EHealth.Employees do
     Employee
     |> get_by_id_query(id)
     |> PRMRepo.one!()
-    |> PRMRepo.preload(:provided_services)
-    |> PRMRepo.preload(:party)
-    |> PRMRepo.preload(party: [
-      :phones,
-      :addresses,
-      :documents,
-      :specialities,
-      :qualifications,
-      :educations,
-      :science_degree
-    ])
   end
 
   def get_by_id(id) do
     Employee
     |> get_by_id_query(id)
     |> PRMRepo.one()
-    |> PRMRepo.preload(:provided_services)
-    |> PRMRepo.preload(:party)
-    |> PRMRepo.preload(party: [
-      :phones,
-      :addresses,
-      :documents,
-      :specialities,
-      :qualifications,
-      :educations,
-      :science_degree
-    ])
   end
 
   def get_by_id(id, headers) do
@@ -124,16 +102,15 @@ defmodule EHealth.Employees do
          :ok <- authorize_legal_entity_id(employee.legal_entity_id, client_id, client_type) do
       {:ok,
        employee
-       |> PRMRepo.preload(:party)
-        |> PRMRepo.preload(party: [
-          :phones,
-          :addresses,
-          :documents,
-          :specialities,
-          :qualifications,
-          :educations,
-          :science_degree
-        ])
+       |> PRMRepo.preload(party: [
+         :phones,
+         :addresses,
+         :documents,
+         :specialities,
+         :qualifications,
+         :educations,
+         :science_degree
+       ])
        |> PRMRepo.preload(:division)
        |> PRMRepo.preload(:legal_entity)}
     end
@@ -143,8 +120,27 @@ defmodule EHealth.Employees do
     query
     |> where([e], e.id == ^id)
     |> join(:left, [e], p in assoc(e, :party))
+    |> join(:left, [..., p], ed in assoc(p, :educations))
+    |> join(:left, [..., ed], l in assoc(ed, :legalizations))
+    |> join(:left, [_, p, _], a in assoc(p, :addresses))
+    |> join(:left, [_, p, _], d in assoc(p, :documents))
+    |> join(:left, [_, p, _], sp in assoc(p, :specialities))
+    |> join(:left, [_, p, _], ph in assoc(p, :phones))
+    |> join(:left, [_, p, _], q in assoc(p, :qualifications))
+    |> join(:left, [_, p, _], sd in assoc(p, :science_degree))
     |> join(:left, [e], le in assoc(e, :legal_entity))
-    |> preload([e, p, le], party: p, legal_entity: le)
+    |> join(:left, [e], s in assoc(e, :provided_services))
+    |> preload([e, p, ed, l, a, d, sp, ph, q, sd, le, s],
+               party: {
+                 p,
+                 educations: {ed, legalizations: l}, 
+                 addresses: a,
+                 documents: d,
+                 specialities: sp,
+                 phones: ph,
+                 qualifications: q,
+                 science_degree: sd
+               }, legal_entity: le, provided_services: s)
   end
 
   def get_by_ids(ids) when is_list(ids) do
@@ -278,11 +274,11 @@ defmodule EHealth.Employees do
     employee
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> required_fields(employee)
-    |> put_additional_info(attrs)
     |> validate_employee_type()
     |> foreign_key_constraint(:legal_entity_id)
     |> foreign_key_constraint(:division_id)
     |> foreign_key_constraint(:party_id)
+    # |> put_additional_info(attrs)
   end
 
   defp required_fields(changeset, %Employee{employee_type: "DOCTOR"}) do
@@ -319,14 +315,34 @@ defmodule EHealth.Employees do
 
   defp load_references(%Ecto.Query{} = query) do
     query
-    |> preload(:party)
+    |> preload(party: [
+      :phones,
+      :addresses,
+      :documents,
+      :specialities,
+      :qualifications,
+      :educations,
+      :science_degree
+    ])
+    |> preload(party: [educations: [:legalizations]])
+    |> preload(:provided_services)
     |> preload(:division)
     |> preload(:legal_entity)
   end
 
   defp load_references(%Employee{} = employee) do
     employee
-    |> PRMRepo.preload(:party)
+    |> PRMRepo.preload(party: [
+      :phones,
+      :addresses,
+      :documents,
+      :specialities,
+      :qualifications,
+      :educations,
+      :science_degree
+    ])
+    |> PRMRepo.preload(party: [educations: [:legalizations]])
+    |> PRMRepo.preload(:provided_services)
     |> PRMRepo.preload(:division)
     |> PRMRepo.preload(:legal_entity)
   end
