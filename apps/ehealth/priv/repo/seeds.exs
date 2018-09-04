@@ -27,3 +27,15 @@ Repo.delete_all(Dictionary)
 end)
 |> Enum.map(&struct(%Dictionary{}, &1))
 |> Enum.each(&Repo.insert!/1)
+
+:ehealth
+|> Application.app_dir("priv/repo/fixtures/dk_code.json")
+|> File.read!()
+|> Jason.decode!()
+|> Enum.map(fn item ->
+  Enum.reduce(item, %{}, fn {k, v}, acc ->
+    Map.put(acc, String.to_atom(k), v)
+  end)
+end)
+|> Enum.map(&struct(%Dictionary{}, &1))
+|> Enum.each(&Repo.insert!/1)
