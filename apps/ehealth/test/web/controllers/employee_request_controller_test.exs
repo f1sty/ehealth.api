@@ -556,7 +556,7 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
     test "with invalid party documents", %{conn: conn} do
       %{legal_entity_id: legal_entity_id} = insert(:prm, :division, id: "b075f148-7f93-4fc2-b2ec-2d81b19a9b7b")
 
-      doc = %{"type" => "PASSPORT", "number" => "120518"}
+      doc = %{"type" => "PASSPORT", "number" => "120518", "issued_by" => "RUVD", "issued_at" => "1988-02-02"}
       employee_request_params = put_in(doctor_request(), ["employee_request", "party", "documents"], [doc, doc])
 
       conn = put_client_id_header(conn, legal_entity_id)
@@ -564,7 +564,6 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
 
       resp = json_response(conn1, 422)
       assert Map.has_key?(resp, "error")
-
       assert "$.employee_request.party.documents[1].type" ==
                resp
                |> get_in(["error", "invalid"])
@@ -575,7 +574,7 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
     test "with invalid party phones", %{conn: conn} do
       %{legal_entity_id: legal_entity_id} = insert(:prm, :division, id: "b075f148-7f93-4fc2-b2ec-2d81b19a9b7b")
 
-      ph = %{"type" => "MOBILE", "number" => "+380503410870"}
+      ph = %{"type" => "MOBILE", "number" => "+380503410870", "public" => true}
       employee_request_params = put_in(doctor_request(), ["employee_request", "party", "phones"], [ph, ph])
 
       conn = put_client_id_header(conn, legal_entity_id)

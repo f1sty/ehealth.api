@@ -35,7 +35,8 @@ defmodule EHealth.PartyUsers do
     entity
     |> where(^Map.to_list(changes))
     |> join(:left, [pu], p in assoc(pu, :party))
-    |> preload([pu, p], party: p)
+    |> join(:left, [..., p], ph in assoc(p, :phones))
+    |> preload([pu, p, ph], party: {p, phones: ph})
   end
 
   def create(party_id, user_id) do

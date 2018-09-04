@@ -133,7 +133,7 @@ defmodule EHealth.Employees do
     |> preload([e, p, ed, l, a, d, sp, ph, q, sd, le, s],
                party: {
                  p,
-                 educations: {ed, legalizations: l}, 
+                 educations: {ed, legalizations: l},
                  addresses: a,
                  documents: d,
                  specialities: sp,
@@ -274,11 +274,11 @@ defmodule EHealth.Employees do
     employee
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> required_fields(employee)
+    |> put_additional_info(attrs)
     |> validate_employee_type()
     |> foreign_key_constraint(:legal_entity_id)
     |> foreign_key_constraint(:division_id)
     |> foreign_key_constraint(:party_id)
-    # |> put_additional_info(attrs)
   end
 
   defp required_fields(changeset, %Employee{employee_type: "DOCTOR"}) do
@@ -293,15 +293,17 @@ defmodule EHealth.Employees do
     validate_required(changeset, @required_fields)
   end
 
-  defp put_additional_info(%Ecto.Changeset{valid?: true} = changeset, %{"doctor" => doctor}) do
+  defp put_additional_info(%Ecto.Changeset{valid?: true} = changeset, %{"doctor" => doctor} = attrs) do
     put_change(changeset, :additional_info, doctor)
   end
 
-  defp put_additional_info(%Ecto.Changeset{valid?: true} = changeset, %{"pharmacist" => pharmacist}) do
+  defp put_additional_info(%Ecto.Changeset{valid?: true} = changeset, %{"pharmacist" => pharmacist} = attrs) do
     put_change(changeset, :additional_info, pharmacist)
   end
 
-  defp put_additional_info(changeset, _), do: changeset
+  defp put_additional_info(changeset, attrs) do
+    changeset
+  end
 
   defp validate_employee_type(%Ecto.Changeset{changes: %{employee_type: @doctor}} = changeset) do
     validate_required(changeset, [:additional_info])

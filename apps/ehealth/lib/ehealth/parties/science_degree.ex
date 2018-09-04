@@ -1,4 +1,5 @@
 defmodule EHealth.Parties.ScienceDegree do
+  @moduledoc false
 
   use Ecto.Schema
 

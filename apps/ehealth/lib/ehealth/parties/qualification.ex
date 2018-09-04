@@ -1,4 +1,5 @@
 defmodule EHealth.Parties.Qualification do
+  @moduledoc false
 
   use Ecto.Schema
 

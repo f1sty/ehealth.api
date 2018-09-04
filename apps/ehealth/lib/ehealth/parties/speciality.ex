@@ -2,7 +2,7 @@ defmodule EHealth.Parties.Speciality do
   @moduledoc false
 
   use Ecto.Schema
- 
+
   import Ecto.Changeset, warn: false
 
   @derive {Jason.Encoder, except: [:__meta__]}

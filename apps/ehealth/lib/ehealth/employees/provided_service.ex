@@ -1,4 +1,5 @@
 defmodule EHealth.Employees.ProvidedService do
+  @moduledoc false
 
   use Ecto.Schema
 

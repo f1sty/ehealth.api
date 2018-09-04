@@ -99,6 +99,16 @@ defmodule EHealth.Parties do
     Party
     |> where([e], e.id in ^ids)
     |> PRMRepo.all()
+    |> PRMRepo.preload(
+      educations: [:legalizations],
+      phones: [],
+      addresses: [],
+      documents: [],
+      qualifications: [],
+      specialities: [],
+      science_degree: [],
+      users: []
+    )
   end
 
   def get_by_user_id(user_id) do
@@ -207,6 +217,7 @@ defmodule EHealth.Parties do
   defp load_references(%Party{} = party) do
     party
     |> PRMRepo.preload(
+      users: [],
       educations: [:legalizations],
       phones: [],
       addresses: [],

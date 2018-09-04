@@ -393,6 +393,18 @@
                                     },
                                     "certificate_number": {
                                         "type": "string"
+                                    },
+                                    "attestation_results": {
+                                        "type": "string"
+                                    },
+                                    "order_date": {
+                                        "type": "string"
+                                    },
+                                    "order_institution_name": {
+                                        "type": "string"
+                                    },
+                                    "order_number": {
+                                        "type": "string"
                                     }
                                 },
                                 "required": [

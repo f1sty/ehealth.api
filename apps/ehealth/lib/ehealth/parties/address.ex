@@ -7,14 +7,13 @@ defmodule EHealth.Parties.Address do
 
   @derive {Jason.Encoder, except: [:__meta__]}
 
-  @fields ~w(
+  @required_fields ~w(
     type
     country
     area
     region
     settlement_type
     settlement
-    settlement_id
     street_type
     street
     building
@@ -41,7 +40,7 @@ defmodule EHealth.Parties.Address do
 
   def changeset(addr, attrs) do
     addr
-    |> cast(attrs, @fields)
-    |> validate_required(@fields)
+    |> cast(attrs, @required_fields ++ [:settlement_id])
+    |> validate_required(@required_fields)
   end
 end

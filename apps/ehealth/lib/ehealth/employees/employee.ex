@@ -41,7 +41,7 @@ defmodule EHealth.Employees.Employee do
     field(:updated_by, Ecto.UUID)
     field(:inserted_by, Ecto.UUID)
     field(:employment_status, :map)
-    field(:emplyee_category, :string)
+    field(:employee_category, :string)
     field(:position_level, :string)
     field(:speciality_nomenclature, :string)
     field(:dk_code, :string)

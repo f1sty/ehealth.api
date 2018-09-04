@@ -181,12 +181,15 @@ defmodule EHealth.Web.EmployeeView do
 
   defp get_employee_specialities(employee) do
     speciality = employee.speciality
+                 |> Map.drop(~w(id party_id inserted_at updated_at __meta__))
     party_specialities = employee.party.specialities || []
 
     party_specialities =
       party_specialities
-      |> Enum.filter(&(Map.get(&1, "speciality") != speciality["speciality"]))
-      |> Enum.map(&Map.put(&1, "speciality_officio", false))
+      |> Enum.map(&Map.from_struct/1)
+      |> Enum.map(&Map.drop(&1, ~w(id party_id inserted_at updated_at __meta__)a))
+      |> Enum.filter(&(Map.get(&1, :speciality) != speciality["speciality"]))
+      |> Enum.map(&Map.put(&1, :speciality_officio, false))
 
     case speciality do
       nil -> party_specialities

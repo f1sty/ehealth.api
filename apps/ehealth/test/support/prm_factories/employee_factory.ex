@@ -16,6 +16,11 @@ defmodule EHealth.PRMFactories.EmployeeFactory do
           employee_type: "DOCTOR",
           end_date: ~D[2012-04-17],
           start_date: ~D[2017-08-07],
+          employment_status: %{},
+          employee_category: "SPECIALIST",
+          position_level: "SPECIALIST_DOCTOR",
+          speciality_nomenclature: "ALLERGIST",
+          dk_code: "2221.2",
           party: party,
           division: division,
           legal_entity_id: division.legal_entity.id,
@@ -29,6 +34,14 @@ defmodule EHealth.PRMFactories.EmployeeFactory do
       def doctor do
         %{
           "science_degree" => %{
+            "academic_status" => "PHD",
+            "degree_country" => "UA",
+            "degree_city" => "Київ",
+            "degree_institution_name" => "Академія Богомольця",
+            "degree_science_domain" => "PHYSICS",
+            "science_domain" => "BIOLOGY",
+            "speciality_group" => "CLINICAL",
+            "code" => "14.01.2003",
             "country" => "UA",
             "city" => "Kyiv",
             "degree" => Enum.random(doctor_science_degrees()),
@@ -39,6 +52,19 @@ defmodule EHealth.PRMFactories.EmployeeFactory do
           },
           "qualifications" => [
             %{
+              "related_to" => %{
+                "type" => "HIV",
+                "sub_type" => "RESERVED"
+              },
+              "course_name" => "Новітні методи у хірургії",
+              "form" => "FULL_TIME",
+              "duration" => "2",
+              "duration_units" => "WEEKS",
+              "results" => 0.82,
+              "start_date" => ~D"2017-06-01",
+              "end_date" => ~D"2017-06-15",
+              "valid_to" => ~D"2017-10-10",
+              "additional_info" => "additional info",
               "type" => Enum.random(doctor_types()),
               "institution_name" => "random string",
               "speciality" => Enum.random(doctor_specialities()),
@@ -48,6 +74,17 @@ defmodule EHealth.PRMFactories.EmployeeFactory do
           ],
           "educations" => [
             %{
+              "speciality" => "Біологія",
+              "speciality_code" => "091",
+              "form" => "FULL_TIME",
+              "legalized" => true,
+              "legalizations" => [
+                %{
+                  "issued_date" => ~D"1988-04-23",
+                  "number" => "AC438942",
+                  "institution_name" => "American Institute of Chemists"
+                }
+              ],
               "country" => "UA",
               "city" => "Kyiv",
               "degree" => Enum.random(doctor_degrees()),
@@ -63,6 +100,10 @@ defmodule EHealth.PRMFactories.EmployeeFactory do
 
       def speciality do
         %{
+          "order_date" => ~D"2016-02-12",
+          "order_number" => "X23454",
+          "order_institution_name" => "Богомольця",
+          "attestation_results" => "BA",
           "speciality" => Enum.random(doctor_specialities()),
           "speciality_officio" => true,
           "level" => Enum.random(doctor_levels()),

@@ -661,6 +661,18 @@
           "description": "Dictionary: EMPLOYEE_TYPE"
         },
         "employment_status": {
+            "type": "object"
+        },
+        "employee_category": {
+            "type": "string"
+        },
+        "position_level": {
+            "type": "string"
+        },
+        "speciality_nomenclature": {
+            "type": "string"
+        },
+        "dk_code": {
             "type": "string"
         },
         "provided_services": {

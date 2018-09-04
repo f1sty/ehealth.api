@@ -1,4 +1,5 @@
 defmodule EHealth.Parties.Legalization do
+  @moduledoc false
 
   use Ecto.Schema
 

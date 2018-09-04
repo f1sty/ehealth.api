@@ -11,6 +11,7 @@ defmodule EHealth.Factories do
   use EHealth.PRMFactories.DivisionFactory
   use EHealth.PRMFactories.EmployeeFactory
   use EHealth.PRMFactories.PartyFactory
+  use EHealth.PRMFactories.SpecialityFactory
   use EHealth.PRMFactories.MedicationFactory
   use EHealth.PRMFactories.MedicalProgramFactory
   use EHealth.PRMFactories.BlackListUserFactory
@@ -34,6 +35,7 @@ defmodule EHealth.Factories do
 
   alias EHealth.Repo
   alias EHealth.PRMRepo
+  alias Ecto.UUID
 
   def insert(type, factory, attrs \\ []) do
     factory

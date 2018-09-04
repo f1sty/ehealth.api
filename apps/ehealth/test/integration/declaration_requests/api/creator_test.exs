@@ -196,7 +196,11 @@ defmodule EHealth.Integraiton.DeclarationRequest.API.CreateTest do
             level: "Перша категорія",
             certificate_number: "random string",
             attestation_name: "random string",
-            attestation_date: "1987-04-17"
+            attestation_date: "1987-04-17",
+            attestation_results: "BA",
+            order_date: "2016-02-12",
+            order_institution_name: "Богомольця",
+            order_number: "X23454"
           }
         },
         division: %{
@@ -344,7 +348,11 @@ defmodule EHealth.Integraiton.DeclarationRequest.API.CreateTest do
             level: "Перша категорія",
             certificate_number: "random string",
             attestation_name: "random string",
-            attestation_date: "1987-04-17"
+            attestation_date: "1987-04-17",
+            attestation_results: "BA",
+            order_date: "2016-02-12",
+            order_institution_name: "Богомольця",
+            order_number: "X23454"
           }
         },
         division: %{
