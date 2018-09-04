@@ -195,65 +195,63 @@ defmodule EHealth.Web.EmployeesControllerTest do
       legal_entity = insert(:prm, :legal_entity, id: "7cc91a5d-c02f-41e9-b571-1ea4f2375552")
 
       speciality_officio = build(:speciality)
-        # %EHealth.Parties.Speciality{
-        #   order_date: ~D"2016-02-12",
-        #   order_number: "X23454",
-        #   order_institution_name: "Богомольця",
-        #   attestation_results: "BA",
-        #   speciality: "Педіатр",
-        #   speciality_officio: true,
-        #   level: "Перша категорія",
-        #   qualification_type: "Присвоєння",
-        #   attestation_name: "random string",
-        #   attestation_date: ~D[1987-04-17],
-        #   valid_to_date: ~D[1987-04-17],
-        #   certificate_number: "random string"
-        # }
-        # "speciality" => "PEDIATRICIAN",
-        # "level" => "Перша категорія",
-        # "qualification_type" => "Присвоєння",
-        # "attestation_name" => "Академія Богомольця",
-        # "attestation_date" => "2017-08-04",
-        # "valid_to_date" => "2017-08-05",
-        # "certificate_number" => "AB/21331",
-        # "speciality_officio" => true,
-        # "order_date" => "2017-01-02",
-        # "order_number" => "X23423",
-        # "order_institution_name" => "Богомольця",
-        # "attestation_results" => "BA"
+      # %EHealth.Parties.Speciality{
+      #   order_date: ~D"2016-02-12",
+      #   order_number: "X23454",
+      #   order_institution_name: "Богомольця",
+      #   attestation_results: "BA",
+      #   speciality: "Педіатр",
+      #   speciality_officio: true,
+      #   level: "Перша категорія",
+      #   qualification_type: "Присвоєння",
+      #   attestation_name: "random string",
+      #   attestation_date: ~D[1987-04-17],
+      #   valid_to_date: ~D[1987-04-17],
+      #   certificate_number: "random string"
+      # }
+      # "speciality" => "PEDIATRICIAN",
+      # "level" => "Перша категорія",
+      # "qualification_type" => "Присвоєння",
+      # "attestation_name" => "Академія Богомольця",
+      # "attestation_date" => "2017-08-04",
+      # "valid_to_date" => "2017-08-05",
+      # "certificate_number" => "AB/21331",
+      # "speciality_officio" => true,
+      # "order_date" => "2017-01-02",
+      # "order_number" => "X23423",
+      # "order_institution_name" => "Богомольця",
+      # "attestation_results" => "BA"
       # }
 
-      specialities = [
-        speciality_officio,
-        build(:speciality, speciality: "Фармацевт", speciality_officio: false)]
-        # %EHealth.Parties.Speciality{
-        #   order_date: ~D"2016-02-12",
-        #   order_number: "X23454",
-        #   order_institution_name: "Богомольця",
-        #   attestation_results: "BA",
-        #   speciality: "Педіатр",
-        #   speciality_officio: false,
-        #   level: "Перша категорія",
-        #   qualification_type: "Присвоєння",
-        #   attestation_name: "random string",
-        #   attestation_date: ~D[1987-04-17],
-        #   valid_to_date: ~D[1987-04-17],
-        #   certificate_number: "random string"
-        # }
-        # %{
-        #   "speciality" => "PHARMACIST",
-        #   "level" => "Перша категорія",
-        #   "qualification_type" => "Присвоєння",
-        #   "attestation_name" => "Академія Богомольця",
-        #   "attestation_date" => "2017-08-04",
-        #   "valid_to_date" => "2017-08-05",
-        #   "certificate_number" => "AB/21331",
-        #   "speciality_officio" => false,
-        #   "order_date" => "2017-01-02",
-        #   "order_number" => "X23423",
-        #   "order_institution_name" => "Богомольця",
-        #   "attestation_results" => "BA"
-        # }
+      specialities = [speciality_officio, build(:speciality, speciality: "Фармацевт", speciality_officio: false)]
+      # %EHealth.Parties.Speciality{
+      #   order_date: ~D"2016-02-12",
+      #   order_number: "X23454",
+      #   order_institution_name: "Богомольця",
+      #   attestation_results: "BA",
+      #   speciality: "Педіатр",
+      #   speciality_officio: false,
+      #   level: "Перша категорія",
+      #   qualification_type: "Присвоєння",
+      #   attestation_name: "random string",
+      #   attestation_date: ~D[1987-04-17],
+      #   valid_to_date: ~D[1987-04-17],
+      #   certificate_number: "random string"
+      # }
+      # %{
+      #   "speciality" => "PHARMACIST",
+      #   "level" => "Перша категорія",
+      #   "qualification_type" => "Присвоєння",
+      #   "attestation_name" => "Академія Богомольця",
+      #   "attestation_date" => "2017-08-04",
+      #   "valid_to_date" => "2017-08-05",
+      #   "certificate_number" => "AB/21331",
+      #   "speciality_officio" => false,
+      #   "order_date" => "2017-01-02",
+      #   "order_number" => "X23423",
+      #   "order_institution_name" => "Богомольця",
+      #   "attestation_results" => "BA"
+      # }
 
       party1 =
         insert(
@@ -264,12 +262,18 @@ defmodule EHealth.Web.EmployeesControllerTest do
         )
 
       # speciality_officio = speciality_officio |> Jason.encode! |> Jason.decode!
-      specialities = specialities
-                     |> Jason.encode!
-                     |> Jason.decode!
-                     |> Enum.map(&Map.drop(&1, ~w(id party_id inserted_at updated_at)))
-      employee = insert(:prm, :employee, legal_entity: legal_entity, party: party1, speciality: Map.from_struct(speciality_officio) |> Map.delete(:__meta__))
+      specialities =
+        specialities
+        |> Jason.encode!()
+        |> Jason.decode!()
+        |> Enum.map(&Map.drop(&1, ~w(id party_id inserted_at updated_at)))
 
+      employee =
+        insert(:prm, :employee,
+          legal_entity: legal_entity,
+          party: party1,
+          speciality: Map.from_struct(speciality_officio) |> Map.delete(:__meta__)
+        )
 
       expect(ReportMock, :get_declaration_count, 2, fn _, _ ->
         {:ok, %{"data" => [%{"id" => "#{employee.party_id}", "declaration_count" => 10}]}}

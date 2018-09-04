@@ -102,15 +102,17 @@ defmodule EHealth.Employees do
          :ok <- authorize_legal_entity_id(employee.legal_entity_id, client_id, client_type) do
       {:ok,
        employee
-       |> PRMRepo.preload(party: [
-         :phones,
-         :addresses,
-         :documents,
-         :specialities,
-         :qualifications,
-         :educations,
-         :science_degree
-       ])
+       |> PRMRepo.preload(
+         party: [
+           :phones,
+           :addresses,
+           :documents,
+           :specialities,
+           :qualifications,
+           :educations,
+           :science_degree
+         ]
+       )
        |> PRMRepo.preload(:division)
        |> PRMRepo.preload(:legal_entity)}
     end
@@ -131,16 +133,19 @@ defmodule EHealth.Employees do
     |> join(:left, [e], le in assoc(e, :legal_entity))
     |> join(:left, [e], s in assoc(e, :provided_services))
     |> preload([e, p, ed, l, a, d, sp, ph, q, sd, le, s],
-               party: {
-                 p,
-                 educations: {ed, legalizations: l},
-                 addresses: a,
-                 documents: d,
-                 specialities: sp,
-                 phones: ph,
-                 qualifications: q,
-                 science_degree: sd
-               }, legal_entity: le, provided_services: s)
+      party: {
+        p,
+        educations: {ed, legalizations: l},
+        addresses: a,
+        documents: d,
+        specialities: sp,
+        phones: ph,
+        qualifications: q,
+        science_degree: sd
+      },
+      legal_entity: le,
+      provided_services: s
+    )
   end
 
   def get_by_ids(ids) when is_list(ids) do
@@ -317,15 +322,17 @@ defmodule EHealth.Employees do
 
   defp load_references(%Ecto.Query{} = query) do
     query
-    |> preload(party: [
-      :phones,
-      :addresses,
-      :documents,
-      :specialities,
-      :qualifications,
-      :educations,
-      :science_degree
-    ])
+    |> preload(
+      party: [
+        :phones,
+        :addresses,
+        :documents,
+        :specialities,
+        :qualifications,
+        :educations,
+        :science_degree
+      ]
+    )
     |> preload(party: [educations: [:legalizations]])
     |> preload(:provided_services)
     |> preload(:division)
@@ -334,15 +341,17 @@ defmodule EHealth.Employees do
 
   defp load_references(%Employee{} = employee) do
     employee
-    |> PRMRepo.preload(party: [
-      :phones,
-      :addresses,
-      :documents,
-      :specialities,
-      :qualifications,
-      :educations,
-      :science_degree
-    ])
+    |> PRMRepo.preload(
+      party: [
+        :phones,
+        :addresses,
+        :documents,
+        :specialities,
+        :qualifications,
+        :educations,
+        :science_degree
+      ]
+    )
     |> PRMRepo.preload(party: [educations: [:legalizations]])
     |> PRMRepo.preload(:provided_services)
     |> PRMRepo.preload(:division)

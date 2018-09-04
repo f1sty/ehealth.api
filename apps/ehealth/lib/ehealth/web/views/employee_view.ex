@@ -180,8 +180,10 @@ defmodule EHealth.Web.EmployeeView do
   defp put_list_info(map, _), do: map
 
   defp get_employee_specialities(employee) do
-    speciality = employee.speciality
-                 |> Map.drop(~w(id party_id inserted_at updated_at __meta__))
+    speciality =
+      employee.speciality
+      |> Map.drop(~w(id party_id inserted_at updated_at __meta__))
+
     party_specialities = employee.party.specialities || []
 
     party_specialities =

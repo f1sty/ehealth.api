@@ -564,6 +564,7 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
 
       resp = json_response(conn1, 422)
       assert Map.has_key?(resp, "error")
+
       assert "$.employee_request.party.documents[1].type" ==
                resp
                |> get_in(["error", "invalid"])
@@ -989,7 +990,7 @@ defmodule EHealth.Web.EmployeeRequestControllerTest do
                  "legal_entity_name" => ^legal_entity_name,
                  "first_name" => "Петро",
                  "second_name" => "Миколайович",
-                 "last_name" => "Іванов",
+                 "last_name" => "Іванов"
                }
              ] = resp["data"]
     end

@@ -6,7 +6,7 @@ defmodule EHealth.Parties do
   import Ecto.{Query, Changeset}, warn: false
 
   alias EHealth.PRMRepo
-  alias EHealth.Parties.{Party, Search, Phone, Document, Address}
+  alias EHealth.Parties.{Party, Search}
 
   # Party users
 
@@ -214,6 +214,7 @@ defmodule EHealth.Parties do
       science_degree: []
     )
   end
+
   defp load_references(%Party{} = party) do
     party
     |> PRMRepo.preload(

@@ -28,5 +28,4 @@ defmodule EHealth.Validators.Cache do
     :ets.insert(__MODULE__, {key, schema})
     :ok
   end
-
 end
