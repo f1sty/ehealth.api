@@ -1,5 +1,17 @@
 [
   {
+    "name": "LANG_LEVEL",
+    "values": {
+      "BEGINNER": "початковий",
+      "INTERMEDIATE": "середній"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
     "name": "ISO_LANG_CODE",
     "values": {
       "ar": "Arabic",

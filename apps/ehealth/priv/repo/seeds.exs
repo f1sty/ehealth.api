@@ -17,7 +17,7 @@ prefix = "priv/repo/fixtures/"
 dict_files = ~w(
   dictionaries.json
   dk_code.json
-  iso_lang_code.json
+  lang_skills.json
 )
 # truncate table
 Repo.delete_all(Dictionary)
