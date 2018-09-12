@@ -40,11 +40,11 @@
       "personal_email": "goofy@demo.com",
       "language_skills": [
       	{
-          "language": "UA",
+          "language": "uk",
           "language_level": "PROFICIENT"
         },
         {
-          "language": "EN",
+          "language": "en",
           "language_level": "INTERMEDIATE"
         }
       ],

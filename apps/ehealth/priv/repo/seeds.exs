@@ -13,29 +13,29 @@
 alias EHealth.Dictionaries.Dictionary
 alias EHealth.Repo
 
+prefix = "priv/repo/fixtures/"
+dict_files = ~w(
+  dictionaries.json
+  dk_code.json
+  iso_lang_code.json
+)
 # truncate table
 Repo.delete_all(Dictionary)
 
-:ehealth
-|> Application.app_dir("priv/repo/fixtures/dictionaries.json")
-|> File.read!()
-|> Jason.decode!()
-|> Enum.map(fn item ->
-  Enum.reduce(item, %{}, fn {k, v}, acc ->
-    Map.put(acc, String.to_atom(k), v)
-  end)
-end)
-|> Enum.map(&struct(%Dictionary{}, &1))
-|> Enum.each(&Repo.insert!/1)
+defmodule EHealth.Seed do
+  def seed(dict_filename) do
+    :ehealth
+    |> Application.app_dir(dict_filename)
+    |> File.read!()
+    |> Jason.decode!()
+    |> Enum.map(fn item ->
+      Enum.reduce(item, %{}, fn {k, v}, acc ->
+        Map.put(acc, String.to_atom(k), v)
+      end)
+    end)
+    |> Enum.map(&struct(%Dictionary{}, &1))
+    |> Enum.each(&Repo.insert!/1)
+  end
+end
 
-:ehealth
-|> Application.app_dir("priv/repo/fixtures/dk_code.json")
-|> File.read!()
-|> Jason.decode!()
-|> Enum.map(fn item ->
-  Enum.reduce(item, %{}, fn {k, v}, acc ->
-    Map.put(acc, String.to_atom(k), v)
-  end)
-end)
-|> Enum.map(&struct(%Dictionary{}, &1))
-|> Enum.each(&Repo.insert!/1)
+Enum.each(dict_files, &EHealth.Seed.seed(prefix <> &1))

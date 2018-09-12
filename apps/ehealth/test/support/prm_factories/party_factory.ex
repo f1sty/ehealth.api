@@ -22,7 +22,7 @@ defmodule EHealth.PRMFactories.PartyFactory do
           personal_email: "test@gmail.com",
           language_skills: [
             %EHealth.Parties.LanguageSkill{
-              language: "UK",
+              language: "uk",
               language_level: "INTERMEDIATE"
             }
           ],

@@ -110,18 +110,6 @@
     "is_active": true
   },
   {
-    "name": "ISO_LANG_CODE",
-    "values": {
-      "UK": "Українська",
-      "EN": "English"
-    },
-    "labels": [
-      "SYSTEM",
-      "EXTERNAL"
-    ],
-    "is_active": true
-  },
-  {
     "name": "PROVIDED_SERVICE_TYPE",
     "values": {
       "HIV": "test value",
