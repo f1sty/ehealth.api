@@ -69,7 +69,7 @@ defmodule EHealth.Parties do
       documents: [],
       qualifications: [],
       specialities: [],
-      science_degree: [],
+      science_degrees: [],
       users: []
     )
 
@@ -90,7 +90,7 @@ defmodule EHealth.Parties do
       documents: [],
       qualifications: [],
       specialities: [],
-      science_degree: [],
+      science_degrees: [],
       users: []
     )
   end
@@ -106,7 +106,7 @@ defmodule EHealth.Parties do
       documents: [],
       qualifications: [],
       specialities: [],
-      science_degree: [],
+      science_degrees: [],
       users: []
     )
   end
@@ -165,7 +165,7 @@ defmodule EHealth.Parties do
       :specialities,
       :qualifications,
       :educations,
-      :science_degree
+      :science_degrees
     ])
     |> PRMRepo.preload(educations: [:legalizations])
     |> cast(attrs, @fields_optional ++ @fields_required)
@@ -175,7 +175,7 @@ defmodule EHealth.Parties do
     |> cast_assoc(:educations)
     |> cast_assoc(:specialities)
     |> cast_assoc(:qualifications)
-    |> cast_assoc(:science_degree)
+    |> cast_assoc(:science_degrees)
     |> cast_embed(:language_skills)
     |> cast_embed(:retirements)
     |> validate_required(@fields_required ++ @embed_required)
@@ -211,7 +211,7 @@ defmodule EHealth.Parties do
       documents: [],
       qualifications: [],
       specialities: [],
-      science_degree: []
+      science_degrees: []
     )
   end
 
@@ -225,7 +225,7 @@ defmodule EHealth.Parties do
       documents: [],
       qualifications: [],
       specialities: [],
-      science_degree: []
+      science_degrees: []
     )
   end
 end

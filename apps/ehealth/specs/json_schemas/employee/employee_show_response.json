@@ -107,39 +107,8 @@
         "specialities": {
           "type": "array"
         },
-        "science_degree": {
-          "type": "object",
-          "properties": {
-            "country": {
-              "type": "string"
-            },
-            "city": {
-              "type": "string"
-            },
-            "degree": {
-              "type": "string"
-            },
-            "institution_name": {
-              "type": "string"
-            },
-            "diploma_number": {
-              "type": "string"
-            },
-            "speciality": {
-              "type": "string"
-            },
-            "issued_date": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "country",
-            "city",
-            "degree",
-            "institution_name",
-            "diploma_number",
-            "speciality"
-          ]
+        "science_degrees": {
+          "type": "array"
         }
       },
       "required": [
@@ -160,39 +129,8 @@
         "specialities": {
           "type": "array"
         },
-        "science_degree": {
-          "type": "object",
-          "properties": {
-            "country": {
-              "type": "string"
-            },
-            "city": {
-              "type": "string"
-            },
-            "degree": {
-              "type": "string"
-            },
-            "institution_name": {
-              "type": "string"
-            },
-            "diploma_number": {
-              "type": "string"
-            },
-            "speciality": {
-              "type": "string"
-            },
-            "issued_date": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "country",
-            "city",
-            "degree",
-            "institution_name",
-            "diploma_number",
-            "speciality"
-          ]
+        "science_degrees": {
+          "type": "array"
         }
       },
       "required": [

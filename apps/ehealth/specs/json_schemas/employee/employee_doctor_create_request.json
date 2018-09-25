@@ -369,8 +369,12 @@
       },
       "minItems": 1
     },
-    "science_degree": {
-      "$ref": "#/definitions/science_degree"
+    "science_degrees": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/science_degree"
+      },
+      "minItems": 1
     }
   },
   "required": [

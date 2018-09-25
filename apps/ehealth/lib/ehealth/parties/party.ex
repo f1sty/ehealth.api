@@ -35,8 +35,7 @@ defmodule EHealth.Parties.Party do
     has_many(:educations, EHealth.Parties.Education, foreign_key: :party_id, on_replace: :delete)
     has_many(:specialities, EHealth.Parties.Speciality, foreign_key: :party_id, on_replace: :delete)
     has_many(:qualifications, EHealth.Parties.Qualification, foreign_key: :party_id, on_replace: :delete)
-
-    has_one(:science_degree, EHealth.Parties.ScienceDegree, foreign_key: :party_id, on_replace: :delete)
+    has_many(:science_degrees, EHealth.Parties.ScienceDegree, foreign_key: :party_id, on_replace: :delete)
 
     timestamps()
   end

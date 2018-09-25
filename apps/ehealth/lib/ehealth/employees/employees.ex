@@ -110,7 +110,7 @@ defmodule EHealth.Employees do
            :specialities,
            :qualifications,
            :educations,
-           :science_degree
+           :science_degrees
          ]
        )
        |> PRMRepo.preload(:division)
@@ -129,7 +129,7 @@ defmodule EHealth.Employees do
     |> join(:left, [_, p, _], sp in assoc(p, :specialities))
     |> join(:left, [_, p, _], ph in assoc(p, :phones))
     |> join(:left, [_, p, _], q in assoc(p, :qualifications))
-    |> join(:left, [_, p, _], sd in assoc(p, :science_degree))
+    |> join(:left, [_, p, _], sd in assoc(p, :science_degrees))
     |> join(:left, [e], le in assoc(e, :legal_entity))
     |> join(:left, [e], s in assoc(e, :provided_services))
     |> preload([e, p, ed, l, a, d, sp, ph, q, sd, le, s],
@@ -141,7 +141,7 @@ defmodule EHealth.Employees do
         specialities: sp,
         phones: ph,
         qualifications: q,
-        science_degree: sd
+        science_degrees: sd
       },
       legal_entity: le,
       provided_services: s
@@ -330,7 +330,7 @@ defmodule EHealth.Employees do
         :specialities,
         :qualifications,
         :educations,
-        :science_degree
+        :science_degrees
       ]
     )
     |> preload(party: [educations: [:legalizations]])
@@ -349,7 +349,7 @@ defmodule EHealth.Employees do
         :specialities,
         :qualifications,
         :educations,
-        :science_degree
+        :science_degrees
       ]
     )
     |> PRMRepo.preload(party: [educations: [:legalizations]])
