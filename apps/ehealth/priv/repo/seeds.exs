@@ -18,6 +18,7 @@ dict_files = ~w(
   dictionaries.json
   dk_code.json
   lang_skills.json
+  nomenclature.json
   education_speciality.json
 )
 # truncate table
