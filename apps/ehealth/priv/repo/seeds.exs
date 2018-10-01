@@ -20,7 +20,7 @@ dict_files = ~w(
   lang_skills.json
   nomenclature.json
   other.json
-  education_speciality.json
+  speciality_code.json
 )
 # truncate table
 Repo.delete_all(Dictionary)
