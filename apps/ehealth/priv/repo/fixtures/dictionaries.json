@@ -1,9 +1,25 @@
 [
+  {
+    "name": "QUAL_DURATION_UNIT",
+    "values": {
+        "HOUR": "години",
+        "AHOUR": "академычны години",
+        "DAY": "дні",
+        "WEEK": "тижні",
+        "MONTH": "місяці",
+        "YEAR": "роки"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
     {
 	"name": "EMPLOYMENT_TEMP_STATUS",
 	"values": {
 	    "ILLNESS": "Хвороба",
-	    "VACATION": "Відпустка",
+	    "VACATION": "Відпустка"
 	},
     "labels": [
       "SYSTEM",
@@ -51,21 +67,9 @@
   {
     "name": "ACADEMIC_STATUS",
     "values": {
-      "PHD": "Доктор філософії",
-      "DOCTOR_OF_SCIENCE": "Доктор наук",
-      "CANDIDATE_OF_SCIENCE": "Кандидат наук"
-    },
-    "labels": [
-      "SYSTEM",
-      "EXTERNAL"
-    ],
-    "is_active": true
-  },
-  {
-    "name": "SCIENCE_DOMAIN",
-    "values": {
-      "PHYSICS": "test value",
-      "BIOLOGY": "the meaning of life"
+      "PROF": "Професор",
+      "DOC": "Доцент",
+      "SEN": "Старший дослідник"
     },
     "labels": [
       "SYSTEM",
@@ -76,8 +80,8 @@
   {
     "name": "EDUCATION_FORM",
     "values": {
-      "FULL_TIME": "test value",
-      "NIGHTLY": "the meaning of life"
+      "FULL_TIME": "очна (денна, вечірня)",
+      "PART_TIME": "заочна (дистанційна)"
     },
     "labels": [
       "SYSTEM",
@@ -1302,23 +1306,6 @@
     "values": {
       "APPROVED": "Активний",
       "DISMISSED": "Звільнений"
-    },
-    "labels": [
-      "SYSTEM",
-      "EXTERNAL"
-    ],
-    "is_active": true
-  },
-  {
-    "name": "QUALIFICATION_TYPE",
-    "values": {
-      "INTERNSHIP": "Інтернатура",
-      "STAZHUVANNYA": "Стажування",
-      "REATTESTATION": "Передатестаційний цикл",
-      "SPECIALIZATION": "Спеціалізація",
-      "TOPIC_IMPROVEMENT": "Тематичне удосконалення",
-      "CLINICAL_RESIDENCY": "Клінічна ординатура",
-      "INFORMATION_COURSES": "Курси інформації"
     },
     "labels": [
       "SYSTEM",
