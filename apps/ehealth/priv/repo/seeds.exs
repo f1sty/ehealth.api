@@ -23,6 +23,7 @@ dict_files = ~w(
   speciality_code.json
   science_domain.json
   science_domain_phd.json
+  vnz.json
 )
 # truncate table
 Repo.delete_all(Dictionary)
