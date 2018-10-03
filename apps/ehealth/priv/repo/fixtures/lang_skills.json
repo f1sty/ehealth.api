@@ -3,7 +3,8 @@
     "name": "LANG_LEVEL",
     "values": {
       "BEGINNER": "початковий",
-      "INTERMEDIATE": "середній"
+      "INTERMEDIATE": "середній",
+      "FLUENT": "вільне володіння"
     },
     "labels": [
       "SYSTEM",

@@ -24,6 +24,7 @@ dict_files = ~w(
   science_domain.json
   science_domain_phd.json
   vnz.json
+  vnz_region.json
 )
 # truncate table
 Repo.delete_all(Dictionary)
