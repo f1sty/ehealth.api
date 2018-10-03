@@ -17,13 +17,16 @@ prefix = "priv/repo/fixtures/"
 dict_files = ~w(
   dictionaries.json
   dk_code.json
+  institution_name.json
   lang_skills.json
   nomenclature.json
   other.json
-  speciality_code.json
+  qualification_type.json
   science_domain.json
-  science_domain_phd.json
-  vnz.json
+  science_domain_degree.json
+  speciality.json
+  speciality_code.json
+  speciality_group.json
   vnz_region.json
 )
 # truncate table

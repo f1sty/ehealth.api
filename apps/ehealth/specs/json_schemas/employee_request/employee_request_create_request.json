@@ -17,7 +17,8 @@
         "type": "object",
         "properties": {
             "title": {
-                "type": "string"
+                "type": "string",
+                "description": "Dictionary: PROVIDED_SERVICE_SUBTYPE"
             },
             "additional": {
                 "type": "string"
@@ -57,7 +58,8 @@
           "description": "Dictionary: ADDRESS_TYPE"
         },
         "country": {
-          "type": "string"
+          "type": "string",
+          "description": "Dictionary: COUNTRY"
         },
         "area": {
           "$ref": "#/definitions/name"
@@ -129,8 +131,7 @@
       },
       "required": [
         "type",
-        "number",
-        "public"
+        "number"
       ],
       "additionalProperties": false
     },
@@ -233,7 +234,8 @@
           "$ref": "#/definitions/name"
         },
         "institution_name": {
-          "$ref": "#/definitions/name"
+          "type": "string",
+          "description": "Dictionary: INSTITUTION_NAME"
         },
         "issued_date": {
           "$ref": "#/definitions/date"
@@ -319,7 +321,7 @@
         },
         "duration_units": {
             "type": "string",
-            "description": "Dictionary: DURATION_UNITS"
+            "description": "Dictionary: QUAL_DURATION_UNIT"
         },
         "results": {
             "type": "number",
@@ -333,7 +335,8 @@
             "$ref": "#/definitions/date"
         },
         "institution_name": {
-          "$ref": "#/definitions/name"
+            "type": "string",
+            "description": "Dictionary: INSTITUTION_NAME"
         },
         "speciality": {
           "$ref": "#/definitions/name"
@@ -367,7 +370,7 @@
       "properties": {
         "speciality": {
           "type": "string",
-          "description": "Dictionary: SPECIALITY_TYPE"
+          "description": "Dictionary: SPECIALITY_NOMENCLATURE"
         },
         "speciality_officio": {
           "type": "boolean"
@@ -378,7 +381,7 @@
         },
         "qualification_type": {
           "type": "string",
-          "description": "Dictionary: SPEC_QUALIFICATION_TYPE"
+          "description": "Dictionary: QUALIFICATION_TYPE"
         },
         "attestation_name": {
           "$ref": "#/definitions/name"
@@ -403,7 +406,7 @@
         },
         "attestation_results": {
           "type": "string",
-          "minLength": 1
+          "description": "Dictionary: ATTESTATION_RESULT"
         }
       },
       "required": [
@@ -459,7 +462,7 @@
         },
         "degree_institution_name": {
             "type": "string",
-            "minLength": 1
+            "description": "Dictionary: INSTITUTION_NAME"
         },
         "science_domain": {
             "type": "string",
@@ -471,11 +474,11 @@
         },
         "code": {
             "type": "string",
-            "minLength": 1
+            "description": "Dictionary: SPECIALITY_CODE"
         },
         "degree_science_domain": {
             "type": "string",
-            "description": "Dictionary: SCIENCE_DOMAIN"
+            "description": "Dictionary: SCIENCE_DOMAIN_DEGREE"
         },
         "academic_status": {
             "type": "string",
@@ -641,8 +644,7 @@
           "pattern": "^[0-9a-f]{8}(-?)[0-9a-f]{4}(-?)[0-9a-f]{4}(-?)[0-9a-f]{4}(-?)[0-9a-f]{12}$"
         },
         "position": {
-          "type": "string",
-          "description": "Dictionary: POSITION"
+          "type": "string"
         },
         "start_date": {
           "$ref": "#/definitions/date"
@@ -661,19 +663,24 @@
           "description": "Dictionary: EMPLOYEE_TYPE"
         },
         "employment_status": {
-            "type": "object"
+            "type": "object",
+            "description": "Dictionary: EMPLOYMENT_STATUS"
         },
         "employee_category": {
-            "type": "string"
+            "type": "string",
+            "description": "Dictionary: EMPLOYEE_CATEGORY"
         },
         "position_level": {
-            "type": "string"
+            "type": "string",
+            "description": "Dictionary: POSITION_LEVEL"
         },
         "speciality_nomenclature": {
-            "type": "string"
+            "type": "string",
+            "description": "Dictionary: SPECIALITY_NOMENCLATURE"
         },
         "dk_code": {
-            "type": "string"
+            "type": "string",
+            "description": "Dictionary: DK_CODE"
         },
         "provided_services": {
             "type": "array",

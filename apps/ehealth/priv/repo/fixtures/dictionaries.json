@@ -102,30 +102,6 @@
     "is_active": true
   },
   {
-    "name": "SPECIALITY_GROUP",
-    "values": {
-      "CLINICAL": "test value",
-      "OUTDOOR": "the meaning of life"
-    },
-    "labels": [
-      "SYSTEM",
-      "EXTERNAL"
-    ],
-    "is_active": true
-  },
-  {
-    "name": "SPECIALITY_CODE",
-    "values": {
-      "091": "test value",
-      "042": "the meaning of life"
-    },
-    "labels": [
-      "SYSTEM",
-      "EXTERNAL"
-    ],
-    "is_active": true
-  },
-  {
     "name": "RETIREMENT_TYPE",
     "values": {
       "OLD_AGE": "за віком",
@@ -142,8 +118,20 @@
   {
     "name": "PROVIDED_SERVICE_TYPE",
     "values": {
-      "HIV": "test value",
-      "MDT": "Mental disorder treatment"
+      "HIV": "Послуги з профілактики, виявлення чи лікування ВІЛ",
+      "MDT": "Послуги з профілактики, виявлення чи лікування психічних розладів"
+    },
+    "labels": [
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "is_active": true
+  },
+  {
+    "name": "RELATED_TO",
+    "values": {
+      "HIV": "Послуги з профілактики, виявлення чи лікування ВІЛ",
+      "MDT": "Послуги з профілактики, виявлення чи лікування психічних розладів"
     },
     "labels": [
       "SYSTEM",
@@ -292,7 +280,9 @@
       "EXPERT": "Спеціаліст",
       "MASTER": "Магістр",
       "BACHELOR": "Бакалавр",
-      "JUNIOR_EXPERT": "Молодший спеціаліст"
+      "JUNIOR_EXPERT": "Молодший спеціаліст",
+      "WORKER": "Кваліфікований робітник",
+      "JUNIOR_BACHELOR": "Молодший бакалавр"
     },
     "labels": [
       "SYSTEM",
@@ -1290,6 +1280,7 @@
   {
     "name": "SPECIALITY_LEVEL",
     "values": {
+      "SPEC": "Спеціаліст",
       "BASIC": "Лікар-спеціаліст",
       "FIRST": "Перша категорія",
       "SECOND": "Друга категорія",
