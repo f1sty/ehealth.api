@@ -18,6 +18,8 @@ dict_files = ~w(
   dictionaries.json
   id_dk_code.json
   id_dk_code_prof.json
+  id_science_domain.json
+  id_science_domain_degree.json
   institution_name.json
   lang_skills.json
   nomenclature.json

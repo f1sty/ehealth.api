@@ -478,7 +478,7 @@
         },
         "degree_science_domain": {
             "type": "string",
-            "description": "Dictionary: SCIENCE_DOMAIN_DEGREE"
+            "description": "Dictionary: ID_SCIENCE_DOMAIN_DEGREE"
         },
         "academic_status": {
             "type": "string",
