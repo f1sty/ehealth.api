@@ -16,7 +16,8 @@ alias EHealth.Repo
 prefix = "priv/repo/fixtures/"
 dict_files = ~w(
   dictionaries.json
-  dk_code.json
+  id_dk_code.json
+  id_dk_code_prof.json
   institution_name.json
   lang_skills.json
   nomenclature.json

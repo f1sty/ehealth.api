@@ -680,7 +680,7 @@
         },
         "dk_code": {
             "type": "string",
-            "description": "Dictionary: DK_CODE"
+            "description": "Dictionary: ID_DK_CODE"
         },
         "provided_services": {
             "type": "array",
