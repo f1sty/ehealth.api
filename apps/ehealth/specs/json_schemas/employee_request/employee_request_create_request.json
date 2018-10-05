@@ -664,7 +664,20 @@
         },
         "employment_status": {
             "type": "object",
-            "description": "Dictionary: EMPLOYMENT_STATUS"
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "Dictionary: EMPLOYMENT_STATUS"
+                },
+                "temp_status": {
+                    "type": "string",
+                    "description": "Dictionary: EMPLOYMENT_TEMP_STATUS"
+                }
+            },
+            "required": [
+                "status"
+            ],
+            "additionalProperties": false
         },
         "employee_category": {
             "type": "string",

@@ -1,6 +1,6 @@
 [
   {
-    "name": "EMPLOYEEMENT_STATUS",
+    "name": "EMPLOYMENT_STATUS",
       "values": {
 	  "PROCESSING": "Не розпочато",
 	  "WORKING": "Працюючий",
