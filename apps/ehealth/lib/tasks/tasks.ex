@@ -42,8 +42,35 @@ defmodule EHealth.ReleaseTasks do
 
     repo.delete_all(Dictionary)
 
+    prefix = "priv/repo/fixtures/"
+    dict_files = ~w(
+      dictionaries.json
+      id_dk_code.json
+      id_dk_code_prof.json
+      id_science_domain.json
+      id_science_domain_degree.json
+      institution_name.json
+      lang_skills.json
+      nomenclature.json
+      other.json
+      qualification_type.json
+      science_domain.json
+      science_domain_degree.json
+      speciality.json
+      speciality_code.json
+      speciality_group.json
+      vnz_region.json
+    )
+
+    Enum.each(dict_files, &do_seed(prefix <> &1, repo))
+
+    System.halt(0)
+    :init.stop()
+  end
+
+  defp do_seed(dict_filename, repo) do
     :ehealth
-    |> Application.app_dir("priv/repo/fixtures/dictionaries.json")
+    |> Application.app_dir(dict_filename)
     |> File.read!()
     |> Jason.decode!()
     |> Enum.map(fn item ->
@@ -53,9 +80,6 @@ defmodule EHealth.ReleaseTasks do
     end)
     |> Enum.map(&struct(%Dictionary{}, &1))
     |> Enum.each(&repo.insert!/1)
-
-    System.halt(0)
-    :init.stop()
   end
 
   defp load_app do
