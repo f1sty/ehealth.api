@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddPartyDeclarationFields do
+defmodule Core.PRMRepo.Migrations.AddPartyDeclarationFields do
   @moduledoc false
 
   use Ecto.Migration

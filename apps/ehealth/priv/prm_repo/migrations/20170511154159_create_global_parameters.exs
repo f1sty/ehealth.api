@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreatePRM.GlobalParameters.GlobalParameter do
+defmodule Core.PRMRepo.Migrations.CreatePRM.GlobalParameters.GlobalParameter do
   use Ecto.Migration
 
   def change do

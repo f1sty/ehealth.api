@@ -1,9 +1,11 @@
-defmodule EHealth.PRMRepo.Migrations.FixDivisionsAddresses do
+defmodule Core.PRMRepo.Migrations.FixDivisionsAddresses do
   use Ecto.Migration
-  alias EHealth.Divisions.Division
-  alias EHealth.PRMRepo
+
   import Ecto.Changeset
   import Ecto.Query
+
+  alias EHealth.Divisions.Division
+  alias EHealth.PRMRepo
 
   def change do
     Division

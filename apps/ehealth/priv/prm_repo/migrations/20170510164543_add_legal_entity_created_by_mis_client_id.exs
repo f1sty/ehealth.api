@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddLegalEntityCreatedViaMisClientId do
+defmodule Core.PRMRepo.Migrations.AddLegalEntityCreatedViaMisClientId do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.RenamePartyUsersIndexes do
+defmodule Core.PRMRepo.Migrations.RenamePartyUsersIndexes do
   use Ecto.Migration
 
   def change do

@@ -131,7 +131,8 @@
       },
       "required": [
         "type",
-        "number"
+        "number",
+        "public"
       ],
       "additionalProperties": false
     },
@@ -381,7 +382,7 @@
         },
         "qualification_type": {
           "type": "string",
-          "description": "Dictionary: QUALIFICATION_TYPE"
+          "description": "Dictionary: SPEC_QUALIFICATION_TYPE"
         },
         "attestation_name": {
           "$ref": "#/definitions/name"
@@ -745,7 +746,12 @@
         "start_date",
         "status",
         "employee_type",
-        "party"
+        "party",
+        "employment_status",
+        "employee_category",
+        "position_level",
+        "speciality_nomenclature",
+        "dk_code"
       ]
     }
   },

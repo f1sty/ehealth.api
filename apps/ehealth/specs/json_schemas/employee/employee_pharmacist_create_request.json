@@ -212,7 +212,7 @@
       "properties": {
         "speciality": {
           "type": "string",
-          "description": "Dictionary: SPECIALITY_TYPE"
+          "description": "Dictionary: SPECIALITY_NOMENCLATURE"
         },
         "speciality_officio": {
           "type": "boolean"

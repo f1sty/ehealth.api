@@ -128,8 +128,8 @@ defmodule EHealth.EmployeeRequests do
     Repo.get!(Request, id)
   end
 
-  def create(attrs, client_id, allowed_owner \\ false) do
-    with {:ok, attrs} <- Validator.validate(attrs),
+  def create(attrs, headers, client_id, allowed_owner \\ false) do
+    with {:ok, attrs} <- Validator.validate(attrs, headers),
          params <- Map.fetch!(attrs, "employee_request"),
          :ok <- check_owner(params, allowed_owner),
          legal_entity_id <- Map.fetch!(params, "legal_entity_id"),

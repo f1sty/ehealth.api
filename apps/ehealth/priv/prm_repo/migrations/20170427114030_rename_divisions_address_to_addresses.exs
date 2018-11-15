@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.RenameDivisionsAddressToAddresses do
+defmodule Core.PRMRepo.Migrations.RenameDivisionsAddressToAddresses do
   use Ecto.Migration
 
   def change do

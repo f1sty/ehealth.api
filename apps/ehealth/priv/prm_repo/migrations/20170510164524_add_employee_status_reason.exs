@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddEmployeeStatusReason do
+defmodule Core.PRMRepo.Migrations.AddEmployeeStatusReason do
   use Ecto.Migration
 
   def change do

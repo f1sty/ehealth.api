@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddLocationToPrm do
+defmodule Core.PRMRepo.Migrations.AddLocationToPrm do
   use Ecto.Migration
 
   def change do

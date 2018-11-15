@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddTypeToUkrMedRegistry do
+defmodule Core.PRMRepo.Migrations.AddTypeToUkrMedRegistry do
   use Ecto.Migration
 
   alias EHealth.LegalEntities.Registry

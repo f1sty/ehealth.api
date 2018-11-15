@@ -1,9 +1,10 @@
-defmodule EHealth.PRMRepo.Migrations.FixGlobalParameterDeclarationLimit do
+defmodule Core.PRMRepo.Migrations.FixGlobalParameterDeclarationLimit do
   @moduledoc false
 
   use Ecto.Migration
-  alias EHealth.GlobalParameters.GlobalParameter
+
   alias EHealth.GlobalParameters
+  alias EHealth.GlobalParameters.GlobalParameter
 
   def change do
     user_id = Confex.fetch_env!(:ehealth, :system_user)

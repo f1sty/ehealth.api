@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.DropPartyUserDuplicates do
+defmodule Core.PRMRepo.Migrations.DropPartyUserDuplicates do
   use Ecto.Migration
 
   def change do

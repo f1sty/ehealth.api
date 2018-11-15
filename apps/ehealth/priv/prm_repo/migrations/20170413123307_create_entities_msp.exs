@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreatePRM.Entities.MSP do
+defmodule Core.PRMRepo.Migrations.CreatePRM.Entities.MSP do
   use Ecto.Migration
 
   def change do

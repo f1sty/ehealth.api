@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreateIngredients do
+defmodule Core.PRMRepo.Migrations.CreateIngredients do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.ChangeDivisionMountainGroup do
+defmodule Core.PRMRepo.Migrations.ChangeDivisionMountainGroup do
   use Ecto.Migration
 
   def change do

@@ -221,7 +221,7 @@ defmodule EHealth.Divisions do
   defp changeset(%Division{} = division, %{"location" => %{"longitude" => lng, "latitude" => lat}} = attrs) do
     division
     |> changeset(Map.put(attrs, "location", %Geo.Point{coordinates: {lng, lat}}))
-    |> cast_division_addresses(attrs)
+    |> cast_assoc(:addresses)
   end
 
   defp changeset(%Division{} = division, attrs) do
@@ -229,19 +229,11 @@ defmodule EHealth.Divisions do
     |> cast(attrs, @fields_optional ++ @fields_required)
     |> validate_required(@fields_required)
     |> foreign_key_constraint(:legal_entity_id)
-    |> cast_division_addresses(attrs)
+    |> cast_assoc(:addresses)
   end
 
   defp changeset(%Search{} = division, attrs) do
     cast(division, attrs, @search_fields)
-  end
-
-  defp cast_division_addresses(changeset, attrs) do
-    attrs = Map.put(attrs, "division_addresses", Map.get(attrs, "addresses", []))
-
-    changeset
-    |> cast(attrs, [])
-    |> cast_assoc(:division_addresses)
   end
 
   defp mountain_group_changeset(attrs) do
@@ -253,7 +245,9 @@ defmodule EHealth.Divisions do
   end
 
   def get_search_query(Division = entity, %{ids: _} = changes) do
-    super(entity, convert_comma_params_to_where_in_clause(changes, :ids, :id))
+    entity
+    |> super(convert_comma_params_to_where_in_clause(changes, :ids, :id))
+    |> preload([:addresses])
   end
 
   def get_search_query(Division = division, changes) do
@@ -277,8 +271,8 @@ defmodule EHealth.Divisions do
 
   defp query_addresses(division_query) do
     division_query
-    |> join(:left, [d], da in assoc(d, :division_addresses))
-    |> preload([d, da], division_addresses: da)
+    |> join(:left, [d], da in assoc(d, :addresses))
+    |> preload([d, da], addresses: da)
   end
 
   defp convert_comma_params_to_where_in_clause(changes, param_name, db_field) do
@@ -294,7 +288,9 @@ defmodule EHealth.Divisions do
     query =
       from(
         d in Division,
-        where: d.mountain_group != ^mountain_group and fragment("? @> ?::jsonb", d.addresses, ^addresses)
+        where: d.mountain_group != ^mountain_group,
+        join: c in assoc(d, :addresses),
+        where: c.settlement_id == ^settlement_id
       )
 
     Multi.new()

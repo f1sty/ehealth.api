@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.RenameSubstancesToINNMUpdateIngredients do
+defmodule Core.PRMRepo.Migrations.RenameSubstancesToINNMUpdateIngredients do
   use Ecto.Migration
 
   def change do

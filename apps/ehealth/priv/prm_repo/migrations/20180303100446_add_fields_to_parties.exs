@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddFieldsToParties do
+defmodule Core.PRMRepo.Migrations.AddFieldsToParties do
   use Ecto.Migration
 
   def change do

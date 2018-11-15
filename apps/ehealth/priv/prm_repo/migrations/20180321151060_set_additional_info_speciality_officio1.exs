@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.SetAdditionalInfoSpecialityOfficio1 do
+defmodule Core.PRMRepo.Migrations.SetAdditionalInfoSpecialityOfficio1 do
   @moduledoc false
 
   use Ecto.Migration

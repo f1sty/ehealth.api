@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddedToDivisionIsActive do
+defmodule Core.PRMRepo.Migrations.AddedToDivisionIsActive do
   use Ecto.Migration
 
   def change do

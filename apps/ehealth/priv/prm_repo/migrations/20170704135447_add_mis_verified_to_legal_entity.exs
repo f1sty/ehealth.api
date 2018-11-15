@@ -1,8 +1,11 @@
-defmodule EHealth.PRMRepo.Migrations.AddMisVerifiedToLegalEntity do
+defmodule Core.PRMRepo.Migrations.AddMisVerifiedToLegalEntity do
+
   use Ecto.Migration
+
   import Ecto.Query
-  alias EHealth.LegalEntities.LegalEntity
+
   alias EHealth.PRMRepo
+  alias EHealth.LegalEntities.LegalEntity
 
   def change do
     # Set default while we're migrating value from the status field

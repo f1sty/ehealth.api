@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.DropInnms do
+defmodule Core.PRMRepo.Migrations.DropInnms do
   use Ecto.Migration
 
   def change do

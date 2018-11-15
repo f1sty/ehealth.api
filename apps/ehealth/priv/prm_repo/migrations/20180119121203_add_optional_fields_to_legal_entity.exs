@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddOptionalFieldsToLegalEntity do
+defmodule Core.PRMRepo.Migrations.AddOptionalFieldsToLegalEntity do
   use Ecto.Migration
 
   def change do

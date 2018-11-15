@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.RenameMspLicenseToLicenses do
+defmodule Core.PRMRepo.Migrations.RenameMspLicenseToLicenses do
   use Ecto.Migration
 
   def change do

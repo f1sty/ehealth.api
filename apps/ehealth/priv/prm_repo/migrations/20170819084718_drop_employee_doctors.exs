@@ -1,4 +1,4 @@
-defmodule EHealth.Repo.Migrations.DropEmployeeDoctors do
+defmodule Core.Repo.Migrations.DropEmployeeDoctors do
   use Ecto.Migration
 
   def change do

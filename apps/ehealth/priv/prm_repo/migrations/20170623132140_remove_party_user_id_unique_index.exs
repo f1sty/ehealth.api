@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.RemovePartyUserIdUniqueIndex do
+defmodule Core.PRMRepo.Migrations.RemovePartyUserIdUniqueIndex do
   use Ecto.Migration
 
   def change do

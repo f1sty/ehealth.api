@@ -3,9 +3,9 @@ defmodule EHealth.Dictionaries.Dictionary do
 
   use Ecto.Schema
 
-  @primary_key {:name, :string, autogenerate: false}
-
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "dictionaries" do
+    field(:name, :string)
     field(:labels, {:array, :string})
     field(:values, :map)
     field(:is_active, :boolean, default: false)

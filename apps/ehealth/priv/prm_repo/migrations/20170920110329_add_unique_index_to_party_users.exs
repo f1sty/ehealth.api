@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddUniqueIndexToPartyUsers do
+defmodule Core.PRMRepo.Migrations.AddUniqueIndexToPartyUsers do
   use Ecto.Migration
 
   def change do

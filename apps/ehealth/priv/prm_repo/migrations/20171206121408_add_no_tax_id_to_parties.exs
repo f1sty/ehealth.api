@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddNoTaxIdToParties do
+defmodule Core.PRMRepo.Migrations.AddNoTaxIdToParties do
   use Ecto.Migration
 
   def change do

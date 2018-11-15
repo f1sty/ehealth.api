@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreatePRM.Dictionaries.Dictionary do
+defmodule Core.PRMRepo.Migrations.CreatePRM.Dictionaries.Dictionary do
   use Ecto.Migration
 
   def change do

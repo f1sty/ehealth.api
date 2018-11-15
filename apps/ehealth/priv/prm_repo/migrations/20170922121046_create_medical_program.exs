@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreateMedicalProgram do
+defmodule Core.PRMRepo.Migrations.CreateMedicalProgram do
   use Ecto.Migration
 
   def change do

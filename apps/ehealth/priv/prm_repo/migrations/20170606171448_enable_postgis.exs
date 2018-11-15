@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.EnablePostgis do
+defmodule Core.PRMRepo.Migrations.EnablePostgis do
   use Ecto.Migration
 
   def change do

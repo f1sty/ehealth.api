@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreatePRM.Parties.Party do
+defmodule Core.PRMRepo.Migrations.CreatePRM.Parties.Party do
   use Ecto.Migration
 
   def change do
@@ -10,6 +10,8 @@ defmodule EHealth.PRMRepo.Migrations.CreatePRM.Parties.Party do
       add(:birth_date, :date, null: false)
       add(:gender, :string, null: false)
       add(:tax_id, :string, null: false)
+      add(:documents, :map)
+      add(:phones, :map)
       add(:inserted_by, :uuid, null: false)
       add(:updated_by, :uuid, null: false)
 

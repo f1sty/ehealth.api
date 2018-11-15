@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.SetMspAccreditationNullable do
+defmodule Core.PRMRepo.Migrations.SetMspAccreditationNullable do
   use Ecto.Migration
 
   def change do

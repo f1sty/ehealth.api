@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreatePRM.Parties.PartyUser do
+defmodule Core.PRMRepo.Migrations.CreatePRM.Parties.PartyUser do
   use Ecto.Migration
 
   def change do

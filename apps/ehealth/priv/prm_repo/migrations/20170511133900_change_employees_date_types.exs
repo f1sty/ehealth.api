@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.ChangeEmployeesDateTypes do
+defmodule Core.PRMRepo.Migrations.ChangeEmployeesDateTypes do
   use Ecto.Migration
 
   def change do

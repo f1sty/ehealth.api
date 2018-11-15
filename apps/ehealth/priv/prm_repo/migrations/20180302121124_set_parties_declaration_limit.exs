@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.SetPartiesDeclarationLimit do
+defmodule Core.PRMRepo.Migrations.SetPartiesDeclarationLimit do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreateAuditLogTable do
+defmodule Core.PRMRepo.Migrations.CreateAuditLogTable do
   use Ecto.Migration
 
   def change do

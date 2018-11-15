@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.GlobalParameterDeclarationLimit do
+defmodule Core.PRMRepo.Migrations.GlobalParameterDeclarationLimit do
   @moduledoc false
 
   use Ecto.Migration

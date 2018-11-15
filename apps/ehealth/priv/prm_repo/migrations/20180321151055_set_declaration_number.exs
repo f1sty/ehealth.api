@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.SetDeclarationNumber do
+defmodule Core.PRMRepo.Migrations.SetDeclarationNumber do
   use Ecto.Migration
 
   def change do

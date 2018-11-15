@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.EntitiesRelations do
+defmodule Core.PRMRepo.Migrations.EntitiesRelations do
   use Ecto.Migration
 
   def change do

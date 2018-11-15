@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddWorkingHoursToDivisions do
+defmodule Core.PRMRepo.Migrations.AddWorkingHoursToDivisions do
   use Ecto.Migration
 
   def change do

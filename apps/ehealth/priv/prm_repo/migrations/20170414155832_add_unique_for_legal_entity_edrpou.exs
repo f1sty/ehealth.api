@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddUniqueForLegalEntityEdrpou do
+defmodule Core.PRMRepo.Migrations.AddUniqueForLegalEntityEdrpou do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreatePRM.Registries.UkrMedRegistry do
+defmodule Core.PRMRepo.Migrations.CreatePRM.Registries.UkrMedRegistry do
   use Ecto.Migration
 
   def change do

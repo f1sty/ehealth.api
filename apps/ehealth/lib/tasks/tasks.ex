@@ -78,7 +78,7 @@ defmodule EHealth.ReleaseTasks do
         Map.put(acc, String.to_atom(k), v)
       end)
     end)
-    |> Enum.map(&struct(%Dictionary{}, &1))
+    |> Enum.map(&struct(%Dictionary{id: Ecto.UUID.generate()}, &1))
     |> Enum.each(&repo.insert!/1)
   end
 

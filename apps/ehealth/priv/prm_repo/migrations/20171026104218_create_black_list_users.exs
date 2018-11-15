@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.CreateBlackListUsers do
+defmodule Core.PRMRepo.Migrations.CreateBlackListUsers do
   use Ecto.Migration
 
   def change do

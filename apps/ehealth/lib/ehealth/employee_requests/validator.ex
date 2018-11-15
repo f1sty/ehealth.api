@@ -10,21 +10,52 @@ defmodule EHealth.EmployeeRequests.Validator do
   alias EHealth.Validators.JsonObjects
   alias EHealth.Dictionaries
   alias EHealth.Email.Sanitizer
+  alias EHealth.Validators.Addresses
 
   @doctor Employee.type(:doctor)
   @pharmacist Employee.type(:pharmacist)
   @validation_dictionaries ["DOCUMENT_TYPE", "PHONE_TYPE"]
+  @required_address_type "REGISTRATION"
 
-  def validate(params) do
+  def validate(params, headers) do
     with :ok <- JsonSchema.validate(:employee_request, params),
          params <- lowercase_email(params),
          :ok <- validate_additional_info(Map.get(params, "employee_request")),
+         :ok <- validate_legalized(Map.get(params, "employee_request")),
          :ok <- validate_json_objects(params),
          :ok <- validate_tax_id(params),
          :ok <- validate_birth_date(params),
+         :ok <- validate_addresses(params, headers),
+         :ok <- validate_provided_services_subtypes(params),
          do: {:ok, params}
   end
 
+  defp validate_legalized(%{"employee_type" => @doctor, "doctor" => %{"educations" => data}}) do
+    data
+    |> Stream.map(fn education -> get_in(education, ["legalized"]) |> validate_legalizations(education) end)
+    |> Enum.find(&Kernel.!=(&1, :ok))
+    |> case do
+      nil -> :ok
+      error -> error
+    end
+  end
+
+  defp validate_legalized(_), do: :ok
+
+  defp validate_legalizations(true, data) do
+    case get_in(data, ["legalizations"]) do
+      nil -> cast_error("education is legalized, legalizations must be set", "$.employee_request.doctor.educations.legalizations", :required)
+      _ -> :ok
+    end
+  end
+
+  defp validate_legalizations(false, data) do
+    case get_in(data, ["legalizations"]) do
+      nil -> :ok
+      _ -> cast_error("education is not legalized, legalizations must be absent", "$.employee_request.doctor.educations.legalizations", :required)
+    end
+  end
+    
   defp validate_additional_info(%{"employee_type" => @doctor, "doctor" => data}) do
     validate_additional_info(data, String.downcase(@doctor))
   end
@@ -67,6 +98,31 @@ defmodule EHealth.EmployeeRequests.Validator do
     end
   end
 
+  defp validate_addresses(params, headers) do
+    addresses = get_in(params, ~w(employee_request party addresses))
+    Addresses.validate(addresses, @required_address_type, headers)
+  end
+
+  defp validate_provided_services_subtypes(params) do
+    results = get_in(params, ~w(employee_request provided_services))
+    |> Enum.map(fn service -> validate_provided_service_subtype(service["type"], service["sub_types"]) end)
+    case Enum.all?(results, &Kernel.==(&1, :ok)) do
+      true -> :ok
+      _ -> cast_error("forbidden sub_type for provided service type", "$.employee_request.provided_services.sub_types.title", :invalid)
+    end
+  end
+
+  defp validate_provided_service_subtype(type, sub_types) do
+    sub_types 
+    |> Enum.map(fn sub_type -> sub_type["title"] end)
+    |> MapSet.new
+    |> MapSet.subset?(allowed_provided_service_subtypes(type)) 
+    |> case do
+      true -> :ok
+      _ -> :error
+    end
+  end
+
   defp validate_and_fetch_speciality_officio(specialities) do
     case Enum.filter(specialities, fn speciality -> Map.get(speciality, "speciality_officio") end) do
       [speciality] -> {:ok, speciality}
@@ -93,7 +149,7 @@ defmodule EHealth.EmployeeRequests.Validator do
          %{"PHONE_TYPE" => phone_types} = dict_keys,
          ph_path = ["employee_request", "party", "phones"],
          :ok <- validate_non_req_parameteter(params, ph_path, "type", phone_types),
-         do: :ok
+          do: :ok
   end
 
   defp validate_non_req_parameteter(params, path, key_name, valid_types) do
@@ -143,5 +199,13 @@ defmodule EHealth.EmployeeRequests.Validator do
     path = ~w(employee_request party email)
     email = get_in(params, path)
     put_in(params, path, Sanitizer.sanitize(email))
+  end
+
+  defp allowed_provided_service_subtypes(type) do
+    Dictionaries.get_dictionaries(["PROVIDED_SERVICE_SUBTYPE"])
+    |> Map.get("PROVIDED_SERVICE_SUBTYPE")
+    |> Map.keys
+    |> Enum.filter(&String.starts_with?(&1, type))
+    |> MapSet.new
   end
 end

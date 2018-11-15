@@ -1,4 +1,4 @@
-defmodule EHealth.PRMRepo.Migrations.AddNhsVerifiedToLegalEntitiy do
+defmodule Core.PRMRepo.Migrations.AddNhsVerifiedToLegalEntitiy do
   use Ecto.Migration
 
   def change do
