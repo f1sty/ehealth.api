@@ -561,7 +561,20 @@
           "format": "email"
         },
         "photo": {
-          "type": "string"
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "description": "Dictionary: ALLOWED_MIME_FORMATS"
+            }
+          },
+          "required": [
+            "data",
+            "type"
+          ]
         },
         "language_skills": {
           "type": "array",

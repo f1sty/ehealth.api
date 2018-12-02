@@ -28,6 +28,8 @@ defmodule EHealth.Employees do
     inserted_by
     updated_by
     start_date
+    speciality_nomenclature
+    dk_code
   )a
 
   @optional_fields ~w(
