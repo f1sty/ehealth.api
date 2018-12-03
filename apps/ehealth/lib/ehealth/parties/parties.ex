@@ -48,11 +48,6 @@ defmodule EHealth.Parties do
     addresses
   )a
 
-  @assoc_required ~w{
-    educations
-    specialities
-  }a
-
   def list(params) do
     %Search{}
     |> changeset(params)
@@ -61,54 +56,21 @@ defmodule EHealth.Parties do
 
   def get_by_id!(id) do
     Party
-    |> PRMRepo.get!(id)
-    |> PRMRepo.preload(
-      educations: [:legalizations],
-      phones: [],
-      addresses: [],
-      documents: [],
-      qualifications: [],
-      specialities: [],
-      science_degrees: [],
-      users: []
-    )
-
-    # |> where([p], p.id == ^id)
-    # |> join(:left, [p], u in assoc(p, :users))
-    # |> join(:left, [p], ph in assoc(ph, :phones))
-    # |> preload([p, u, ph], users: u, phones: ph)
-    # |> PRMRepo.one!()
+    |> where([p], p.id == ^id)
+    |> join(:left, [p], u in assoc(p, :users))
+    |> preload([p, u], users: u)
+    |> PRMRepo.one!()
   end
 
   def get_by_id(id) do
     Party
     |> PRMRepo.get(id)
-    |> PRMRepo.preload(
-      educations: [:legalizations],
-      phones: [],
-      addresses: [],
-      documents: [],
-      qualifications: [],
-      specialities: [],
-      science_degrees: [],
-      users: []
-    )
   end
 
   def get_by_ids(ids) do
     Party
     |> where([e], e.id in ^ids)
     |> PRMRepo.all()
-    |> PRMRepo.preload(
-      educations: [:legalizations],
-      phones: [],
-      addresses: [],
-      documents: [],
-      qualifications: [],
-      specialities: [],
-      science_degrees: [],
-      users: []
-    )
   end
 
   def get_by_user_id(user_id) do
@@ -158,16 +120,7 @@ defmodule EHealth.Parties do
 
   def changeset(%Party{} = party, attrs) do
     party
-    |> PRMRepo.preload([
-      :phones,
-      :addresses,
-      :documents,
-      :specialities,
-      :qualifications,
-      :educations,
-      :science_degrees
-    ])
-    |> PRMRepo.preload(educations: [:legalizations])
+    |> load_references()
     |> cast(attrs, @fields_optional ++ @fields_required)
     |> cast_assoc(:phones)
     |> cast_assoc(:documents)

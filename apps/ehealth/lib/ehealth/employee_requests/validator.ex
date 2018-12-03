@@ -145,14 +145,14 @@ defmodule EHealth.EmployeeRequests.Validator do
 
     with %{"DOCUMENT_TYPE" => doc_types} = dict_keys,
          docs_path = ["employee_request", "party", "documents"],
-         :ok <- validate_non_req_parameteter(params, docs_path, "type", doc_types),
+         :ok <- validate_non_req_parameter(params, docs_path, "type", doc_types),
          %{"PHONE_TYPE" => phone_types} = dict_keys,
          ph_path = ["employee_request", "party", "phones"],
-         :ok <- validate_non_req_parameteter(params, ph_path, "type", phone_types),
+         :ok <- validate_non_req_parameter(params, ph_path, "type", phone_types),
           do: :ok
   end
 
-  defp validate_non_req_parameteter(params, path, key_name, valid_types) do
+  defp validate_non_req_parameter(params, path, key_name, valid_types) do
     elements = get_in(params, path)
 
     if elements != nil and elements != [] do

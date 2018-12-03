@@ -14,7 +14,7 @@ defmodule EHealth.Parties.Party do
     field(:birth_settlement_type, :string)
     field(:citizenship, :string)
     field(:citizenship_at_birth, :string)
-    field(:photo, :string)
+    field(:photo, :map)
     field(:personal_email, :string)
     field(:gender, :string)
     field(:tax_id, :string)

@@ -283,7 +283,6 @@ defmodule EHealth.Divisions do
 
   defp do_update_divisions_mountain_group(attrs, consumer_id) do
     %{settlement_id: settlement_id, mountain_group: mountain_group} = attrs
-    addresses = [%{settlement_id: settlement_id}]
 
     query =
       from(

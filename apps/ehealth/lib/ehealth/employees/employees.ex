@@ -279,7 +279,9 @@ defmodule EHealth.Employees do
 
   defp changeset(%Employee{} = employee, attrs) do
     employee
+    |> PRMRepo.preload([:provided_services])
     |> cast(attrs, @required_fields ++ @optional_fields)
+    |> cast_assoc(:provided_services)
     |> required_fields(employee)
     |> put_additional_info(attrs)
     |> validate_employee_type()

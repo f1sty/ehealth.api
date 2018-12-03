@@ -262,7 +262,7 @@ defmodule EHealth.EmployeeRequests do
       "specialities",
       data |> Map.get("specialities") |> Enum.map(&Map.delete(&1, "speciality_officio"))
     )
-    |> Map.put("science_degree", Map.get(data, "science_degree"))
+    |> Map.put("science_degrees", Map.get(data, "science_degrees"))
   end
 
   def get_employee_speciality(%{"doctor" => doctor}), do: do_get_employee_speciality(doctor)
