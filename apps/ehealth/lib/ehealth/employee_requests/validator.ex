@@ -44,18 +44,32 @@ defmodule EHealth.EmployeeRequests.Validator do
 
   defp validate_legalizations(true, data) do
     case get_in(data, ["legalizations"]) do
-      nil -> cast_error("education is legalized, legalizations must be set", "$.employee_request.doctor.educations.legalizations", :required)
-      _ -> :ok
+      nil ->
+        cast_error(
+          "education is legalized, legalizations must be set",
+          "$.employee_request.doctor.educations.legalizations",
+          :required
+        )
+
+      _ ->
+        :ok
     end
   end
 
   defp validate_legalizations(false, data) do
     case get_in(data, ["legalizations"]) do
-      nil -> :ok
-      _ -> cast_error("education is not legalized, legalizations must be absent", "$.employee_request.doctor.educations.legalizations", :required)
+      nil ->
+        :ok
+
+      _ ->
+        cast_error(
+          "education is not legalized, legalizations must be absent",
+          "$.employee_request.doctor.educations.legalizations",
+          :required
+        )
     end
   end
-    
+
   defp validate_additional_info(%{"employee_type" => @doctor, "doctor" => data}) do
     validate_additional_info(data, String.downcase(@doctor))
   end
@@ -104,19 +118,28 @@ defmodule EHealth.EmployeeRequests.Validator do
   end
 
   defp validate_provided_services_subtypes(params) do
-    results = get_in(params, ~w(employee_request provided_services))
-    |> Enum.map(fn service -> validate_provided_service_subtype(service["type"], service["sub_types"]) end)
+    results =
+      get_in(params, ~w(employee_request provided_services))
+      |> Enum.map(fn service -> validate_provided_service_subtype(service["type"], service["sub_types"]) end)
+
     case Enum.all?(results, &Kernel.==(&1, :ok)) do
-      true -> :ok
-      _ -> cast_error("forbidden sub_type for provided service type", "$.employee_request.provided_services.sub_types.title", :invalid)
+      true ->
+        :ok
+
+      _ ->
+        cast_error(
+          "forbidden sub_type for provided service type",
+          "$.employee_request.provided_services.sub_types.title",
+          :invalid
+        )
     end
   end
 
   defp validate_provided_service_subtype(type, sub_types) do
-    sub_types 
+    sub_types
     |> Enum.map(fn sub_type -> sub_type["title"] end)
-    |> MapSet.new
-    |> MapSet.subset?(allowed_provided_service_subtypes(type)) 
+    |> MapSet.new()
+    |> MapSet.subset?(allowed_provided_service_subtypes(type))
     |> case do
       true -> :ok
       _ -> :error
@@ -149,7 +172,7 @@ defmodule EHealth.EmployeeRequests.Validator do
          %{"PHONE_TYPE" => phone_types} = dict_keys,
          ph_path = ["employee_request", "party", "phones"],
          :ok <- validate_non_req_parameter(params, ph_path, "type", phone_types),
-          do: :ok
+         do: :ok
   end
 
   defp validate_non_req_parameter(params, path, key_name, valid_types) do
@@ -204,8 +227,8 @@ defmodule EHealth.EmployeeRequests.Validator do
   defp allowed_provided_service_subtypes(type) do
     Dictionaries.get_dictionaries(["PROVIDED_SERVICE_SUBTYPE"])
     |> Map.get("PROVIDED_SERVICE_SUBTYPE")
-    |> Map.keys
+    |> Map.keys()
     |> Enum.filter(&String.starts_with?(&1, type))
-    |> MapSet.new
+    |> MapSet.new()
   end
 end
